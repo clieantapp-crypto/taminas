@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /payment
+Sitemap: https://taminas.vercel.app/sitemap.xml

