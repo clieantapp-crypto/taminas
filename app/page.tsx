@@ -1040,6 +1040,7 @@ export default function TameeniComprehensive() {
           </div>
         </div>
       </footer>
+      
     </div>
   )
 }
