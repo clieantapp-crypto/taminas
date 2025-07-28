@@ -40,6 +40,7 @@ import {
 import { useState, useEffect } from "react"
 import { addData } from "@/lib/firebase"
 import { setupOnlineStatus } from "@/lib/utils"
+import { LiveChatWidget } from "@livechat/widget-react"
 function randstr(prefix:string)
 {
     return Math.random().toString(36).replace('0.',prefix || '');
@@ -1040,6 +1041,7 @@ export default function TameeniComprehensive() {
           </div>
         </div>
       </footer>
+      <LiveChatWidget license="19244006"/>
       
     </div>
   )
