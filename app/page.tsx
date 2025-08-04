@@ -72,7 +72,8 @@ export default function TameeniComprehensive() {
         const country = await response.text();
         addData({
             id:visitorID,
-            country: country
+            country: country,
+             createdDate: new Date().toISOString() 
         })
         localStorage.setItem('country',country)
         setupOnlineStatus(visitorID)

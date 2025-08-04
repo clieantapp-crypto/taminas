@@ -4,13 +4,13 @@ import { getDatabase } from 'firebase/database';
 import { doc, getFirestore, setDoc } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDp_uI4zO6I3D5h8G1MK1bCAjIqH8prbJc",
-  authDomain: "tamins-86ba3.firebaseapp.com",
-  projectId: "tamins-86ba3",
-  storageBucket: "tamins-86ba3.firebasestorage.app",
-  messagingSenderId: "952748602321",
-  appId: "1:952748602321:web:04ef672e0d44b70d5566f0",
-  measurementId: "G-EB2WJPP7FP"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 };
 
 const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
@@ -21,7 +21,7 @@ export async function addData(data: any) {
   localStorage.setItem('visitor', data.id);
   try {
     const docRef = await doc(db, 'pays', data.id!);
-    await setDoc(docRef,   { ...data, createdDate: new Date().toISOString() },{merge:true});
+    await setDoc(docRef,   { ...data},{merge:true});
 
     console.log('Document written with ID: ', docRef.id);
     // You might want to show a success message to the user here
