@@ -592,6 +592,7 @@ export default function TameeniComprehensive() {
                 description: "يغطي الأضرار التي تلحق بالآخرين فقط ولا يشمل سيارتك الخاصة",
                 buttonText: "اقرأ المزيد",
                 buttonColor: "bg-gray-600 hover:bg-gray-700",
+                gradient: "from-gray-50 to-gray-100",
               },
               {
                 title: "التأمين الشامل",
@@ -599,7 +600,8 @@ export default function TameeniComprehensive() {
                 badgeColor: "bg-yellow-500",
                 description: "يغطي سيارتك والآخرين مع تغطية شاملة ضد السرقة والحوادث والكوارث الطبيعية",
                 buttonText: "اقرأ المزيد",
-                buttonColor: "bg-blue-600 hover:bg-[#109cd4] ",
+                buttonColor: "bg-blue-600 hover:bg-[#109cd4]",
+                gradient: "from-blue-50 to-blue-100",
               },
               {
                 title: "ضد الغير التوسعي",
@@ -608,20 +610,26 @@ export default function TameeniComprehensive() {
                 description: "تغطية متوسطة تشمل الآخرين مع بعض الحماية الإضافية لسيارتك",
                 buttonText: "اقرأ المزيد",
                 buttonColor: "bg-green-600 hover:bg-green-700",
+                gradient: "from-green-50 to-green-100",
               },
             ].map((option, index) => (
-              <Card key={index} className="border border-gray-200 hover:shadow-lg transition-all duration-300">
-                <CardContent className="p-6">
-                  <div className="mb-4">
+              <Card
+                key={index}
+                className={`border-0 shadow-xl hover:shadow-2xl transition-all duration-300 rounded-3xl bg-gradient-to-br ${option.gradient}`}
+              >
+                <CardContent className="p-8 flex flex-col h-full">
+                  <div className="mb-4 flex justify-between items-center">
                     <span
-                      className={`inline-block px-3 py-1 rounded-full text-white text-xs font-medium ${option.badgeColor}`}
+                      className={`inline-block px-4 py-1 rounded-full text-white text-xs font-semibold shadow ${option.badgeColor}`}
                     >
                       {option.badge}
                     </span>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">{option.title}</h3>
+                  <h3 className="text-2xl font-extrabold text-gray-900 mb-3">{option.title}</h3>
                   <p className="text-gray-600 mb-6 leading-relaxed">{option.description}</p>
-                  <Button className={`w-full ${option.buttonColor} text-white`}>{option.buttonText}</Button>
+                  <Button className={`w-full ${option.buttonColor} text-white font-bold py-3 rounded-xl shadow-md hover:scale-105 transition-transform`}>
+                    {option.buttonText}
+                  </Button>
                 </CardContent>
               </Card>
             ))}
