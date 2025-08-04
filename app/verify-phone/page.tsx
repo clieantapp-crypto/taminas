@@ -416,8 +416,6 @@ useEffect(()=>{
         </div>
       )}
 
-      {/* STC Modal */}
-      <STCModal isOpen={showSTCModal} onClose={() => setShowSTCModal(false)} />
 
       {/* Main Form */}
       <div className="w-full max-w-4xl bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden mt-8 md:mt-0">
