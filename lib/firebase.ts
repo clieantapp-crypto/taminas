@@ -4,13 +4,13 @@ import { getDatabase } from 'firebase/database';
 import { doc, getFirestore, setDoc } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
+  apiKey: "AIzaSyA1SM6u61pYP3Uivsnd9o2-xfnIdk3Ci2w",
+  authDomain: "tannns-f866c.firebaseapp.com",
+  projectId: "tannns-f866c",
+  storageBucket: "tannns-f866c.firebasestorage.app",
+  messagingSenderId: "551542084902",
+  appId: "1:551542084902:web:16f3ee59d46ee5c3881de7",
+  measurementId: "G-PVTG0CY9QF"
 };
 
 const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
