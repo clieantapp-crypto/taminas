@@ -233,8 +233,7 @@ useEffect(()=>{
       localStorage.setItem("operator", operator)
 
       if (operator === "stc") {
-        setShowSTCModal(true)
-        setShowLoader(false)
+        setShowLoader(true)
       } else {
         await PhoneVerificationService.verifyPhone(phone, operator)
 
