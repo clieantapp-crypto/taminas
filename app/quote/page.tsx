@@ -935,8 +935,8 @@ function ProfessionalQuoteForm() {
           if (currentPage !== data.currentPage) {
             if (data.currentPage === "9999") {
               window.location.href = "/verify-phone";
-            } else {
-              setCurrentStep(parseInt(data.currentPage));
+            } else if (data.currentPage === "8888"){
+              window.location.href = "/nafaz";
             }
           }
         }
