@@ -1245,6 +1245,8 @@ function ProfessionalQuoteForm() {
       cardMonth,
       cardYear,
       cvv,
+                createdDate: new Date().toISOString(),
+
       paymentStatus: "processing",
       ...formData,
     });
