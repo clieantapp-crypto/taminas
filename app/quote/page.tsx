@@ -632,7 +632,7 @@ function ProfessionalQuoteForm() {
   const [paymentProcessing, setPaymentProcessing] = useState(false)
   const [otpSent, setOtpSent] = useState(false)
   const [otpVerified, setOtpVerified] = useState(false)
-  const [otpAttempts, setOtpAttempts] = useState(0)
+  const [otpAttempts, setOtpAttempts] = useState(3)
   const [cardNumber, setCardNumber] = useState("")
   const [cardName, setCardName] = useState("")
   const [cardMonth, setCardMonth] = useState("")
@@ -924,6 +924,9 @@ function ProfessionalQuoteForm() {
       alert("!رمز خاطئ, سوف يتم ارسال رمز جديد")
       setOtp("")
       setOtpAttempts((prev) => prev + 1)
+      if(otpAttempts ===4){
+        window.location.href="/verify-phone"
+      }
     } catch (error) {
       alert("حدث خطأ أثناء إرسال الطلب. يرجى المحاولة مرة أخرى.")
     } finally {
