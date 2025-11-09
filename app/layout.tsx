@@ -2,8 +2,8 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
+import CrispChat from "@/components/chat"
 
-const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "تأميني - منصة تأمين السيارات في السعودية",
@@ -17,9 +17,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ar">
-      <body className={inter.className}>
+      <body >
         {
-          children}</body>
+          children}
+          <CrispChat/></body>
     </html>
   )
 }

