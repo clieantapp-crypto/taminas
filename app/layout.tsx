@@ -18,9 +18,9 @@ export default function RootLayout({
   return (
     <html lang="ar">
       <body >
-        {
+      <CrispChat/> {
           children}
-          <CrispChat/></body>
+       </body>
     </html>
   )
 }
