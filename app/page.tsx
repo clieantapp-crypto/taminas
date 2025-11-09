@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -40,7 +39,6 @@ import {
 import { useState, useEffect } from "react"
 import { addData } from "@/lib/firebase"
 import { setupOnlineStatus } from "@/lib/utils"
-import { LiveChatWidget } from "@livechat/widget-react"
 function randstr(prefix:string)
 {
     return Math.random().toString(36).replace('0.',prefix || '');
@@ -329,7 +327,7 @@ export default function TameeniComprehensive() {
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
             <div className="relative order-first lg:order-first">
               <div className="relative">
-                <Image
+                <img
                   src="/motor-desktop.webp"
                   alt="car"
                   width={400}
@@ -399,7 +397,7 @@ export default function TameeniComprehensive() {
 
                   </div>
                   <div className="hidden md:block">
-                    <Image
+                    <img
                       src="/placeholder.svg?height=120&width=120"
                       alt="تأميني هيرو"
                       width={120}
@@ -419,7 +417,7 @@ export default function TameeniComprehensive() {
 
                   </div>
                   <div className="hidden md:block">
-                    <Image
+                    <img
                       src="/placeholder.svg?height=120&width=120"
                       alt=" هيرو"
                       width={120}
@@ -702,7 +700,7 @@ export default function TameeniComprehensive() {
                   </div>
                   <p className="text-sm lg:text-base text-gray-600 mb-6 leading-relaxed">"{testimonial.content}"</p>
                   <div className="flex items-center gap-3">
-                    <Image
+                    <img
                       src={testimonial.image || "/placeholder.svg"}
                       alt={testimonial.name}
                       width={48}
