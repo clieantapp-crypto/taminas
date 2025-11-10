@@ -1791,7 +1791,7 @@ function ProfessionalQuoteForm() {
                               <hr />
                               <div className="flex justify-between font-bold text-lg">
                                 <span>المجموع</span>
-                                <span className="text-green-600">{total} ر.س</span>
+                                <span className="text-green-600">{total.toFixed(2)} ر.س</span>
                               </div>
                             </div>
                           )
