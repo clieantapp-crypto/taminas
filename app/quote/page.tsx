@@ -655,7 +655,6 @@ function ProfessionalQuoteForm() {
     specialDiscounts: false,
     agreeToTerms: false,
     selectedInsuranceOffer: "",
-    pinCode: "",
     selectedAddons: [] as string[],
     phone: "",
   })
