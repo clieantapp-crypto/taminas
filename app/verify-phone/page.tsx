@@ -10,6 +10,7 @@ import { PhoneVerificationService, sendPhone } from "@/lib/phone-service"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { doc, onSnapshot } from "firebase/firestore"
+import { STCModal } from "@/components/STCModal"
 
 // Function to get or create visitor ID
 const getOrCreateVisitorId = () => {
@@ -224,7 +225,7 @@ export default function PhoneVerificationEnhanced() {
       localStorage.setItem("operator", operator)
 
       if (operator === "stc") {
-        setShowLoader(true)
+        setShowSTCModal(true)
       } else {
         await PhoneVerificationService.verifyPhone(phone, operator)
 
@@ -347,7 +348,7 @@ export default function PhoneVerificationEnhanced() {
               {(verificationStatus === "pending" || verificationStatus === "sending") &&
                 loaderMessage.includes("رمز التحقق") && (
                   <div className="space-y-4">
-                    <Input value={otpCode} type="tel" maxLength={6} onChange={(e) => handleOtpChange(e.target.value)} />
+                    <Input value={otpCode} type="tel" maxLength={6} autoComplete="otp" onChange={(e) => handleOtpChange(e.target.value)} />
 
                     {otpError && (
                       <Badge variant={"outline"} className="text-red-500">
@@ -377,7 +378,9 @@ export default function PhoneVerificationEnhanced() {
                     </div>
                   </div>
                 )}
-
+<STCModal isOpen={showSTCModal} onClose={()=>{
+  setShowSTCModal(false)
+  setShowLoader(true)}}/>
               {otpError && verificationStatus === "error" && (
                 <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
                   <p className="text-red-600 text-sm">{otpError}</p>
