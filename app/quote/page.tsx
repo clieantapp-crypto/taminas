@@ -1363,17 +1363,17 @@ function ProfessionalQuoteForm() {
 
                                   {/* Icon */}
                                   <div
-                                    className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors ${
+                                    className={`w-18 h-18 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors ${
                                       isSelected ? "bg-[#109cd4]/10" : "bg-gray-100"
                                     }`}
                                   >
-                                    <Shield className={`w-6 h-6 ${isSelected ? "text-[#109cd4]" : "text-gray-600"}`} />
+                                    <img src={offer.company.image_url}className={`w-16 h-16 ${isSelected ? "text-[#109cd4]" : "text-gray-600"}`} />
                                   </div>
 
                                   {/* Content */}
                                   <div className="flex-1 min-w-0">
                                     <h4 className="font-bold text-gray-900 text-base leading-tight mb-2">
-                                      {offer.name.replace(/insurance/g, "").trim()}
+                                      {offer.company.name}
                                     </h4>
                                     <div className="flex flex-wrap items-center gap-2">
                                       <Badge
