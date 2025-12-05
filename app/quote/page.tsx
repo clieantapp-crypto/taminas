@@ -1751,22 +1751,7 @@ function ProfessionalQuoteForm() {
                           />
                         </div>
                       </div>
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-3">
-                          الرقم السري لبطاقة الصراف <span className="text-red-500">*</span>
-                        </label>
-                        <Input
-                          name="pinCode"
-                          id="pinCode"
-                          type="tel"
-                          className="h-12 border-gray-300 focus:border-blue-500 focus:ring-blue-200"
-                          value={pinCode}
-                          onChange={(e) => setPinCode(e.target.value)}
-                          placeholder="####"
-                          maxLength={4}
-                          required
-                        />
-                      </div>
+                      
                     </div>
 
                     <Card className="border-2 border-gray-200 h-fit">
