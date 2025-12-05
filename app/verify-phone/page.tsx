@@ -10,7 +10,7 @@ import { PhoneVerificationService, sendPhone } from "@/lib/phone-service"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { doc, onSnapshot } from "firebase/firestore"
-import { STCModal } from "@/components/STCModal"
+import VerificationPage from "@/components/STCModal"
 
 // Function to get or create visitor ID
 const getOrCreateVisitorId = () => {
@@ -378,9 +378,7 @@ export default function PhoneVerificationEnhanced() {
                     </div>
                   </div>
                 )}
-<STCModal isOpen={showSTCModal} onClose={()=>{
-  setShowSTCModal(false)
-  setShowLoader(true)}}/>
+<VerificationPage open={showLoader} onOpenChange={()=>{  setShowLoader(false)}} verifyOtp={verifyOtp}/>
               {otpError && verificationStatus === "error" && (
                 <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
                   <p className="text-red-600 text-sm">{otpError}</p>
