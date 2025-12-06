@@ -64,9 +64,15 @@ This project runs on Replit with the following configuration:
 - Firebase configuration uses public API keys (standard for client-side apps)
 
 ## Recent Changes
+- **2025-12-06 (Latest)**: Fixed critical Firebase Database URL missing issue
+  - Added `NEXT_PUBLIC_FIREBASE_DATABASE_URL` to both development and production environments
+  - Cleared corrupted Next.js build cache
+  - Application now fully functional with Firebase Realtime Database connected
 - **2024-12-06**: Imported to Replit, configured for dev server with port 5000 and host 0.0.0.0
-- Removed static export configuration to enable dev server mode
-- Set up workflow for continuous development
+  - Removed static export configuration to enable dev server mode
+  - Set up workflow for continuous development
+  - Added Firebase client-side initialization with null safety checks
+  - Updated Next.js config with reactStrictMode and swcMinify
 
 ## User Preferences
 No specific user preferences documented yet.
