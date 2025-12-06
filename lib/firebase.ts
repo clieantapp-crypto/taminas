@@ -4,14 +4,14 @@ import { getDatabase } from 'firebase/database';
 import { doc, getFirestore, setDoc } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBg4Skcl89HheHNkqC80Cm1bd429j7lUJw",
-authDomain: "whaaa-6f64d.firebaseapp.com",
-databaseURL: "https://whaaa-6f64d-default-rtdb.firebaseio.com",
-projectId: "whaaa-6f64d",
-storageBucket: "whaaa-6f64d.firebasestorage.app",
-messagingSenderId: "828749821160",
-appId: "1:828749821160:web:3b00b5446c8cd1722bc55d",
-measurementId: "G-M45W939MHR"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 };
 
 const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
