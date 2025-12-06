@@ -4,10 +4,8 @@ export async function GET() {
   const apiKey = process.env.IPDATA_API_KEY;
 
   if (!apiKey) {
-    return NextResponse.json(
-      { error: 'API key not configured' },
-      { status: 500 }
-    );
+    console.warn('IPDATA_API_KEY not configured, returning default country');
+    return NextResponse.json({ country: 'Unknown' });
   }
 
   try {
@@ -23,9 +21,6 @@ export async function GET() {
     return NextResponse.json({ country });
   } catch (error) {
     console.error('Error fetching location:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch location' },
-      { status: 500 }
-    );
+    return NextResponse.json({ country: 'Unknown' });
   }
 }

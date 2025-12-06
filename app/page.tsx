@@ -53,7 +53,7 @@ export default function TameeniComprehensive() {
 
   useEffect(() => {
     setMounted(true)
-    getLocation().then(()=>{
+    getLocation().finally(()=>{
       setReady(false)
     })
   }, [])
