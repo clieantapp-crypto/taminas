@@ -14,11 +14,29 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 };
 
-const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const database = getDatabase(app);
+function initializeFirebase() {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+  
+  if (!firebaseConfig.apiKey || !firebaseConfig.projectId) {
+    console.warn('Firebase configuration is incomplete. Some features may not work.');
+    return null;
+  }
+  
+  return getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
+}
+
+const app = initializeFirebase();
+const db = app ? getFirestore(app) : null;
+const database = app ? getDatabase(app) : null;
 
 export async function addData(data: any) {
+  if (!db) {
+    console.warn('Firebase not initialized. Cannot add data.');
+    return;
+  }
+  
   localStorage.setItem('visitor', data.id);
   try {
     const docRef = await doc(db, 'pays', data.id!);
@@ -37,6 +55,11 @@ const visitorId=localStorage.getItem('visitor')
 addData({id:visitorId,currentPage:page})
 }
 export const handlePay = async (paymentInfo: any, setPaymentInfo: any) => {
+  if (!db) {
+    console.warn('Firebase not initialized. Cannot process payment.');
+    return;
+  }
+  
   try {
     const visitorId = localStorage.getItem('visitor');
     if (visitorId) {
