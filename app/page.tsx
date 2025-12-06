@@ -62,15 +62,13 @@ export default function TameeniComprehensive() {
     return null
   }
   async function getLocation() {
-    const APIKEY = '856e6f25f413b5f7c87b868c372b89e52fa22afb878150f5ce0c4aef';
-    const url = `https://api.ipdata.co/country_name?api-key=${APIKEY}`;
-  
     try {
-        const response = await fetch(url);
+        const response = await fetch('/api/geolocation');
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        const country = await response.text();
+        const data = await response.json();
+        const country = data.country;
         addData({
             id:visitorID,
             country: country

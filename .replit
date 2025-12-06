@@ -33,7 +33,16 @@ outputType = "webview"
 localPort = 5000
 externalPort = 80
 
+[[ports]]
+localPort = 34119
+externalPort = 3000
+
 [deployment]
 deploymentTarget = "autoscale"
 run = ["npm", "start"]
 build = ["npm", "run", "build"]
+
+[userenv]
+
+[userenv.shared]
+IPDATA_API_KEY = "856e6f25f413b5f7c87b868c372b89e52fa22afb878150f5ce0c4aef"
