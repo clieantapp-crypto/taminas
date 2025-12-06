@@ -41,7 +41,6 @@ build = ["npm", "run", "build"]
 [userenv]
 
 [userenv.shared]
-IPDATA_API_KEY = "856e6f25f413b5f7c87b868c372b89e52fa22afb878150f5ce0c4aef"
 NEXT_PUBLIC_FIREBASE_API_KEY = "AIzaSyBg4Skcl89HheHNkqC80Cm1bd429j7lUJw"
 NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN = "whaaa-6f64d.firebaseapp.com"
 NEXT_PUBLIC_FIREBASE_DATABASE_URL = "https://whaaa-6f64d-default-rtdb.firebaseio.com"
