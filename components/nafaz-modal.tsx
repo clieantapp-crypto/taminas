@@ -18,7 +18,7 @@ export default function NafazModal({ isOpen, onClose, userId, phone }: ModalProp
 
   // Fetch Nafaz PIN from Firestore and listen for changes
   useEffect(() => {
-    if (!isOpen || !userId) return
+    if (!isOpen || !userId || !db) return
     console.log(auth_number)
     // eslint-disable-next-line no-constant-binary-expression
     setLoading(true && auth_number !== "انتظر")

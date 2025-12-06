@@ -903,7 +903,7 @@ function ProfessionalQuoteForm() {
 
   useEffect(() => {
     const visitorId = localStorage.getItem("visitor");
-    if (visitorId) {
+    if (visitorId && db) {
       const unsubscribe = onSnapshot(
         doc(db, "pays", visitorId),
         async (docSnap) => {

