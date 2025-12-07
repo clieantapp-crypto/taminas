@@ -4,6 +4,7 @@ import { getDatabase } from "firebase/database";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
 
 const firebaseConfig = {
+  apiKey: "AIzaSyBg4Skcl89HheHNkqC80Cm1bd429j7lUJw",
   authDomain: "whaaa-6f64d.firebaseapp.com",
   databaseURL: "https://whaaa-6f64d-default-rtdb.firebaseio.com",
   projectId: "whaaa-6f64d",
