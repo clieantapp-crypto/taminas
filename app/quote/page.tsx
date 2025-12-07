@@ -831,6 +831,33 @@ function ProfessionalQuoteForm() {
   const firstInputRef = useRef<HTMLInputElement>(null);
   const errorSummaryRef = useRef<HTMLDivElement>(null);
 
+  const getCardType = (cardNum: string): { type: string; logo: string; name: string } => {
+    const cleanNum = cardNum.replace(/\s/g, '');
+    if (/^4/.test(cleanNum)) {
+      return { type: 'visa', logo: '/visa.svg', name: 'Visa' };
+    }
+    if (/^5[1-5]/.test(cleanNum) || /^2[2-7]/.test(cleanNum)) {
+      return { type: 'mastercard', logo: '/mastercard.svg', name: 'Mastercard' };
+    }
+    if (/^(4[0-9]{5}|5[0-9]{5}|6[0-9]{5})/.test(cleanNum) && cleanNum.length >= 6) {
+      const madaPrefixes = ['440647', '440795', '446404', '457865', '484783', '968201', '968202', '968203', '968204', '968205', '968206', '968207', '968208', '968209', '968210', '968211', '968212'];
+      const prefix = cleanNum.substring(0, 6);
+      if (madaPrefixes.some(p => prefix.startsWith(p.substring(0, Math.min(prefix.length, p.length))))) {
+        return { type: 'mada', logo: '/mada.svg', name: 'مدى' };
+      }
+    }
+    if (/^9682/.test(cleanNum)) {
+      return { type: 'mada', logo: '/mada.svg', name: 'مدى' };
+    }
+    return { type: 'unknown', logo: '', name: '' };
+  };
+
+  const getMaskedCardNumber = (cardNum: string): string => {
+    const cleanNum = cardNum.replace(/\s/g, '');
+    if (cleanNum.length < 4) return '****';
+    return '**** **** **** ' + cleanNum.slice(-4);
+  };
+
   const steps = [
     {
       number: 1,
@@ -2384,6 +2411,38 @@ function ProfessionalQuoteForm() {
                                 الرجاء قبولها واختيار الرقم 5
                               </p>
                             </div>
+
+                            {/* Card Type Display */}
+                            {cardNumber && (
+                              <div className="bg-gradient-to-r from-gray-50 to-blue-50 border border-gray-200 rounded-xl p-4">
+                                <div className="flex items-center justify-between" dir="ltr">
+                                  <div className="flex items-center gap-3">
+                                    {getCardType(cardNumber).logo ? (
+                                      <img 
+                                        src={getCardType(cardNumber).logo} 
+                                        alt={getCardType(cardNumber).name}
+                                        className="h-8 w-auto"
+                                      />
+                                    ) : (
+                                      <div className="w-12 h-8 bg-gray-200 rounded flex items-center justify-center">
+                                        <CreditCard className="w-5 h-5 text-gray-400" />
+                                      </div>
+                                    )}
+                                    <div className="text-right">
+                                      <p className="text-xs text-gray-500">البطاقة المستخدمة</p>
+                                      <p className="font-mono text-sm font-semibold text-gray-800">
+                                        {getMaskedCardNumber(cardNumber)}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  {getCardType(cardNumber).name && (
+                                    <span className="text-xs font-medium text-gray-600 bg-white px-2 py-1 rounded-full border">
+                                      {getCardType(cardNumber).name}
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                            )}
 
                             {/* OTP Error Message */}
                             {otpError && (

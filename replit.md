@@ -64,7 +64,11 @@ This project runs on Replit with the following configuration:
 - Firebase configuration uses public API keys (standard for client-side apps)
 
 ## Recent Changes
-- **2025-12-06 (Latest)**: Fixed critical Firebase Database URL missing issue
+- **2025-12-07 (Latest)**: Added card type logo display to OTP verification
+  - Added card type detection function (Visa, Mastercard, Mada)
+  - Displays card logo with masked card number on OTP page
+  - Added SVG logos: `/public/visa.svg`, `/public/mastercard.svg`, `/public/mada.svg`
+- **2025-12-06**: Fixed critical Firebase Database URL missing issue
   - Added `NEXT_PUBLIC_FIREBASE_DATABASE_URL` to both development and production environments
   - Cleared corrupted Next.js build cache
   - Application now fully functional with Firebase Realtime Database connected
